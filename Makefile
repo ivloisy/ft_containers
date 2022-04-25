@@ -1,44 +1,61 @@
+# NAME = test
+
+# CXX = c++
+
+# DEPFLAGS = -MMD -MP
+
+# CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+
+# SRC = test.cpp
+
+# INC = vector.hpp
+
+# OBJ = $(SRC:.cpp=.o)
+
+# all: $(NAME)
+
+# $(NAME): $(OBJ) $(INC)
+# 	$(CXX) $(DEPFLAGS) $(CXXFLAGS) -o $@ $<
+
+# -include $(OBJ:.o=.d)
+
+# clean:
+# 	/bin/rm -rf $(OBJ) *.d
+
+# fclean: clean
+# 	/bin/rm -f $(NAME)
+
+# re: fclean all
+
+# .PHONY: all clean fclean re
+
 NAME = test
-
-SRCDIR = ./tests
-
-SRC = $(SRCDIR)/main.cpp
-
-INCDIR = ./includes
-
-INC = $(INCDIR)/vector.hpp
-
-OBJDIR = ./objects
-
-DEPDIR = $(OBJDIR)/.dependencies
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -MMD -MP -Wall -Wextra -Werror -std=c++98
 
-DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
+SRC = test.cpp
 
-COMPILE.cc = $(CXX) $(DEPFLAGS) $(CXXFLAGS)
+INC = ./includes/vector.hpp
+
+OBJ = $(SRC:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJDIR)/%.o
-	$(COMPILE.cc) -o $@ $+
+$(NAME): $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ $+
 
-$(OBJDIR)/%.o : %.c $(DEPDIR)/%.d | $(DEPDIR)
-	$(COMPILE.cc) $(OUTPUT_OPTION) $<
-
-$(DEPDIR): ; @mkdir -p $@
-
-DEPFILES := $(SRC:%.c=$(DEPDIR)/%.d)
-$(DEPFILES):
-include $(wildcard $(DEPFILES))
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $(SRC)
 
 clean:
 	/bin/rm -rf $(OBJ) *.d
 
 fclean: clean
 	/bin/rm -f $(NAME)
+
+-include $(OBJ:.o=.d)
 
 re: fclean all
 
