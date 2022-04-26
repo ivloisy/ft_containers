@@ -1,8 +1,17 @@
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
 
+# include <iostream>
+
+# include "iterator_traits.hpp"
+
 namespace ft
 {
+
+
+
+
+
 	template <class Category,		// iterator::iterator_category
 		class T,					// iterator::value_type
 		class Distance = ptrdiff_t,	// iterator::difference_type
@@ -16,6 +25,12 @@ namespace ft
 		typedef Pointer		pointer;
 		typedef Reference	reference;
 	};
+
+	template <class T>
+	class ramdom_iterator : public ft::iterator<ft::ramdom_iterator_tag, T>
+	{
+
+	}
 } // namespace ft
 
 #endif
