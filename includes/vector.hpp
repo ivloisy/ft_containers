@@ -6,7 +6,7 @@
 /*   By: ivloisy <ivloisy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 20:44:19 by ivloisy           #+#    #+#             */
-/*   Updated: 2022/04/26 02:47:18 by ivloisy          ###   ########.fr       */
+/*   Updated: 2022/04/27 03:41:18 by ivloisy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ namespace ft
 			vector()
 			{
 				std::cout << "coucou" << std::endl;
-				this->
 				return ;
 			}
 			vector(vector const & src)
 			{
+				(void)src;
 				return ;
 			}
 			virtual ~vector()
@@ -42,6 +42,7 @@ namespace ft
 			}
 			vector	& operator=(vector const & rhs)
 			{
+				(void)rhs;
 				return *this;
 			}
 			typedef T			value_type;
@@ -50,7 +51,7 @@ namespace ft
 			typedef const T &	const_reference;
 			typedef T &			pointer;
 			typedef const T &	const_pointer;
-			typedef iterator<T>	iterator;
+			typedef random_access_iterator<T>	iterator;
 			// typedef T &			const_iterator;
 			// typedef T &			reverse_iterator;
 			// typedef T &			const_reverse_iterator;
