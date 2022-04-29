@@ -15,20 +15,24 @@
 
 int main()
 {
-	ft::vector<int>	vec;
+	ft::vector<int>	vec(5);
 	ft::vector<int>	vicky;
-	int* arr = vec.get_allocator().allocate(5);
-	std::cout << "empty :" << vicky.empty() << std::endl;
+
+	std::cout << "vicky.empty():\t" << vicky.empty() << std::endl << std::endl;
+	std::cout << "vec.empty():\t" << vec.empty() << std::endl << std::endl;
+
 	for (int i = 0; i < 5; i++)
 	{
-		arr[i] = i;
+		vec[i] = i;
 	}
-	// ft::vector<int> test(vec);
-	arr[3] = 12;
+
+	ft::vector<int> test(vec);
+
+	vec[3] = 12;
 	for (int i = 0; i < 5; i++)
 	{
-		std::cout << "vec " << arr[i] << std::endl;
-		// std::cout << "test " << test[i] << std::endl;
+		std::cout << "vec[" << i << "]:\t\t" << vec[i] << std::endl;
+		std::cout << "test[" << i << "]:\t" << test[i] << std::endl;
 		std::cout << std::endl;
 	}
 	// std::cout << "begin : " << vec.begin() << std::endl;
@@ -49,6 +53,6 @@ int main()
 	// arr[3] = 10;
 
 	// std::cout << arr[3] << std::endl;
-	vec.get_allocator().deallocate(arr, 5);
+	//vec.get_allocator().deallocate(arr, 5);
 	return 0;
 }
