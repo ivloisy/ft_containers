@@ -6,7 +6,7 @@
 /*   By: ivloisy <ivloisy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 20:44:19 by ivloisy           #+#    #+#             */
-/*   Updated: 2022/05/03 09:27:31 by ivloisy          ###   ########.fr       */
+/*   Updated: 2022/05/03 15:22:44 by ivloisy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ namespace ft
 
 			virtual ~vector()
 			{
+				this->clear();
 				this->get_allocator().deallocate(this->_first, this->_capacity);
 				return ;
 			}
@@ -162,6 +163,10 @@ namespace ft
 				return (const_iterator(_first + _size));
 			}
 
+			//////////rbegin
+
+			//////////rend
+
 			/*
 			**	Capacity
 			*/
@@ -176,6 +181,8 @@ namespace ft
 				return allocator_type().max_size();
 			}
 
+			//////////resize
+
 			size_type capacity()
 			{
 				return _capacity;
@@ -183,8 +190,10 @@ namespace ft
 
 			bool empty()
 			{
-				return (_size == 0);
+				return _size == false;
 			}
+
+			//////////reserve
 
 			/*
 			**	Element access
@@ -233,16 +242,70 @@ namespace ft
 			/*
 			**	Modifiers
 			*/
-			//
+
+			// iterator insert (iterator position, const value_type & val)
+			// {
+				
+			// }
+
+			// void insert (iterator position, size_type n, const value_type & val)
+			// {
+				
+			// }
+
 			// template <class InputIterator>
-			// void assign (InputIterator first, InputIterator last)
+			// void insert (iterator position, InputIterator first, InputIterator last)
 			// {
-			//
+				
 			// }
-			//
-			// void assign (size_type n, const value_type& val)
+
+			// void	push_back (const value_type& val)
 			// {
+				
 			// }
+
+			// void	pop_back()
+			// {
+				
+			// }
+
+			// iterator	insert (iterator position, const value_type & val)
+			// {
+				
+			// }
+
+			// void	insert (iterator position, size_type n, const value_type & val)
+			// {
+				
+			// }
+
+			// template <class InputIterator>
+		    // void	insert (iterator position, InputIterator first, InputIterator last)
+			// {
+				
+			// }
+
+			// iterator	erase (iterator position)
+			// {
+				
+			// }
+
+			// iterator	erase (iterator first, iterator last)
+			// {
+				
+			// }
+
+			// void	swap (vector & x)
+			// {
+				
+			// }
+
+			void	clear()
+			{
+				for (size_t i = 0; i < this->_size; i++)
+					_alloc.destroy(this->_first + i);
+				this->_size = 0;
+			}
 
 			/*
 			**	Allocator
