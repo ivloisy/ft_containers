@@ -6,7 +6,7 @@
 /*   By: ivloisy <ivloisy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 20:44:19 by ivloisy           #+#    #+#             */
-/*   Updated: 2022/05/03 15:22:44 by ivloisy          ###   ########.fr       */
+/*   Updated: 2022/05/03 16:09:55 by ivloisy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <iostream>
 # include <cstddef>
 # include <cmath>
-# include <iterator> ///////
+// # include <iterator> ///////
 
 # include "iterator.hpp"
- # include "type_traits.hpp"
+# include "type_traits.hpp"
 
 namespace ft
 {
@@ -61,6 +61,7 @@ namespace ft
 			**	Fill constructor
 			*/
 
+			/////////////// reste le * 2 a change
 			explicit vector (size_type n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(n * 2), _first(NULL), _size(n)
 			{
 				this->_first = this->_alloc.allocate(n);
@@ -145,55 +146,81 @@ namespace ft
 
 			iterator	begin()
 			{
-				return iterator(_first);
+				return iterator(this->_first);
 			}
 
 			const_iterator	begin() const
 			{
-				return const_iterator(_first);
+				return const_iterator(this->_first);
 			}
 
 			iterator	end()
 			{
-				return (iterator(_first + _size));
+				return iterator(this->_first + this->_size);
 			}
 
 			const_iterator	end() const
 			{
-				return (const_iterator(_first + _size));
+				return const_iterator(this->_first + this->_size);
 			}
 
 			//////////rbegin
+			// reverse_iterator	rbegin()
+			// {
+				
+			// }
+
+			// const_reverse_iterator	rbegin() const
+			// {
+				
+			// }
 
 			//////////rend
+			// reverse_iterator	rend()
+			// {
+				
+			// }
+
+			// const_reverse_iterator	rend() const
+			// {
+				
+			// }
 
 			/*
 			**	Capacity
 			*/
 
-			size_type size()
+			size_type	size()
 			{
-				return _size;
+				return this->_size;
 			}
 
-			size_type max_size()
+			size_type	max_size()
 			{
 				return allocator_type().max_size();
 			}
 
 			//////////resize
+			// void	resize (size_type n, value_type val = value_type())
+			// {
+				
+			// }
 
-			size_type capacity()
+			size_type	capacity()
 			{
-				return _capacity;
+				return this->_capacity;
 			}
 
-			bool empty()
+			bool	empty()
 			{
-				return _size == false;
+				return this->_size == false;
 			}
 
 			//////////reserve
+			// void	reserve (size_type n)
+			// {
+				
+			// }
 
 			/*
 			**	Element access
@@ -203,40 +230,44 @@ namespace ft
 			{
 				return *(this->_first + n);
 			}
-			//////// MAY BE CONST
+
+			const_reference	operator[](size_type n) const
+			{
+				return *(this->_first + n);
+			}
 
 			reference	at(size_type n)
 			{
 				if (n >= size())
 				throw (std::out_of_range("out of range in fonction at"));
-				return (*(_first + n));
+				return *(this->_first + n);
 			}
 
 			const_reference	at(size_type n) const
 			{
-				if (n >= _size)
+				if (n >= this->_size)
 				throw (std::out_of_range("out of range in fonction at"));
-				return (*(_first + n));
+				return *(this->_first + n);
 			}
 
-			reference front()
+			reference	front()
 			{
-				return *(_first);
+				return *(this->_first);
 			}
 
-			const_reference front() const
+			const_reference	front() const
 			{
-				return (*(_first));
+				return (*(this->_first));
 			}
 
 			reference	back()
 			{
-				return (*(_first + _size -1));
+				return (*(this->_first + _size -1));
 			}
 
 			const_reference	back() const
 			{
-				return (*(_first + _size -1));
+				return (*(this->_first + _size -1));
 			}
 
 			/*
@@ -311,9 +342,9 @@ namespace ft
 			**	Allocator
 			*/
 
-			allocator_type get_allocator() const
+			allocator_type	get_allocator() const
 			{
-				return _alloc;
+				return this->_alloc;
 			}
 
 	};
