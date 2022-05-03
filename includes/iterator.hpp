@@ -49,7 +49,7 @@ namespace ft
 			
 			random_access_iterator(pointer value) : _ptr(value) {}
 
-	//		random_access_iterator(const_pointer value) : _ptr(value) {}
+			// random_access_iterator(const_pointer value) : _ptr(value) {}
 
 			random_access_iterator &	operator=(const random_access_iterator & rhs)
 			{

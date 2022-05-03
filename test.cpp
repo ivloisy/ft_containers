@@ -23,7 +23,7 @@ int main()
 
 	for (int i = 0; i < 5; i++)
 	{
-		vec[i] = i;
+		vec[i] = i + 1;
 	}
 
 	ft::vector<int> test(vec);
@@ -36,11 +36,11 @@ int main()
 		std::cout << std::endl;
 	}
 
-	//ft::vector<int> vickyveil(vec.begin(), vec.end());
-	// std::cout << "begin : " << vec.begin() << std::endl;
-	// std::cout << "end : " << *vec.end() << std::endl;
-	// std::cout << "size :" << vec.size() << std::endl;
-	// std::cout << "max_size :" << vec.max_size() << std::endl;
+	ft::vector<int> vickyveil(vec.begin(), --vec.end());
+	std::cout << "begin:\t\t" << *vec.begin() << std::endl;
+	std::cout << "end - 1:\t" << *(--vec.end()) << std::endl;
+	std::cout << "size:\t\t" << vec.size() << std::endl;
+	std::cout << "max_size:\t" << vec.max_size() << std::endl;
 	// std::cout << "capacity :" << vec.capacity() << std::endl;
 	// std::cout << "empty :" << vec.empty() << std::endl;
 	// std::cout << "at :" << vec.at(4) << std::endl;

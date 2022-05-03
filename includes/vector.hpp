@@ -6,7 +6,7 @@
 /*   By: ivloisy <ivloisy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 20:44:19 by ivloisy           #+#    #+#             */
-/*   Updated: 2022/05/03 08:33:48 by ivloisy          ###   ########.fr       */
+/*   Updated: 2022/05/03 09:27:31 by ivloisy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,26 @@ namespace ft
 			**	Fill constructorh
 			*/
 
-			// template <class InputIterator>
-			// vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _first(NULL), _size(0)
-			// {
-			// 		// ft::random_access_iterator<int> test1(first);
-			// 		// ft::random_access_iterator<int> test2(last);
-			// 		// std::cout << "distance " << std::distance(first, last) << std::endl;
-			// 		// this->_first = this->_alloc.allocate();
-			// 		// pointer current = this->_first;
-			// 		// InputIterator tmp = first;
-			// 		// while (tmp != last)
-			// 		// {
-			// 		// 	this->_alloc.construct(current, tmp->value);
-			// 		// 	tmp++;
-			// 		// 	current++;
-			// 		// }
-			// 		return ;
-			// }
+			template <class InputIterator>
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _first(NULL), _size(0)
+			{
+				std::cout << "coucou" << std::endl;
+				(void)first;
+				(void)last;
+				// ft::random_access_iterator<int> test1(first);
+				// ft::random_access_iterator<int> test2(last);
+				// std::cout << "distance " << std::distance(first, last) << std::endl;
+				// this->_first = this->_alloc.allocate();
+				// pointer current = this->_first;
+				// InputIterator tmp = first;
+				// while (tmp != last)
+				// {
+				// 	this->_alloc.construct(current, tmp->value);
+				// 	tmp++;
+				// 	current++;
+				// }
+				return ;
+			}
 
 			/*
 			**	Copy constuctor
