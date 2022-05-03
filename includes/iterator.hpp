@@ -236,24 +236,24 @@ namespace ft
 
 	};
 
-	template<typename Tp>
-	struct iterator_traits<Tp*>
+	template<typename T>
+	struct iterator_traits<T*>
 	{
 		typedef random_access_iterator_tag	iterator_category;	
-		typedef Tp							value_type;	
+		typedef T							value_type;	
 		typedef std::ptrdiff_t				difference_type;	
-		typedef Tp*							pointer;	
-		typedef Tp&							reference;
+		typedef T*							pointer;	
+		typedef T&							reference;
 	};
 
-	template<typename Tp>
-	struct iterator_traits<const Tp*>
+	template<typename T>
+	struct iterator_traits<const T*>
 	{
 		typedef random_access_iterator_tag	iterator_category;	
-		typedef Tp							value_type;	
+		typedef T							value_type;	
 		typedef std::ptrdiff_t				difference_type;	
-		typedef Tp*							pointer;	
-		typedef Tp&							reference;
+		typedef T*							pointer;	
+		typedef T&							reference;
 	};
 
 } // namespace ft
