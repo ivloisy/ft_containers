@@ -6,7 +6,7 @@
 /*   By: ivloisy <ivloisy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 20:44:19 by ivloisy           #+#    #+#             */
-/*   Updated: 2022/04/29 22:49:46 by ivloisy          ###   ########.fr       */
+/*   Updated: 2022/04/30 04:38:09 by ivloisy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <iostream>
 # include <cstddef>
 # include <cmath>
+# include <iterator>
 
 # include "iterator.hpp"
 
@@ -37,7 +38,7 @@ namespace ft
 			// typedef T &			const_reverse_iterator;
 			// typedef T &			difference_type;
 			typedef size_t							size_type;
-		
+
 		private:
 			allocator_type	_alloc;
 			size_type		_capacity;
@@ -72,15 +73,27 @@ namespace ft
 			}
 
 			/*
-			**	Fill constructor
+			**	Fill constructorh
 			*/
 
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(n * 2), _first(NULL), _size(n) 
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _first(NULL), _size(0)
 			{
-				
+					// ft::random_access_iterator<int> test1(first);
+					// ft::random_access_iterator<int> test2(last);
+					std::cout << "distance " << std::distance(first, last) << std::endl;
+					// this->_first = this->_alloc.allocate();
+					// pointer current = this->_first;
+					// InputIterator tmp = first;
+					// while (tmp != last)
+					// {
+					// 	this->_alloc.construct(current, tmp->value);
+					// 	tmp++;
+					// 	current++;
+					// }
+					return ;
 			}
-			
+
 			/*
 			**	Copy constuctor
 			*/
@@ -134,7 +147,7 @@ namespace ft
 				return const_iterator(_first);
 			}
 
-			iterator	end() 
+			iterator	end()
 			{
 				return (iterator(_first + _size));
 			}
@@ -168,20 +181,6 @@ namespace ft
 				return (_size == 0);
 			}
 
-			reference	at(size_type n)
-			{
-				if (n >= size())
-					throw (std::out_of_range("out of range in fonction at"));
-				return (*(_first + n));
-			}
-			
-			const_reference	at(size_type n) const
-			{
-				if (n >= _size)
-					throw (std::out_of_range("out of range in fonction at"));
-				return (*(_first + n));
-			}
-
 			/*
 			**	Element access
 			*/
@@ -189,6 +188,21 @@ namespace ft
 			reference	operator[](size_type n) const
 			{
 				return *(this->_first + n);
+			}
+			//////// MAY BE CONST
+
+			reference	at(size_type n)
+			{
+				if (n >= size())
+				throw (std::out_of_range("out of range in fonction at"));
+				return (*(_first + n));
+			}
+
+			const_reference	at(size_type n) const
+			{
+				if (n >= _size)
+				throw (std::out_of_range("out of range in fonction at"));
+				return (*(_first + n));
 			}
 
 			reference front()
@@ -214,6 +228,16 @@ namespace ft
 			/*
 			**	Modifiers
 			*/
+			//
+			// template <class InputIterator>
+			// void assign (InputIterator first, InputIterator last)
+			// {
+			//
+			// }
+			//
+			// void assign (size_type n, const value_type& val)
+			// {
+			// }
 
 			/*
 			**	Allocator
@@ -223,13 +247,13 @@ namespace ft
 			{
 				return _alloc;
 			}
-				
+
 	};
 
 
 
-	
-	
+
+
 } // namespace ft
 
 #endif
