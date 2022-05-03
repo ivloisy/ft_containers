@@ -13,6 +13,8 @@
 //	#include <vector.hpp>
 #endif
 
+// #include <type_traits>/////////////////////
+
 int main()
 {
 	ft::vector<int>	vec(5);
@@ -38,7 +40,7 @@ int main()
 
 	ft::vector<int> vickyveil(vec.begin(), --vec.end());
 	std::cout << "begin:\t\t" << *vec.begin() << std::endl;
-	std::cout << "end - 1:\t" << *(--vec.end()) << std::endl;
+	std::cout << "end - 1:\t" << *--vec.end() << std::endl;
 	std::cout << "size:\t\t" << vec.size() << std::endl;
 	std::cout << "max_size:\t" << vec.max_size() << std::endl;
 	// std::cout << "capacity :" << vec.capacity() << std::endl;
@@ -56,5 +58,13 @@ int main()
 
 	// std::cout << arr[3] << std::endl;
 	//vec.get_allocator().deallocate(arr, 5);
+	// std::cout << std::endl << "is_integral:" << std::endl;
+	// std::cout << "char: " << std::is_integral<char>::value << std::endl;
+	// std::cout << "int: " << std::is_integral<int>::value << std::endl;
+	// std::cout << "float: " << std::is_integral<float>::value << std::endl;
+	std::cout << std::endl << "is_integral:" << std::endl;
+	std::cout << "char: " << ft::is_integral<char>::value << std::endl;
+	std::cout << "int: " << ft::is_integral<int>::value << std::endl;
+	std::cout << "float: " << ft::is_integral<float>::value << std::endl;
 	return 0;
 }

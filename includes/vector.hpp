@@ -16,9 +16,10 @@
 # include <iostream>
 # include <cstddef>
 # include <cmath>
-# include <iterator>
+# include <iterator> ///////
 
 # include "iterator.hpp"
+ # include "type_traits.hpp"
 
 namespace ft
 {
@@ -73,15 +74,16 @@ namespace ft
 			}
 
 			/*
-			**	Fill constructorh
+			**	Fill constructor
 			*/
 
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _first(NULL), _size(0)
 			{
-				std::cout << "coucou" << std::endl;
-				(void)first;
-				(void)last;
+				std::cout << "first:\t" << *first << std::endl;
+				std::cout << "last:\t" << *last << std::endl;
+				// (void)first;
+				// (void)last;
 				// ft::random_access_iterator<int> test1(first);
 				// ft::random_access_iterator<int> test2(last);
 				// std::cout << "distance " << std::distance(first, last) << std::endl;
