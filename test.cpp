@@ -36,7 +36,7 @@ int main()
 		std::cout << std::endl;
 	}
 
-	ft::vector<int> vickyveil(vec.begin(), vec.end());
+	//ft::vector<int> vickyveil(vec.begin(), vec.end());
 	// std::cout << "begin : " << vec.begin() << std::endl;
 	// std::cout << "end : " << *vec.end() << std::endl;
 	// std::cout << "size :" << vec.size() << std::endl;
