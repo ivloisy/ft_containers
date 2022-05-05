@@ -23,7 +23,7 @@
 
 namespace ft
 {
-	template< class T, class Alloc = std::allocator<T> >
+	template < class T, class Alloc = std::allocator<T> >
 	class vector
 	{
 		public:
@@ -231,10 +231,10 @@ namespace ft
 				return *(this->_first + n);
 			}
 
-			const_reference	operator[](size_type n) const
-			{
-				return *(this->_first + n);
-			}
+			// const_reference	operator[](size_type n) const
+			// {
+			// 	return *(this->_first + n);
+			// }
 
 			reference	at(size_type n)
 			{

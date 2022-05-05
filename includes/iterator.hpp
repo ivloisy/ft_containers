@@ -8,7 +8,7 @@
 namespace ft
 {
 
-	template <class Category,			// iterator::iterator_category
+	template<class Category,			// iterator::iterator_category
 		class T,						// iterator::value_type
 		class Distance = std::ptrdiff_t,// iterator::difference_type
 		class Pointer = T*,				// iterator::pointer
@@ -38,7 +38,7 @@ namespace ft
 	**	random_access_iterator
 	*/
 
-	template <class T>
+	template<class T>
 	class random_access_iterator : public ft::iterator<ft::random_access_iterator_tag, T>
 	{
 		public:
@@ -256,6 +256,39 @@ namespace ft
 		typedef T&							reference;
 	};
 
+	/*
+	** reverse_iterator
+	*/
+
+	template<class Iterator>
+	class reverse_iterator : public iterator
+	{
+
+		public:
+			typedef Iterator	iterator_type;
+
+		private:
+			/* data */
+
+		public:
+
+			/* Default */
+			reverse_iterator()
+			{
+
+			}
+
+			/* Initialization */
+			explicit reverse_iterator (iterator_type it)
+			{
+
+			}
+
+			/* Copy */
+			template <class Iter>
+			reverse_iterator (const reverse_iterator<Iter>& rev_it);
+	};
+	
 } // namespace ft
 
 #endif
