@@ -283,7 +283,7 @@ namespace ft
 			*/
 			reverse_iterator() : _ptr(NULL) {}
 
-			explicit reverse_iterator (pointer it): _ptr(it) {}; // ============= a faire !!!!!!!! ================= //
+			explicit reverse_iterator (pointer it): _ptr(it) {} // ============= a faire !!!!!!!! ================= //
 
 			template <class U>
 			reverse_iterator(const reverse_iterator<U> & src) : _ptr(src._ptr){}
@@ -315,12 +315,12 @@ namespace ft
 
 			reference	operator*()
 			{
-				return (*this->_ptr);
+				return *(this->_ptr);
 			}
 
 			const_reference	operator*() const
 			{
-				return (*this->_ptr);
+				return *(this->_ptr);
 			}
 
 			pointer	operator->()

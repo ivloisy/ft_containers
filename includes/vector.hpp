@@ -35,7 +35,7 @@ namespace ft
 			typedef const T *						const_pointer;
 			typedef random_access_iterator<T>		iterator;
 			typedef random_access_iterator<const T>	const_iterator;
-			typedef T &			reverse_iterator;
+			typedef reverse_iterator<T>		reverse_iterator;
 			// typedef T &			const_reverse_iterator;
 			// typedef T &			difference_type;
 			typedef size_t							size_type;
@@ -167,7 +167,7 @@ namespace ft
 			//////////rbegin
 			reverse_iterator	rbegin()
 			{
-				return reverse_iterator(this->_size);
+				return reverse_iterator(this->_first + (this->_size - 1));
 			}
 
 			// const_reverse_iterator	rbegin() const
