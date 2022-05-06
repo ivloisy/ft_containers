@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#include <vector>/////////////////
+//#include <vector>/////////////////
 #if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
@@ -19,29 +19,32 @@
 int main()
 {
 	ft::vector<int>	vec(5);
-	std::vector<int>	vic(5);
+//	std::vector<int>	vic(5);
 	ft::vector<int>	vicky;
 
 	std::cout << "vicky.empty():\t" << vicky.empty() << std::endl << std::endl;
 	std::cout << "vec.empty():\t" << vec.empty() << std::endl << std::endl;
-	//
+
 	for (int i = 0; i < 5; i++)
 	{
-		vic[i] = i + 1;
+//		vic[i] = i + 1;
 		vec[i] = i + 1;
 	}
 
 	ft::vector<int> test(vec);
 
 	vec[3] = 12;
-	vic[3] = 12;
+//	vic[3] = 12;
+	ft::vector<int>	vic(vec.begin() + 1, vec.end());
+	 for (size_t j = 0; j < vic.size(); j++)
+		std::cout << *vic.begin() + (int)j << std::endl;
 	for (int i = 0; i < 5; i++)
 	{
 		std::cout << "vec[" << i << "]:\t\t" << vec[i] << std::endl;
-		std::cout << "test[" << i << "]:\t" << test[i] << std::endl;
+		// std::cout << "test[" << i << "]:\t" << test[i] << std::endl;
+//		std::cout << "vic[" << i << "]:\t\t" << vic[i] << std::endl;
 		std::cout << std::endl;
 	}
-
 	// ft::vector<int>::reverse_iterator it = vec.rbegin();
 	ft::vector<int> vickyveil(vec.begin(), --vec.end());
 	// std::cout << "rbegin:\t\t" << it << std::endl;
@@ -50,9 +53,9 @@ int main()
 	std::cout << "end :\t" << *vec.end() << std::endl;
 	std::cout << "begin:\t\t" << *vec.begin() << std::endl;
 	std::cout << "rbegin:\t\t" << *vec.rbegin() << std::endl; // Probleme pointeur reverse_iterator
-	std::cout << "rbegin:\t\t" << *vic.rbegin() << std::endl; // Probleme pointeur reverse_iterator
+	// std::cout << "rbegin:\t\t" << *vic.rbegin() << std::endl; // Probleme pointeur reverse_iterator
 	std::cout << "rend :\t" << *vec.rend() << std::endl;
-	std::cout << "rend :\t" << *vic.rend() << std::endl;
+	// std::cout << "rend :\t" << *vic.rend() << std::endl;
 	// std::cout << "size:\t\t" << vec.size() << std::endl;
 	// std::cout << "max_size:\t" << vec.max_size() << std::endl;
 	// std::cout << "capacity :" << vec.capacity() << std::endl;

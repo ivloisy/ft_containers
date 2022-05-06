@@ -27,19 +27,18 @@ namespace ft
 	class vector
 	{
 		public:
-			typedef T								value_type;
-			typedef Alloc							allocator_type;
-			typedef T &								reference;
-			typedef const T &						const_reference;
-			typedef T *								pointer;
-			typedef const T *						const_pointer;
+			typedef T									value_type;
+			typedef Alloc								allocator_type;
+			typedef T &									reference;
+			typedef const T &							const_reference;
+			typedef T *									pointer;
+			typedef const T *							const_pointer;
 			typedef ft::random_access_iterator<T>		iterator;
 			typedef ft::random_access_iterator<const T>	const_iterator;
 			typedef ft::reverse_iterator<T>				reverse_iterator;
 			typedef ft::reverse_iterator<const T>		const_reverse_iterator;
-			// typedef reverse_iterator<const T>		const_reverse_iterator;
 			// typedef T &			difference_type;
-			typedef size_t							size_type;
+			typedef size_t								size_type;
 
 		private:
 			allocator_type	_alloc;
@@ -80,25 +79,18 @@ namespace ft
 			*/
 
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _first(NULL), _size(0)
+			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type()) : _alloc(alloc), _capacity(0), _first(NULL), _size(std::distance(first, last) + 4)
 			{
-				std::cout << "first:\t" << *first << std::endl;
-				std::cout << "last:\t" << *last << std::endl;
-				// (void)first;
-				// (void)last;
-				// ft::random_access_iterator<int> test1(first);
-				// ft::random_access_iterator<int> test2(last);
-				// std::cout << "distance " << std::distance(first, last) << std::endl;
-				// this->_first = this->_alloc.allocate(std::distance(first, last));
-				// pointer current = this->_first;
-				// InputIterator tmp = first;
-				// while (tmp != last)
-				// {
-				// 	this->_alloc.construct(current, tmp->_value);
-				// 	tmp++;
-				// 	current++;
-				// }
-				// return ;
+				this->_first = this->_alloc.allocate(this->_size);
+				pointer current = this->_first;
+				InputIterator tmp = first;
+				for (size_t i = this->_size; i > 0; i--)
+				{
+					this->_alloc.construct(current, *first);
+					current++;
+					first++;
+				}
+				return ;
 			}
 
 			/*
@@ -165,27 +157,25 @@ namespace ft
 				return const_iterator(this->_first + this->_size);
 			}
 
-			//////////rbegin
 			reverse_iterator	rbegin()
 			{
 				return reverse_iterator(this->_first + (this->_size - 1));
 			}
 
-			// const_reverse_iterator	rbegin() const
-			// {
-			// 	return const_reverse_iterator(this->_first + (this->_size - 1));
-			// }
-			//
-			// //////////rend
+			const_reverse_iterator	rbegin() const
+			{
+				return const_reverse_iterator(this->_first + (this->_size - 1));
+			}
+			
 			reverse_iterator	rend()
 			{
 				return reverse_iterator(this->_first - 1);
 			}
-			//
-			// const_reverse_iterator	rend() const
-			// {
-			// 	return const_reverse_iterator(this->_first - 1);
-			// }
+			
+			const_reverse_iterator	rend() const
+			{
+				return const_reverse_iterator(this->_first - 1);
+			}
 
 			/*
 			**	Capacity
