@@ -30,7 +30,7 @@ int main()
 		vic[i] = i + 1;
 		vec[i] = i + 1;
 	}
-	
+
 	ft::vector<int> test(vec);
 
 	vec[3] = 12;
@@ -51,6 +51,8 @@ int main()
 	std::cout << "begin:\t\t" << *vec.begin() << std::endl;
 	std::cout << "rbegin:\t\t" << *vec.rbegin() << std::endl; // Probleme pointeur reverse_iterator
 	std::cout << "rbegin:\t\t" << *vic.rbegin() << std::endl; // Probleme pointeur reverse_iterator
+	std::cout << "rend :\t" << *vec.rend() << std::endl;
+	std::cout << "rend :\t" << *vic.rend() << std::endl;
 	// std::cout << "size:\t\t" << vec.size() << std::endl;
 	// std::cout << "max_size:\t" << vec.max_size() << std::endl;
 	// std::cout << "capacity :" << vec.capacity() << std::endl;

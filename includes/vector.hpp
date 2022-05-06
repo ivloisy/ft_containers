@@ -33,10 +33,11 @@ namespace ft
 			typedef const T &						const_reference;
 			typedef T *								pointer;
 			typedef const T *						const_pointer;
-			typedef random_access_iterator<T>		iterator;
-			typedef random_access_iterator<const T>	const_iterator;
-			typedef reverse_iterator<T>		reverse_iterator;
-			// typedef T &			const_reverse_iterator;
+			typedef ft::random_access_iterator<T>		iterator;
+			typedef ft::random_access_iterator<const T>	const_iterator;
+			typedef ft::reverse_iterator<T>				reverse_iterator;
+			typedef ft::reverse_iterator<const T>		const_reverse_iterator;
+			// typedef reverse_iterator<const T>		const_reverse_iterator;
 			// typedef T &			difference_type;
 			typedef size_t							size_type;
 
@@ -88,16 +89,16 @@ namespace ft
 				// ft::random_access_iterator<int> test1(first);
 				// ft::random_access_iterator<int> test2(last);
 				// std::cout << "distance " << std::distance(first, last) << std::endl;
-				// this->_first = this->_alloc.allocate();
+				// this->_first = this->_alloc.allocate(std::distance(first, last));
 				// pointer current = this->_first;
 				// InputIterator tmp = first;
 				// while (tmp != last)
 				// {
-				// 	this->_alloc.construct(current, tmp->value);
+				// 	this->_alloc.construct(current, tmp->_value);
 				// 	tmp++;
 				// 	current++;
 				// }
-				return ;
+				// return ;
 			}
 
 			/*
@@ -172,18 +173,18 @@ namespace ft
 
 			// const_reverse_iterator	rbegin() const
 			// {
-
+			// 	return const_reverse_iterator(this->_first + (this->_size - 1));
 			// }
-
-			//////////rend
-			// reverse_iterator	rend()
-			// {
-
-			// }
-
+			//
+			// //////////rend
+			reverse_iterator	rend()
+			{
+				return reverse_iterator(this->_first - 1);
+			}
+			//
 			// const_reverse_iterator	rend() const
 			// {
-
+			// 	return const_reverse_iterator(this->_first - 1);
 			// }
 
 			/*
