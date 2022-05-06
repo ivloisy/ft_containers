@@ -35,7 +35,7 @@ namespace ft
 			typedef const T *						const_pointer;
 			typedef random_access_iterator<T>		iterator;
 			typedef random_access_iterator<const T>	const_iterator;
-			// typedef T &			reverse_iterator;
+			typedef T &			reverse_iterator;
 			// typedef T &			const_reverse_iterator;
 			// typedef T &			difference_type;
 			typedef size_t							size_type;
@@ -165,25 +165,25 @@ namespace ft
 			}
 
 			//////////rbegin
-			// reverse_iterator	rbegin()
-			// {
-				
-			// }
+			reverse_iterator	rbegin()
+			{
+				return reverse_iterator(this->_size);
+			}
 
 			// const_reverse_iterator	rbegin() const
 			// {
-				
+
 			// }
 
 			//////////rend
 			// reverse_iterator	rend()
 			// {
-				
+
 			// }
 
 			// const_reverse_iterator	rend() const
 			// {
-				
+
 			// }
 
 			/*
@@ -203,7 +203,7 @@ namespace ft
 			//////////resize
 			// void	resize (size_type n, value_type val = value_type())
 			// {
-				
+
 			// }
 
 			size_type	capacity()
@@ -219,7 +219,7 @@ namespace ft
 			//////////reserve
 			// void	reserve (size_type n)
 			// {
-				
+
 			// }
 
 			/*
@@ -276,59 +276,59 @@ namespace ft
 
 			// iterator insert (iterator position, const value_type & val)
 			// {
-				
+
 			// }
 
 			// void insert (iterator position, size_type n, const value_type & val)
 			// {
-				
+
 			// }
 
 			// template <class InputIterator>
 			// void insert (iterator position, InputIterator first, InputIterator last)
 			// {
-				
+
 			// }
 
 			// void	push_back (const value_type& val)
 			// {
-				
+
 			// }
 
 			// void	pop_back()
 			// {
-				
+
 			// }
 
 			// iterator	insert (iterator position, const value_type & val)
 			// {
-				
+
 			// }
 
 			// void	insert (iterator position, size_type n, const value_type & val)
 			// {
-				
+
 			// }
 
 			// template <class InputIterator>
 		    // void	insert (iterator position, InputIterator first, InputIterator last)
 			// {
-				
+
 			// }
 
 			// iterator	erase (iterator position)
 			// {
-				
+
 			// }
 
 			// iterator	erase (iterator first, iterator last)
 			// {
-				
+
 			// }
 
 			// void	swap (vector & x)
 			// {
-				
+
 			// }
 
 			void	clear()

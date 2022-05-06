@@ -25,15 +25,15 @@ namespace ft
 		typedef const Reference	const_reference;
 	};
 
-	struct input_iterator_tag {};
-
-	struct output_iterator_tag {};
-
-	struct forward_iterator_tag : public input_iterator_tag {};
-
-	struct bidirectional_iterator_tag : public forward_iterator_tag {};
-
-	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+	// struct input_iterator_tag {};
+	//
+	// struct output_iterator_tag {};
+	//
+	// struct forward_iterator_tag : public input_iterator_tag {};
+	//
+	// struct bidirectional_iterator_tag : public forward_iterator_tag {};
+	//
+	// struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
 	/*
 	**	random_access_iterator
@@ -261,17 +261,17 @@ namespace ft
 	** reverse_iterator
 	*/
 
-	template<class Iterator>
-	class reverse_iterator
+	template<class T>
+	class reverse_iterator : public ft::iterator<std::random_access_iterator_tag, T>
 	{
 		public:
-			typedef typename ft::reverse_iterator<std::random_access_iterator_tag, T>::iterator_category 	iterator_category;
-			typedef typename ft::reverse_iterator<std::random_access_iterator_tag, T>::value_type			value_type;
-			typedef typename ft::reverse_iterator<std::random_access_iterator_tag, T>::difference_type		difference_type;
-			typedef typename ft::reverse_iterator<std::random_access_iterator_tag, T>::pointer				pointer;
-			typedef typename ft::reverse_iterator<std::random_access_iterator_tag, T>::const_pointer			const_pointer;
-			typedef typename ft::reverse_iterator<std::random_access_iterator_tag, T>::reference				reference;
-			typedef typename ft::reverse_iterator<std::random_access_iterator_tag, T>::const_reference		const_reference;
+			typedef typename ft::iterator<std::random_access_iterator_tag, T>::iterator_category 	iterator_category;
+			typedef typename ft::iterator<std::random_access_iterator_tag, T>::value_type			value_type;
+			typedef typename ft::iterator<std::random_access_iterator_tag, T>::difference_type		difference_type;
+			typedef typename ft::iterator<std::random_access_iterator_tag, T>::pointer				pointer;
+			typedef typename ft::iterator<std::random_access_iterator_tag, T>::const_pointer		const_pointer;
+			typedef typename ft::iterator<std::random_access_iterator_tag, T>::reference			reference;
+			typedef typename ft::iterator<std::random_access_iterator_tag, T>::const_reference		const_reference;
 
 		private :
 			pointer _ptr;
@@ -283,10 +283,10 @@ namespace ft
 			*/
 			reverse_iterator() : _ptr(NULL) {}
 
-			explicit reverse_iterator (Iterator it); // ============= a faire !!!!!!!! ================= //
+			explicit reverse_iterator (pointer it): _ptr(it) {}; // ============= a faire !!!!!!!! ================= //
 
-			template <class T>
-			reverse_iterator(const reserve_iterator<T> & src) : _ptr(src._ptr){}
+			template <class U>
+			reverse_iterator(const reverse_iterator<U> & src) : _ptr(src._ptr){}
 
 			~reverse_iterator() {}
 
@@ -348,7 +348,7 @@ namespace ft
 
 			reverse_iterator	operator+(int value) const
 			{
-				random_access_iterator tmp(*this);
+				reverse_iterator tmp(*this);
 				return tmp += value;
 			}
 

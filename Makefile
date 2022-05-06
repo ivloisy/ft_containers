@@ -33,7 +33,7 @@ NAME = test
 
 CXX = c++
 
-CXXFLAGS = -MMD -MP -Wall -Wextra -Werror# -std=c++98
+CXXFLAGS = -MMD -MP -Wall -Wextra -Werror -g # -std=c++98
 
 SRC = test.cpp
 
