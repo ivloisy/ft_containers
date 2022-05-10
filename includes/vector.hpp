@@ -81,6 +81,7 @@ namespace ft
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type()) : _alloc(alloc), _capacity(0), _first(NULL), _size(std::distance(first, last) + 4)
 			{
+				this->_size = std::distance(first, last);
 				this->_first = this->_alloc.allocate(this->_size);
 				pointer current = this->_first;
 				InputIterator tmp = first;
@@ -166,12 +167,12 @@ namespace ft
 			{
 				return const_reverse_iterator(this->_first + (this->_size - 1));
 			}
-			
+
 			reverse_iterator	rend()
 			{
 				return reverse_iterator(this->_first - 1);
 			}
-			
+
 			const_reverse_iterator	rend() const
 			{
 				return const_reverse_iterator(this->_first - 1);

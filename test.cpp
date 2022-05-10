@@ -53,7 +53,7 @@ int main()
 	std::cout << "end :\t" << *vec.end() << std::endl;
 	std::cout << "begin:\t\t" << *vec.begin() << std::endl;
 	std::cout << "rbegin:\t\t" << *vec.rbegin() << std::endl; // Probleme pointeur reverse_iterator
-	// std::cout << "rbegin:\t\t" << *vic.rbegin() << std::endl; // Probleme pointeur reverse_iterator
+	std::cout << "rbegin:\t\t" << *vic.rbegin() << std::endl; // Probleme pointeur reverse_iterator
 	std::cout << "rend :\t" << *vec.rend() << std::endl;
 	// std::cout << "rend :\t" << *vic.rend() << std::endl;
 	// std::cout << "size:\t\t" << vec.size() << std::endl;
