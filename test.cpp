@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 //#include <vector>/////////////////
-#if 1 //CREATE A REAL STL EXAMPLE
+#if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -128,6 +128,33 @@ int main()
 	std::cout << std::endl << "caca:" << std::endl;
 	for (size_t i = 0; i < caca.size(); i++)
 		std::cout << caca[i] << std::endl;
+
+	// int	test[5] = {42,6,57,11,32};
+
+	// ft::vector<int>	pipi(4);
+	// pipi.assign(test, test + 4);
+	// // for (size_t i = 0; i < pipi.size(); i++)
+	// // 	caca[i] = i + 1;
+	// std::cout << "pipi:" << std::endl;
+	// for (size_t i = 0; i < pipi.size(); i++)
+	// 	std::cout << pipi[i] << std::endl;
+	
+	// std::cout << "caca.size():\t\t" << pipi.size() << std::endl;
+	// std::cout << "caca.capacity():\t" << pipi.capacity() << std::endl;
+
+	// caca.push_back(5);
+	// std::cout << std::endl << "after pushback:" << std::endl;
+	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
+	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
+
+	// caca.assign(3, 42);
+	// std::cout << std::endl << "after assign:" << std::endl;
+	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
+	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
+
+	// std::cout << std::endl << "caca:" << std::endl;
+	// for (size_t i = 0; i < caca.size(); i++)
+	// 	std::cout << caca[i] << std::endl;
 //	std::cout << vector.begin() << std::endl;
 
 	// allo.resize(6, 4);
