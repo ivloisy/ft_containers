@@ -380,10 +380,22 @@ namespace ft
 
 			// }
 
-			// void	swap (vector & x)
-			// {
+		private:
+			template <class ToSwap>
+			void ft_swap(ToSwap &a, ToSwap &b)
+			{
+				ToSwap tmp = a;
+				a = b;
+				b = tmp;
+			}
 
-			// }
+			void	swap (vector & x)
+			{
+				ft_swap(this->_first, x._first);
+				ft_swap(this->_alloc, x._alloc);
+				ft_swap(this->_size, x._size);
+				ft_swap(this->_capacity, x._capacity);
+			}
 
 			void	clear()
 			{
