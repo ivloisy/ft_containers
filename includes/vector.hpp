@@ -196,7 +196,6 @@ namespace ft
 			//////////resize
 			void	resize (size_type n, value_type val = value_type())
 			{
-				(void)val;
 				if (n < this->_size)
 				{
 					for (size_t i = 0; i < n; i++)
@@ -308,45 +307,6 @@ namespace ft
 			**	Modifiers
 			*/
 
-			// iterator insert (iterator position, const value_type & val)
-			// {
-
-			// }
-
-			// void insert (iterator position, size_type n, const value_type & val)
-			// {
-
-			// }
-
-			// template <class InputIterator>
-			// void insert (iterator position, InputIterator first, InputIterator last)
-			// {
-
-			// }
-
-			void	push_back (const value_type& val)
-			{
-				// if (this->_capacity == 0)
-				// 	this->reserve(1);
-				// else if (this->_size == this->_capacity)
-				// 	this->reserve(this->_capacity * 2);
-				this->reserve(this->_size + 1);
-				pointer current = this->_first;
-				for (size_t n = 0; n < this->_size; n++)
-					current++;
-				this->_alloc.construct(current, val);
-				this->_size++;
-			}
-
-			void	pop_back()
-			{
-				pointer current = this->_first;
-				for (size_t n = 0; n < this->_size; n++)
-					current++;
-				this->_alloc.destroy(current);
-				this->_size--;
-			}
-
 			iterator	insert (iterator position, const value_type & val)
 			{
 				int ret = std::distance(this->begin(), position);
@@ -403,11 +363,35 @@ namespace ft
 			// 	}
 			// }
 
+
 			// template <class InputIterator>
-		    // void	insert (iterator position, InputIterator first, InputIterator last)
+			// void insert (iterator position, InputIterator first, InputIterator last)
 			// {
 
 			// }
+
+			void	push_back (const value_type& val)
+			{
+				// if (this->_capacity == 0)
+				// 	this->reserve(1);
+				// else if (this->_size == this->_capacity)
+				// 	this->reserve(this->_capacity * 2);
+				this->reserve(this->_size + 1);
+				pointer current = this->_first;
+				for (size_t n = 0; n < this->_size; n++)
+					current++;
+				this->_alloc.construct(current, val);
+				this->_size++;
+			}
+
+			void	pop_back()
+			{
+				pointer current = this->_first;
+				for (size_t n = 0; n < this->_size; n++)
+					current++;
+				this->_alloc.destroy(current);
+				this->_size--;
+			}
 
 			iterator	erase (iterator position)
 			{
