@@ -241,7 +241,8 @@ namespace ft
 						newCap *= 2;
 					if (newCap > this->max_size())
 						std::cout << "gros con" << std::endl; // Renvoyer exception =================== //////
-					tmp = this->_alloc.allocate(newCap + 1); // WTFFFF pourquoi ce +1 ================== //////
+					std::cout << "gros con " << newCap << std::endl; // Renvoyer exception =================== //////
+					tmp = this->_alloc.allocate(newCap * 2); // WTFFFF pourquoi ce +1 ================== //////
 					std::uninitialized_copy(this->begin(), this->end(), tmp);
 					// clear
 					pointer current = this->_first;
@@ -344,14 +345,60 @@ namespace ft
 				this->_size--;
 			}
 
-			// iterator	insert (iterator position, const value_type & val)
-			// {
+			iterator	insert (iterator position, const value_type & val)
+			{
+				int ret = std::distance(this->begin(), position);
+				if (this->_size + 1 > this->_capacity)
+					this->reserve(this->_capacity * 2);
+				this->_size++;
+				value_type insert = *position;
+				this->_alloc.destroy(&*position);
+				this->_alloc.construct(&*position, val);
+				position++;
+				value_type save = *position;
+				while (position != this->end())
+				{
 
-			// }
+					this->_alloc.destroy(&*position);
+					this->_alloc.construct(&*position, insert);
+					insert = save;
+					position++;
+					save = *position;
+				}
+				return (this->begin() + ret);
+			}
 
 			// void	insert (iterator position, size_type n, const value_type & val)
 			// {
-
+			// 	// int ret = std::distance(this->begin(), position);
+			// 	value_type save[n];
+			// 	if (this->_size + n > this->_capacity)
+			// 		this->reserve(this->_capacity * 2);
+			// 	std::cout << this->_capacity << std::endl;
+			// 	this->_size += n;
+			// 	value_type insert = *position;
+			// 	this->_alloc.destroy(&*position);
+			// 	this->_alloc.construct(&*position, val);
+			// 	position++;
+			// 	save[0] = *position;
+			// 	for (size_t x = 0; x < n; x++)
+			// 	{
+			// 		this->_alloc.destroy(&*position);
+			// 		this->_alloc.construct(&*position, insert);
+			// 		insert = save[x];
+			// 		position++;
+			// 		save[x] = *position;
+			// 	}
+			// 	size_t x = 0;
+			// 	while (position != this->end())
+			// 	{
+			//
+			// 		this->_alloc.destroy(&*position);
+			// 		this->_alloc.construct(&*position, insert);
+			// 		insert = save[x++];
+			// 		position++;
+			// 		save[n - 1] = *position;
+			// 	}
 			// }
 
 			// template <class InputIterator>
