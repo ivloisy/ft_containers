@@ -388,6 +388,8 @@ namespace ft
 				a = b;
 				b = tmp;
 			}
+			
+		public:
 
 			void	swap (vector & x)
 			{
