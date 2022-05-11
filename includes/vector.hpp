@@ -62,7 +62,6 @@ namespace ft
 			**	Fill constructor
 			*/
 
-			/////////////// reste le * 2 a change
 			explicit vector (size_type n, const value_type& value = value_type(), const allocator_type & alloc = allocator_type()) : _alloc(alloc), _capacity(n), _first(NULL), _size(n)
 			{
 				this->_first = this->_alloc.allocate(this->_capacity);
@@ -193,7 +192,6 @@ namespace ft
 				return allocator_type().max_size();
 			}
 
-			//////////resize
 			void	resize (size_type n, value_type val = value_type())
 			{
 				if (n < this->_size)
@@ -230,7 +228,6 @@ namespace ft
 				return this->_size == false;
 			}
 
-			//////////reserve
 			void	reserve (size_type n)
 			{
 				if (n > this->max_size())
@@ -307,6 +304,49 @@ namespace ft
 			**	Modifiers
 			*/
 
+			// template <class InputIterator>
+			// void assign (InputIterator first, InputIterator last)
+			// {
+
+			// }
+
+			void assign (size_type n, const value_type& val)
+			{
+				// size_t	tmp = this->_size;
+				// this->clear();
+				// // this->resize(tmp);
+				// this->resize(n);
+				// (void)n;
+				// (void)val;
+				this->clear();
+				if (n > this->_capacity)
+					this->_capacity = 0;
+				this->resize(n, val);
+			}
+
+			void	push_back (const value_type& val)
+			{
+				// if (this->_capacity == 0)
+				// 	this->reserve(1);
+				// else if (this->_size == this->_capacity)
+				// 	this->reserve(this->_capacity * 2);
+				this->reserve(this->_size + 1);
+				pointer current = this->_first;
+				for (size_t n = 0; n < this->_size; n++)
+					current++;
+				this->_alloc.construct(current, val);
+				this->_size++;
+			}
+
+			void	pop_back()
+			{
+				pointer current = this->_first;
+				for (size_t n = 0; n < this->_size; n++)
+					current++;
+				this->_alloc.destroy(current);
+				this->_size--;
+			}
+
 			iterator	insert (iterator position, const value_type & val)
 			{
 				int ret = std::distance(this->begin(), position);
@@ -369,29 +409,6 @@ namespace ft
 			// {
 
 			// }
-
-			void	push_back (const value_type& val)
-			{
-				// if (this->_capacity == 0)
-				// 	this->reserve(1);
-				// else if (this->_size == this->_capacity)
-				// 	this->reserve(this->_capacity * 2);
-				this->reserve(this->_size + 1);
-				pointer current = this->_first;
-				for (size_t n = 0; n < this->_size; n++)
-					current++;
-				this->_alloc.construct(current, val);
-				this->_size++;
-			}
-
-			void	pop_back()
-			{
-				pointer current = this->_first;
-				for (size_t n = 0; n < this->_size; n++)
-					current++;
-				this->_alloc.destroy(current);
-				this->_size--;
-			}
 
 			iterator	erase (iterator position)
 			{

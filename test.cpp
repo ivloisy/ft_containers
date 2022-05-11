@@ -39,7 +39,7 @@ int main()
 
 	vec.push_back(27);
 	vec.push_back(28);
-	// vec.pop_back();
+	vec.pop_back();
 	vec[3] = 12;
 	// vic[3] = 12;
 	std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
@@ -52,7 +52,20 @@ int main()
 	std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
 	std::cout << "vec.size():\t" << vec.size() << std::endl << std::endl;
 
+	// class human
+	// {
+	// private:
+	// 	/* data */
+	// public:
+	// 	human(/* args */){}
+	// 	~human(){}
+	// };
+	
+	// human	A;
+	// human	B;
+	
 	ft::vector<int>	vic(vec.begin() + 1, vec.end() - 2);
+	// ft::vector<int>	vic(A, B);
 	for (size_t j = 0; j < vic.size(); j++)
 		std::cout << *(vic.begin() + (int)j) << std::endl;
 	std::cout << std::endl;
@@ -81,7 +94,7 @@ int main()
 	// std::cout << "rend :\t" << *vic.rend() << std::endl;
 	// std::cout << "size:\t\t" << vec.size() << std::endl;
 	// std::cout << "max_size:\t" << vec.max_size() << std::endl;
-	std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
+//	std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
 	// std::cout << "empty :" << vec.empty() << std::endl;
 	// std::cout << "at :" << vec.at(4) << std::endl;
 	// std::cout << "back :" << vec.back() << std::endl;
@@ -89,7 +102,32 @@ int main()
 	// arr[0] = 10;
 	// std::vector<int> vec();
 	// std::cout << *vec.begin() << std::endl;
+	std::cout << std::endl;
 
+
+	ft::vector<int>	caca(4);
+	for (size_t i = 0; i < caca.size(); i++)
+		caca[i] = i + 1;
+	std::cout << "caca:" << std::endl;
+	for (size_t i = 0; i < caca.size(); i++)
+		std::cout << caca[i] << std::endl;
+	
+	std::cout << "caca.size():\t\t" << caca.size() << std::endl;
+	std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
+
+	caca.push_back(5);
+	std::cout << std::endl << "after pushback:" << std::endl;
+	std::cout << "caca.size():\t\t" << caca.size() << std::endl;
+	std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
+
+	caca.assign(3, 42);
+	std::cout << std::endl << "after assign:" << std::endl;
+	std::cout << "caca.size():\t\t" << caca.size() << std::endl;
+	std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
+
+	std::cout << std::endl << "caca:" << std::endl;
+	for (size_t i = 0; i < caca.size(); i++)
+		std::cout << caca[i] << std::endl;
 //	std::cout << vector.begin() << std::endl;
 
 	// allo.resize(6, 4);
