@@ -360,10 +360,11 @@ namespace ft
 				}
 			}
 
-
 			// template <class InputIterator>
 			// void insert (iterator position, InputIterator first, InputIterator last)
 			// {
+			// 	size_t	n = std::distance(first, last);
+			// }
 
 			// template <class InputIterator>
 			// void assign (InputIterator first, InputIterator last)
@@ -387,12 +388,6 @@ namespace ft
 
 			void assign (size_type n, const value_type& val)
 			{
-				// size_t	tmp = this->_size;
-				// this->clear();
-				// // this->resize(tmp);
-				// this->resize(n);
-				// (void)n;
-				// (void)val;
 				this->clear();
 				if (n > this->_capacity)
 					this->_capacity = 0;
@@ -417,69 +412,6 @@ namespace ft
 				this->_alloc.destroy(current);
 				this->_size--;
 			}
-
-			// iterator	insert (iterator position, const value_type & val)
-			// {
-			// 	int ret = std::distance(this->begin(), position);
-			// 	if (this->_size + 1 > this->_capacity)
-			// 		this->reserve(this->_capacity * 2);
-			// 	this->_size++;
-			// 	value_type insert = *position;
-			// 	this->_alloc.destroy(&*position);
-			// 	this->_alloc.construct(&*position, val);
-			// 	position++;
-			// 	value_type save = *position;
-			// 	while (position != this->end())
-			// 	{
-			//
-			// 		this->_alloc.destroy(&*position);
-			// 		this->_alloc.construct(&*position, insert);
-			// 		insert = save;
-			// 		position++;
-			// 		save = *position;
-			// 	}
-			// 	return (this->begin() + ret);
-			// }
-			//
-			// void	insert (iterator position, size_type n, const value_type & val)
-			// {
-			// 	// int ret = std::distance(this->begin(), position);
-			// 	value_type save[n];
-			// 	if (this->_size + n > this->_capacity)
-			// 		this->reserve(this->_capacity * 2);
-			// 	std::cout << this->_capacity << std::endl;
-			// 	this->_size += n;
-			// 	value_type insert = *position;
-			// 	this->_alloc.destroy(&*position);
-			// 	this->_alloc.construct(&*position, val);
-			// 	position++;
-			// 	save[0] = *position;
-			// 	for (size_t x = 0; x < n; x++)
-			// 	{
-			// 		this->_alloc.destroy(&*position);
-			// 		this->_alloc.construct(&*position, insert);
-			// 		insert = save[x];
-			// 		position++;
-			// 		save[x] = *position;
-			// 	}
-			// 	size_t x = 0;
-			// 	while (position != this->end())
-			// 	{
-			//
-			// 		this->_alloc.destroy(&*position);
-			// 		this->_alloc.construct(&*position, insert);
-			// 		insert = save[x++];
-			// 		position++;
-			// 		save[n - 1] = *position;
-			// 	}
-			// }
-
-
-			// template <class InputIterator>
-			// void insert (iterator position, InputIterator first, InputIterator last)
-			// {
-			// 	size_t	n = std::distance(first, last);
-			// }
 
 			iterator	erase (iterator position)
 			{
