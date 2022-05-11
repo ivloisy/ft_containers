@@ -266,6 +266,7 @@ namespace ft
 				return *(this->_first + n);
 			}
 
+			// Une ref c'est pas deja const ???? ======== /////
 			// const_reference	operator[](size_type n) const
 			// {
 			// 	return *(this->_first + n);
@@ -359,10 +360,20 @@ namespace ft
 
 			// }
 
-			// iterator	erase (iterator position)
-			// {
-
-			// }
+			iterator	erase (iterator position)
+			{
+				int ret = std::distance(this->begin(), position);
+				if (position == this->end() - 1)
+					this->pop_back(); // a confirmer ====================== ////
+				while (position != this->end() && position + 1 != this->end())
+				{
+					this->alloc.destroy(position);
+					this->alloc.construct(position, position + 1);
+					position++;
+				}
+				this->_size--;
+				return (iterator(this->begin() + ret));
+			}
 
 			// iterator	erase (iterator first, iterator last)
 			// {
