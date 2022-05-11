@@ -62,11 +62,11 @@ namespace ft
 			*/
 
 			/////////////// reste le * 2 a change
-			explicit vector (size_type n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(n * 2), _first(NULL), _size(n)
+			explicit vector (size_type n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(n), _first(NULL), _size(n)
 			{
-				this->_first = this->_alloc.allocate(n * 2);
+				this->_first = this->_alloc.allocate(n);
 				pointer current = this->_first;
-				for (size_type i = 0; i < _size; i++)
+				for (size_type i = 0; i < this->_size; i++)
 				{
 					this->_alloc.construct(current, value);
 					current++;
@@ -211,7 +211,9 @@ namespace ft
 					}
 					else
 					{
-						//reserve
+						this->reserve(n);
+						for (size_t i = 0; i < n; i++)
+							this->push_back(val);
 					}
 					this->_size = n;
 				}
@@ -229,10 +231,31 @@ namespace ft
 			}
 
 			//////////reserve
-			// void	reserve (size_type n)
-			// {
-
-			// }
+			void	reserve (size_type n)
+			{
+				if (n > this->_capacity)
+				{
+					pointer tmp;
+					size_type newCap = this->_capacity == 0 ? n : this->_capacity;
+					while (n > newCap)
+						newCap *= 2;
+					if (newCap > this->max_size())
+						std::cout << "gros con" << std::endl; // Renvoyer exception =================== //////
+					tmp = this->_alloc.allocate(newCap + 1); // WTFFFF pourquoi ce +1 ================== //////
+					std::uninitialized_copy(this->begin(), this->end(), tmp);
+					// clear
+					pointer current = this->_first;
+					for (size_t i = 0; i < this->_size; i++)
+					{
+						this->_alloc.destroy(current);
+						current++;
+					}
+					// fin clear
+					this->_alloc.deallocate(this->_first, this->_capacity);
+					this->_first = tmp;
+					this->_capacity = newCap;
+				}
+			}
 
 			/*
 			**	Element access
