@@ -64,7 +64,7 @@ namespace ft
 			/////////////// reste le * 2 a change
 			explicit vector (size_type n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(n * 2), _first(NULL), _size(n)
 			{
-				this->_first = this->_alloc.allocate(n);
+				this->_first = this->_alloc.allocate(n * 2);
 				pointer current = this->_first;
 				for (size_type i = 0; i < _size; i++)
 				{
@@ -193,10 +193,28 @@ namespace ft
 			}
 
 			//////////resize
-			// void	resize (size_type n, value_type val = value_type())
-			// {
-
-			// }
+			void	resize (size_type n, value_type val = value_type())
+			{
+				(void)val;
+				if (n < this->_size)
+				{
+					//suppr elements (with pop ?);
+					this->_size = n;
+				}
+				else if (n > this->_size)
+				{
+					if (n <= this->_capacity)
+					{
+						// add elements (with push_back ?)
+					}
+					else
+					{
+						//resize
+					}
+					this->_size = n;
+				}
+				return ;
+			}
 
 			size_type	capacity()
 			{
@@ -282,10 +300,14 @@ namespace ft
 
 			// }
 
-			// void	push_back (const value_type& val)
-			// {
-
-			// }
+			void	push_back (const value_type& val)
+			{
+				pointer current = this->_first;
+				for (size_t n = 0; n < this->_size; n++)
+					current++;
+				this->_alloc.construct(current, val);
+				this->_size++;
+			}
 
 			// void	pop_back()
 			// {

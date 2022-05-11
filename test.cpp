@@ -32,13 +32,14 @@ int main()
 	}
 
 	ft::vector<int> test(vec);
+	vec.push_back(27);
 
 	vec[3] = 12;
 //	vic[3] = 12;
 	ft::vector<int>	vic(vec.begin() + 1, vec.end());
 	 for (size_t j = 0; j < vic.size(); j++)
 		std::cout << *vic.begin() + (int)j << std::endl;
-	for (int i = 0; i < 5; i++)
+	for (size_t i = 0; i < vec.size(); i++)
 	{
 		std::cout << "vec[" << i << "]:\t\t" << vec[i] << std::endl;
 		// std::cout << "test[" << i << "]:\t" << test[i] << std::endl;
@@ -55,6 +56,7 @@ int main()
 	std::cout << "rbegin:\t\t" << *vec.rbegin() << std::endl; // Probleme pointeur reverse_iterator
 	std::cout << "rbegin:\t\t" << *vic.rbegin() << std::endl; // Probleme pointeur reverse_iterator
 	std::cout << "rend :\t" << *vec.rend() << std::endl;
+	std::cout << "rend:\t\t" << *vic.rend() << std::endl; // Probleme pointeur reverse_iterator
 	// std::cout << "rend :\t" << *vic.rend() << std::endl;
 	// std::cout << "size:\t\t" << vec.size() << std::endl;
 	// std::cout << "max_size:\t" << vec.max_size() << std::endl;
