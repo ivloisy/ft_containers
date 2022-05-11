@@ -20,6 +20,7 @@ int main()
 {
 	ft::vector<int>	vec(5);
 //	std::vector<int>	vic(5);
+	ft::vector<int> allo(3);
 	ft::vector<int>	vicky;
 
 	std::cout << "vicky.empty():\t" << vicky.empty() << std::endl << std::endl;
@@ -33,7 +34,7 @@ int main()
 
 	ft::vector<int> test(vec);
 	vec.push_back(27);
-
+	vec.pop_back();
 	vec[3] = 12;
 //	vic[3] = 12;
 	ft::vector<int>	vic(vec.begin() + 1, vec.end());
@@ -70,6 +71,14 @@ int main()
 	// std::cout << *vec.begin() << std::endl;
 
 //	std::cout << vector.begin() << std::endl;
+
+	allo.resize(6, 4);
+	for (size_t i = 0; i < allo.size(); i++)
+		std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
+
+	allo.resize(4);
+	for (size_t i = 0; i < allo.size(); i++)
+		std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
 
 	// arr[3] = 10;
 

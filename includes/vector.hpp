@@ -198,18 +198,20 @@ namespace ft
 				(void)val;
 				if (n < this->_size)
 				{
-					//suppr elements (with pop ?);
+					for (size_t i = 0; i < n; i++)
+						this->pop_back();
 					this->_size = n;
 				}
 				else if (n > this->_size)
 				{
 					if (n <= this->_capacity)
 					{
-						// add elements (with push_back ?)
+						for (size_t i = 0; i < n; i++)
+							this->push_back(val);
 					}
 					else
 					{
-						//resize
+						//reserve
 					}
 					this->_size = n;
 				}
@@ -309,10 +311,14 @@ namespace ft
 				this->_size++;
 			}
 
-			// void	pop_back()
-			// {
-
-			// }
+			void	pop_back()
+			{
+				pointer current = this->_first;
+				for (size_t n = 0; n < this->_size; n++)
+					current++;
+				this->_alloc.destroy(current);
+				this->_size--;
+			}
 
 			// iterator	insert (iterator position, const value_type & val)
 			// {
