@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 //#include <vector>/////////////////
-#if 0 //CREATE A REAL STL EXAMPLE
+#if 1 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -120,10 +120,10 @@ int main()
 	for (size_t i = 0; i < allo.size(); i++)
 		std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
 
-	// allo.insert(allo.begin() + 3, 387);
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < allo.size(); i++)
-	// 	std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
+	allo.insert(allo.begin() + 3, 387);
+	std::cout << std::endl;
+	for (size_t i = 0; i < allo.size(); i++)
+		std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
 
 	// // allo.insert(allo.begin() + 5, 4, 888);
 	// // std::cout << std::endl;

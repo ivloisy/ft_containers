@@ -244,24 +244,13 @@ namespace ft
 						newCap *= 2;
 					if (newCap > this->max_size())
 						throw(std::exception());
-						// std::cout << "gros con" << std::endl; // Renvoyer exception =================== //////
-					// std::cout << "gros con " << newCap << std::endl; // Renvoyer exception =================== //////
-					tmp = this->_alloc.allocate(newCap * 2); // WTFFFF pourquoi ce +1 ================== //////
+					tmp = this->_alloc.allocate(newCap);
 					std::uninitialized_copy(this->begin(), this->end(), tmp);
-					// clear
-					pointer current = this->_first;
-					for (size_t i = 0; i < this->_size; i++)
-					{
-						this->_alloc.destroy(current);
-						current++;
-					}
-					// fin clear
+					this->clear();
 					this->_alloc.deallocate(this->_first, this->_capacity);
 					this->_first = tmp;
 					this->_capacity = newCap;
 				}
-				else
-					return ;
 			}
 
 			/*
