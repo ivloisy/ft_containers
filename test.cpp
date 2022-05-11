@@ -77,12 +77,17 @@ int main()
 		std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
 
 	std::cout << std::endl;
-	allo.resize(4);
+	allo.resize(4, 12);
 	for (size_t i = 0; i < allo.size(); i++)
 		std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
 	std::cout << std::endl;
 
-	allo.resize(12);
+	allo.resize(12, 3);
+	for (size_t i = 0; i < allo.size(); i++)
+		std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
+
+	std::cout << std::endl;
+	allo.erase(allo.begin(), allo.begin() + 2);
 	for (size_t i = 0; i < allo.size(); i++)
 		std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
 	// arr[3] = 10;

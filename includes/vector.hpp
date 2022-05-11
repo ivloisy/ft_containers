@@ -367,18 +367,36 @@ namespace ft
 					this->pop_back(); // a confirmer ====================== ////
 				while (position != this->end() && position + 1 != this->end())
 				{
-					this->alloc.destroy(position);
-					this->alloc.construct(position, position + 1);
+					this->_alloc.destroy(&*position);
+					this->_alloc.construct(&*position, *(position + 1));
 					position++;
 				}
 				this->_size--;
 				return (iterator(this->begin() + ret));
 			}
 
-			// iterator	erase (iterator first, iterator last)
-			// {
-
-			// }
+			iterator	erase (iterator first, iterator last)
+			{
+				if (first == this->begin() && last == this->end())
+					this->clear();
+				int ret = std::distance(this->begin(), first);
+				int distance = std::distance(first, last);
+				iterator current = first + 1;
+				while (current != last + 1)
+				{
+					this->_alloc.destroy(&*current);
+					current++;
+				}
+				while (last != this->end() && last + 1 != this->end())
+				{
+					this->_alloc.destroy(&*first);
+					this->_alloc.construct(&*first, *(last + 1));
+					first++;
+					last++;
+				}
+				this->_size -= distance;
+				return (this->begin() + ret);
+			}
 
 		private:
 			template <class ToSwap>
@@ -388,7 +406,7 @@ namespace ft
 				a = b;
 				b = tmp;
 			}
-			
+
 		public:
 
 			void	swap (vector & x)
