@@ -62,7 +62,7 @@ namespace ft
 			*/
 
 			/////////////// reste le * 2 a change
-			explicit vector (size_type n, const value_type& value = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(n), _first(NULL), _size(n)
+			explicit vector (size_type n, const value_type& value = value_type(), const allocator_type & alloc = allocator_type()) : _alloc(alloc), _capacity(n), _first(NULL), _size(n)
 			{
 				this->_first = this->_alloc.allocate(n);
 				pointer current = this->_first;
@@ -75,7 +75,7 @@ namespace ft
 			}
 
 			/*
-			**	Fill constructor
+			**	Range constructor
 			*/
 
 			template <class InputIterator>
