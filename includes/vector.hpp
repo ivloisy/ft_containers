@@ -330,52 +330,48 @@ namespace ft
 				return (this->begin() + ret);
 			}
 
-			// void	insert (iterator position, size_type n, const value_type & val)
-			// {
-			// 	// int ret = std::distance(this->begin(), position);
-			// 	value_type save[n];
-			// 	if (this->_size + n > this->_capacity)
-			// 		this->reserve(this->_capacity * 2);
-			// 	std::cout << this->_capacity << std::endl;
-			// 	this->_size += n;
-			// 	value_type insert = *position;
-			// 	this->_alloc.destroy(&*position);
-			// 	this->_alloc.construct(&*position, val);
-			// 	position++;
-			// 	save[0] = *position;
-			// 	for (size_t x = 0; x < n; x++)
-			// 	{
-			// 		this->_alloc.destroy(&*position);
-			// 		this->_alloc.construct(&*position, insert);
-			// 		insert = save[x];
-			// 		position++;
-			// 		save[x] = *position;
-			// 	}
-			// 	size_t x = 0;
-			// 	while (position != this->end())
-			// 	{
-			//
-			// 		this->_alloc.destroy(&*position);
-			// 		this->_alloc.construct(&*position, insert);
-			// 		insert = save[x++];
-			// 		position++;
-			// 		save[n - 1] = *position;
-			// 	}
-			// }
+			void	insert (iterator position, size_type n, const value_type & val)
+			{
+				// int ret = std::distance(this->begin(), position);
+				value_type save[n];
+				if (this->_size + n > this->_capacity)
+					this->reserve(this->_capacity * 2);
+				std::cout << this->_capacity << std::endl;
+				this->_size += n;
+				value_type insert = *position;
+				this->_alloc.destroy(&*position);
+				this->_alloc.construct(&*position, val);
+				position++;
+				save[0] = *position;
+				for (size_t x = 0; x < n; x++)
+				{
+					this->_alloc.destroy(&*position);
+					this->_alloc.construct(&*position, insert);
+					insert = save[x];
+					position++;
+					save[x] = *position;
+				}
+				size_t x = 0;
+				while (position != this->end())
+				{
+
+					this->_alloc.destroy(&*position);
+					this->_alloc.construct(&*position, insert);
+					insert = save[x++];
+					position++;
+					save[n - 1] = *position;
+				}
+			}
 
 
-			// template <class InputIterator>
-			// void insert (iterator position, InputIterator first, InputIterator last)
-			// {
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last)
+			{
 
-			// }
+			}
 
 			void	push_back (const value_type& val)
 			{
-				// if (this->_capacity == 0)
-				// 	this->reserve(1);
-				// else if (this->_size == this->_capacity)
-				// 	this->reserve(this->_capacity * 2);
 				this->reserve(this->_size + 1);
 				pointer current = this->_first;
 				for (size_t n = 0; n < this->_size; n++)
