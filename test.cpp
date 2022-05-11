@@ -16,13 +16,14 @@
 
 int main()
 {
-	ft::vector<int>	vec(5);
+	ft::vector<int>	vec(4);
 	// std::vector<int>	vic(5);
 	ft::vector<int> allo(3);
 	ft::vector<int>	vicky;
 
 	std::cout << "vicky.empty():\t" << vicky.empty() << std::endl;
 	std::cout << "vec.empty():\t" << vec.empty() << std::endl;
+	std::cout << "vec.max_size():\t" << vec.max_size() << std::endl;
 	std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
 	std::cout << "vec.size():\t" << vec.size() << std::endl << std::endl;
 
@@ -41,6 +42,14 @@ int main()
 	// vec.pop_back();
 	vec[3] = 12;
 	// vic[3] = 12;
+	std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
+	std::cout << "vec.size():\t" << vec.size() << std::endl << std::endl;
+
+	vec.push_back(27);
+	vec.push_back(28);
+	vec.push_back(27);
+	vec.push_back(28);
+	std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
 	std::cout << "vec.size():\t" << vec.size() << std::endl << std::endl;
 
 	ft::vector<int>	vic(vec.begin() + 1, vec.end() - 2);

@@ -16,6 +16,7 @@
 # include <iostream>
 # include <cstddef>
 # include <cmath>
+# include <exception>
 // # include <iterator> ///////
 
 # include "iterator.hpp"
@@ -64,7 +65,7 @@ namespace ft
 			/////////////// reste le * 2 a change
 			explicit vector (size_type n, const value_type& value = value_type(), const allocator_type & alloc = allocator_type()) : _alloc(alloc), _capacity(n), _first(NULL), _size(n)
 			{
-				this->_first = this->_alloc.allocate(n);
+				this->_first = this->_alloc.allocate(this->_capacity);
 				pointer current = this->_first;
 				for (size_type i = 0; i < this->_size; i++)
 				{
@@ -233,15 +234,18 @@ namespace ft
 			//////////reserve
 			void	reserve (size_type n)
 			{
+				if (n > this->max_size())
+					throw(std::exception());
 				if (n > this->_capacity)
 				{
-					pointer tmp;
-					size_type newCap = this->_capacity == 0 ? n : this->_capacity;
+					pointer		tmp;
+					size_type	newCap = this->_capacity == 0 ? n : this->_capacity;
 					while (n > newCap)
 						newCap *= 2;
 					if (newCap > this->max_size())
-						std::cout << "gros con" << std::endl; // Renvoyer exception =================== //////
-					std::cout << "gros con " << newCap << std::endl; // Renvoyer exception =================== //////
+						throw(std::exception());
+						// std::cout << "gros con" << std::endl; // Renvoyer exception =================== //////
+					// std::cout << "gros con " << newCap << std::endl; // Renvoyer exception =================== //////
 					tmp = this->_alloc.allocate(newCap * 2); // WTFFFF pourquoi ce +1 ================== //////
 					std::uninitialized_copy(this->begin(), this->end(), tmp);
 					// clear
@@ -256,6 +260,8 @@ namespace ft
 					this->_first = tmp;
 					this->_capacity = newCap;
 				}
+				else
+					return ;
 			}
 
 			/*
@@ -329,6 +335,11 @@ namespace ft
 
 			void	push_back (const value_type& val)
 			{
+				// if (this->_capacity == 0)
+				// 	this->reserve(1);
+				// else if (this->_size == this->_capacity)
+				// 	this->reserve(this->_capacity * 2);
+				this->reserve(this->_size + 1);
 				pointer current = this->_first;
 				for (size_t n = 0; n < this->_size; n++)
 					current++;
