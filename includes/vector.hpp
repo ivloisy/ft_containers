@@ -239,6 +239,7 @@ namespace ft
 				if (n > this->_capacity)
 				{
 					pointer		tmp;
+					size_t		tmps = this->_size;
 					size_type	newCap = this->_capacity == 0 ? n : this->_capacity;
 					while (n > newCap)
 						newCap *= 2;
@@ -250,6 +251,7 @@ namespace ft
 					this->_alloc.deallocate(this->_first, this->_capacity);
 					this->_first = tmp;
 					this->_capacity = newCap;
+					this->_size = tmps;
 				}
 			}
 
@@ -330,7 +332,6 @@ namespace ft
 				// 	this->reserve(this->_capacity * 2);
 				this->reserve(this->_size + 1);
 				pointer current = this->_first;
-				this->reserve(this->_size + 1);
 				for (size_t n = 0; n < this->_size; n++)
 					current++;
 				this->_alloc.construct(current, val);
