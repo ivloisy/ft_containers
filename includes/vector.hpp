@@ -259,13 +259,13 @@ namespace ft
 			{
 				return *(this->_first + n);
 			}
-
+//===============================================================================================
 			// Une ref c'est pas deja const ???? ======== /////
 			// const_reference	operator[](size_type n) const
 			// {
 			// 	return *(this->_first + n);
 			// }
-
+//===============================================================================================
 			reference	at(size_type n)
 			{
 				if (n >= size())
@@ -329,7 +329,6 @@ namespace ft
 
 			void	insert (iterator position, size_type n, const value_type & val)
 			{
-				// int ret = std::distance(this->begin(), position);
 				value_type save[n];
 				if (this->_size + n > this->_capacity)
 					this->reserve(this->_capacity * 2);
@@ -360,31 +359,22 @@ namespace ft
 				}
 			}
 
-			// template <class InputIterator>
-			// void insert (iterator position, InputIterator first, InputIterator last)
-			// {
-			// 	size_t	n = std::distance(first, last);
-			// }
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL)
+			{
+				ft::vector<T> tmp;
+				size_type diff = std::distance(this->begin(), position);
+				size_type i = 0;
+				while (i < diff)
+					tmp.push_back(this->_first[i++]);
+				while (first != last)
+					tmp.push_back(*first++);
+				while (i < this->size())
+					tmp.push_back(this->_first[i++]);
+				this->swap(tmp);
+			}
 
-			// template <class InputIterator>
-			// void assign (InputIterator first, InputIterator last)
-			// {
-			// 	size_t	n = std::distance(first, last);
-			// 	this->clear();
-			// 	if (n > this->_capacity)
-			// 	{
-			// 		this->_capacity = 0;
-			// 		this->resize(n);
-			// 	}
-			// 	this->_size = n;
-			// 	pointer	current = this->_first;
-			// 	while (first != last)
-			// 	{
-			// 		this->_alloc.construct(current, *first);
-			// 		current++;
-			// 		first++;
-			// 	}
-			// }
+
 
 			void assign (size_type n, const value_type& val)
 			{
@@ -392,6 +382,13 @@ namespace ft
 				if (n > this->_capacity)
 					this->_capacity = 0;
 				this->resize(n, val);
+			}
+
+			template <class InputIterator>
+			void assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL)
+			{
+				this->clear();
+				this->insert(this->begin(), first, last);
 			}
 
 			void	push_back (const value_type& val)
