@@ -330,6 +330,7 @@ namespace ft
 			void	push_back (const value_type& val)
 			{
 				pointer current = this->_first;
+				this->reserve(this->_size + 1);
 				for (size_t n = 0; n < this->_size; n++)
 					current++;
 				this->_alloc.construct(current, val);
