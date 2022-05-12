@@ -6,7 +6,7 @@
 /*   By: ivloisy <ivloisy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 20:44:19 by ivloisy           #+#    #+#             */
-/*   Updated: 2022/05/03 16:09:55 by ivloisy          ###   ########.fr       */
+/*   Updated: 2022/05/12 21:00:59 by ivloisy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ namespace ft
 			*/
 
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL) : _alloc(alloc), _capacity(0), _first(NULL), _size(std::distance(first, last) + 4)
+			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL) : _alloc(alloc), _capacity(std::distance(first, last)), _first(NULL), _size(std::distance(first, last))
 			{
-				this->_size = std::distance(first, last);
+				// this->_size = std::distance(first, last);
 				this->_first = this->_alloc.allocate(this->_size);
 				pointer current = this->_first;
 				for (size_t i = this->_size; i > 0; i--)
@@ -263,21 +263,24 @@ namespace ft
 //===============================================================================================
 			reference	at(size_type n)
 			{
-				if (n >= size())
-				throw (std::out_of_range("out of range in fonction at"));
+				if (n >= this->_size)
+					throw (std::exception());
+					// throw (std::out_of_range("out of range in fonction at"));
 				return *(this->_first + n);
 			}
 
 			const_reference	at(size_type n) const
 			{
 				if (n >= this->_size)
-				throw (std::out_of_range("out of range in fonction at"));
+					throw (std::exception());
+					// throw (std::out_of_range("out of range in fonction at"));
 				return *(this->_first + n);
 			}
 
 			reference	front()
 			{
-				return *(this->_first);
+				return (*(this->_first));
+				// return *this->begin();
 			}
 
 			const_reference	front() const
@@ -412,8 +415,8 @@ namespace ft
 			iterator	erase (iterator position)
 			{
 				int ret = std::distance(this->begin(), position);
-				if (position == this->end() - 1)
-					this->pop_back(); // a confirmer ====================== ////
+				// if (position == this->end()/* - 1*/)
+				// 	this->pop_back(); // a confirmer ====================== ////
 				while (position != this->end() && position + 1 != this->end())
 				{
 					this->_alloc.destroy(&*position);
