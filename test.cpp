@@ -16,7 +16,8 @@
 
 int main()
 {
-	// ft::vector<int>	vec(4);
+	ft::vector<int>	vec(4);
+	ft::vector<int>	vla(vec);
 	// // std::vector<int>	vic(5);
 	// ft::vector<int> allo(3);
 	// ft::vector<int>	vicky;
@@ -105,38 +106,38 @@ int main()
 	// std::cout << std::endl;
 
 // ================================== ASSIGN =======================================
-	ft::vector<int>	caca(4);
-	for (size_t i = 0; i < caca.size(); i++)
-		caca[i] = i + 1;
-	std::cout << "caca:" << std::endl;
-	for (size_t i = 0; i < caca.size(); i++)
-		std::cout << caca[i] << std::endl;
-
-	std::cout << "caca.size():\t\t" << caca.size() << std::endl;
-	std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
-
-	caca.push_back(5);
-	std::cout << std::endl << "after pushback:" << std::endl;
-	std::cout << "caca.size():\t\t" << caca.size() << std::endl;
-	std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
-
-	// size_t prout = 3;
-	caca.assign(3, 42);
-	std::cout << std::endl << "after assign:" << std::endl;
-	std::cout << "caca.size():\t\t" << caca.size() << std::endl;
-	std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
-
-	std::cout << std::endl << "caca:" << std::endl;
-	for (size_t i = 0; i < caca.size(); i++)
-		std::cout << caca[i] << std::endl;
-
-
-	int noufnouf[] = {5, 156, 123, 45689};
-	ft::vector<int> nana;
-	nana.assign(noufnouf, noufnouf + 3);
-	std::cout << std::endl << "nana:" << std::endl;
-	for (size_t i = 0; i < nana.size(); i++)
-		std::cout << nana[i] << std::endl;
+	// ft::vector<int>	caca(4);
+	// for (size_t i = 0; i < caca.size(); i++)
+	// 	caca[i] = i + 1;
+	// std::cout << "caca:" << std::endl;
+	// for (size_t i = 0; i < caca.size(); i++)
+	// 	std::cout << caca[i] << std::endl;
+	//
+	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
+	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
+	//
+	// caca.push_back(5);
+	// std::cout << std::endl << "after pushback:" << std::endl;
+	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
+	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
+	//
+	// // size_t prout = 3;
+	// caca.assign(3, 42);
+	// std::cout << std::endl << "after assign:" << std::endl;
+	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
+	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
+	//
+	// std::cout << std::endl << "caca:" << std::endl;
+	// for (size_t i = 0; i < caca.size(); i++)
+	// 	std::cout << caca[i] << std::endl;
+	//
+	//
+	// int noufnouf[] = {5, 156, 123, 45689};
+	// ft::vector<int> nana;
+	// nana.assign(noufnouf, noufnouf + 3);
+	// std::cout << std::endl << "nana:" << std::endl;
+	// for (size_t i = 0; i < nana.size(); i++)
+	// 	std::cout << nana[i] << std::endl;
 	// int	test[5] = {42,6,57,11,32};
 
 	// ft::vector<int>	pipi(4);

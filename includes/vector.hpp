@@ -99,7 +99,7 @@ namespace ft
 			**	Copy constuctor
 			*/
 
-			vector(vector const & src) : _alloc(src._alloc), _capacity(src._capacity), _size(src._size)
+			vector(vector const & src) : _alloc(src._alloc), _capacity(0), _size(0)
 			{
 				*this = src;
 				return ;
@@ -204,7 +204,10 @@ namespace ft
 					}
 					else
 					{
-						this->reserve(n);
+						if (this->_capacity * 2 < n)
+							this->reserve(n);
+						else
+							this->reserve(this->_capacity * 2);
 						for (size_t i = 0; i < n; i++)
 							this->push_back(val);
 					}
@@ -265,22 +268,20 @@ namespace ft
 			{
 				if (n >= this->_size)
 					throw (std::exception());
-					// throw (std::out_of_range("out of range in fonction at"));
 				return *(this->_first + n);
 			}
 
 			const_reference	at(size_type n) const
 			{
 				if (n >= this->_size)
-					throw (std::exception());
-					// throw (std::out_of_range("out of range in fonction at"));
+					// throw (std::exception());
+					throw (std::out_of_range("ofr"));
 				return *(this->_first + n);
 			}
 
 			reference	front()
 			{
 				return (*(this->_first));
-				// return *this->begin();
 			}
 
 			const_reference	front() const
@@ -304,78 +305,76 @@ namespace ft
 			//
 			iterator	insert (iterator position, const value_type & val)
 			{
-				if (position == this->end())
-				{
-					push_back(val);
-					return (position);
-				}
 				int ret = std::distance(this->begin(), position);
-				if (this->_size + 1 > this->_capacity)
-					this->reserve(this->_capacity * 2);
-				this->_size++;
-				value_type insert = *position;
-				this->_alloc.destroy(&*position);
-				this->_alloc.construct(&*position, val);
-				position++;
-				value_type save = *position;
-				while (position != this->end())
+				if (position != this->end())
 				{
-
+					if (this->_size + 1 > this->_capacity)
+						this->reserve(this->_capacity * 2);
+					this->_size++;
+					value_type insert = *position;
 					this->_alloc.destroy(&*position);
-					this->_alloc.construct(&*position, insert);
-					insert = save;
+					this->_alloc.construct(&*position, val);
 					position++;
-					save = *position;
+					value_type save = *position;
+					while (position != this->end())
+					{
+
+						this->_alloc.destroy(&*position);
+						this->_alloc.construct(&*position, insert);
+						insert = save;
+						position++;
+						save = *position;
+					}
 				}
+				else
+					push_back(val);
 				return (this->begin() + ret);
 			}
 
 			void	insert (iterator position, size_type n, const value_type & val)
-			{
-				value_type save[n];
-				value_type insert = *position;
-				if (this->_size + n > this->_capacity)
-					this->reserve(this->_capacity * 2);
-				this->_size += n;
-				this->_alloc.destroy(&*position);
-				this->_alloc.construct(&*position, val);
-				position++;
-				save[0] = *position;
-				for (size_t x = 0; x < n; x++)
-				{
-					this->_alloc.destroy(&*position);
-					this->_alloc.construct(&*position, insert);
-					insert = save[x];
-					position++;
-					save[x] = *position;
-				}
-				size_t x = 0;
-				while (position != this->end())
-				{
-
-					this->_alloc.destroy(&*position);
-					this->_alloc.construct(&*position, insert);
-					insert = save[x++];
-					position++;
-					save[n - 1] = *position;
-				}
-			}
-
-			template <class InputIterator>
-			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL)
 			{
 				ft::vector<T> tmp;
 				size_type diff = std::distance(this->begin(), position);
 				size_type i = 0;
 				while (i < diff)
 					tmp.push_back(this->_first[i++]);
-				while (first != last)
-					tmp.push_back(*first++);
+				while (n--)
+					tmp.push_back(val);
 				while (i < this->size())
 					tmp.push_back(this->_first[i++]);
 				this->swap(tmp);
 			}
 
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL)
+			{
+				if (this->_size != 0)
+				{
+					ft::vector<T> tmp;
+					size_type diff = std::distance(this->begin(), position);
+					size_type i = 0;
+					while (i < diff)
+						tmp.push_back(this->_first[i++]);
+					while (first != last)
+						tmp.push_back(*first++);
+					while (i < this->size())
+						tmp.push_back(this->_first[i++]);
+					this->swap(tmp);
+				}
+				else
+				{
+					this->_size = std::distance(first, last);
+					this->_capacity = this->_size;
+					this->_first = this->_alloc.allocate(this->_size);
+					pointer current = this->_first;
+					for (size_t i = this->_size; i > 0; i--)
+					{
+						this->_alloc.construct(current, *first);
+						current++;
+						first++;
+					}
+				}
+			}
 
 
 			void assign (size_type n, const value_type& val)
@@ -415,8 +414,8 @@ namespace ft
 			iterator	erase (iterator position)
 			{
 				int ret = std::distance(this->begin(), position);
-				// if (position == this->end()/* - 1*/)
-				// 	this->pop_back(); // a confirmer ====================== ////
+				if (position == this->end()/* - 1*/)
+					this->pop_back(); // a confirmer ====================== ////
 				while (position != this->end() && position + 1 != this->end())
 				{
 					this->_alloc.destroy(&*position);
@@ -441,18 +440,13 @@ namespace ft
 				}
 				int ret = std::distance(this->begin(), first);
 				int distance = std::distance(first, last);
-				iterator current = first + 1;
-				while (current != last + 1)
-				{
-					this->_alloc.destroy(&*current);
-					current++;
-				}
-				while (last != this->end() && last + 1 != this->end())
+				iterator current = last;
+				while (current != this->end() && first != last + 1)
 				{
 					this->_alloc.destroy(&*first);
-					this->_alloc.construct(&*first, *(last + 1));
+					this->_alloc.construct(&*first, *current);
 					first++;
-					last++;
+					current++;
 				}
 				this->_size -= distance;
 				return (this->begin() + ret);
