@@ -2,15 +2,9 @@
 # define MAP_HPP
 
 # include <iostream>
-# include <cstddef>
-# include <cmath>
-# include <memory>
-# include <limits>
-# include <exception>
 
 # include "iterator.hpp"
 # include "type_traits.hpp"
-# include "algorithm.hpp"
 
 namespace ft
 {
@@ -24,16 +18,14 @@ namespace ft
        		typedef _Compare                                      	key_compare;
        		typedef _Alloc                                        	allocator_type;
 
-
-
 		private:
 
 			key_compare				_key_cmp;
 			allocator_type			_alloc;
 			// alloc_node				_alloc_node;
-			typedef _Rb_tree<key_type, value_type, _Select1st<value_type>, key_compare, _Pair_alloc_type> _Rep_type;
+			typedef rb_tree<key_type, value_type, _Select1st<value_type>, key_compare, _Pair_alloc_type> _Rep_type;
 
-	       _Rep_type _M_t;  /// The actual tree structure.
+	       _Rep_type _tree;  /// The actual tree structure.
 
 		public:
 
