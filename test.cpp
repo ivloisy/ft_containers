@@ -9,6 +9,7 @@
 	namespace ft = std;
 #else
 	#include "includes/vector.hpp"
+	#include "includes/stack.hpp"
 //	#include <map.hpp>
 //	#include <stack.hpp>
 //	#include <vector.hpp>
@@ -16,8 +17,8 @@
 
 int main()
 {
-	ft::vector<int>	vec(4);
-	ft::vector<int>	vla(vec);
+	// ft::vector<int>	vec(4);
+	// ft::vector<int>	vla(vec);
 	// // std::vector<int>	vic(5);
 	// ft::vector<int> allo(3);
 	// ft::vector<int>	vicky;
@@ -215,5 +216,39 @@ int main()
 	// std::cout << "char: " << ft::is_integral<char>::value << std::endl;
 	// std::cout << "int: " << ft::is_integral<int>::value << std::endl;
 	// std::cout << "float: " << ft::is_integral<float>::value << std::endl;
+
+	//////////////// STACK ////////////////
+	ft::stack<int>	s1;
+	// ft::stack<int>	s2(5);
+	std::cout << "s1.empty():\t" << s1.empty() << std::endl;
+	std::cout << "s1.size():\t" << s1.size() << std::endl;
+
+	std::cout << "\n{ s1.push(42) }" << std::endl;
+	s1.push(42);
+	std::cout << "{ s1.push(3) }\n" << std::endl;
+	s1.push(3);
+
+	std::cout << "s1.empty():\t" << s1.empty() << std::endl;
+	std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		std::cout << "{ s1.push(" << i << ") }" << std::endl;
+		s1.push(i);
+		std::cout << "s1.top():\t" << s1.top() << std::endl;
+	}
+
+	std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
+	std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
+
+	std::cout << "\n{ s1.pop() }" << std::endl;
+	s1.pop();
+	std::cout << "{ s1.pop() }\n" << std::endl;
+	s1.pop();
+
+	std::cout << "s1.empty():\t" << s1.empty() << std::endl;
+	std::cout << "s1.size():\t" << s1.size() << std::endl;
+	std::cout << "s1.top():\t" << s1.top() << std::endl;
+
 	return 0;
 }
