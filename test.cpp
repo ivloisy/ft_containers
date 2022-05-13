@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 //#include <vector>/////////////////
-#if 1 //CREATE A REAL STL EXAMPLE (1=STD 0=FT)
+#if 0 //CREATE A REAL STL EXAMPLE (1=STD 0=FT)
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -15,292 +15,147 @@
 //	#include <vector.hpp>
 #endif
 
+template <typename T>
+void	printVec(ft::vector<T> v, std::string s)
+{
+	std::cout << "*** " << s << " ***" << std::endl;
+	if (v.empty())
+	{
+		std::cout << s << ".begin():\tnone" << std::endl;
+		std::cout << s << ".end():\tnone" << std::endl;
+		std::cout << s << ".rbegin():\tnone" << std::endl;
+		std::cout << s << ".rend():\tnone" << std::endl;
+	}
+	else
+	{
+		std::cout << s << ".begin():\t" << *v.begin() << std::endl;
+		std::cout << s << ".end():\t" << *--v.end() << std::endl;
+		// std::cout << s << ".begin():\t" << *v.rbegin() << std::endl;
+		// std::cout << s << ".rend():\t" << *v.rend() << std::endl;
+	}
+	std::cout << s << ".size():\t" << v.size() << std::endl;
+	std::cout << s << ".max_size():\t" << v.max_size() << std::endl;
+	std::cout << s << ".capacity():\t" << v.capacity() << std::endl;
+	std::cout << s << ".empty():\t" << v.empty() << std::endl;
+	// std::cout << s << ".end():\t" << *v.end() << std::endl;
+	// std::cout << s << ".rbegin():\t" << *v.rbegin() << std::endl;
+
+	std::cout << std::endl;
+	for (size_t i = 0; i < v.size(); i++)
+		std::cout << s << "[" << i << "] =\t" << v[i] << std::endl;
+	std::cout << "**********" << std::endl;
+	std::cout << std::endl;
+}
+
 int main()
 {
-	// ft::vector<int>	vec(4);
-	// ft::vector<int>	vla(vec);
-	// // std::vector<int>	vic(5);
-	// ft::vector<int> allo(3);
-	// ft::vector<int>	vicky;
-	//
-	// std::cout << "vicky.empty():\t" << vicky.empty() << std::endl;
-	// std::cout << "vec.empty():\t" << vec.empty() << std::endl;
-	// std::cout << "vec.max_size():\t" << vec.max_size() << std::endl;
-	// std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
-	// std::cout << "vec.size():\t" << vec.size() << std::endl << std::endl;
-	//
-	//
-	// for (size_t i = 0; i < vec.size(); i++)
+	/////////////// VECTOR ///////////////
+	ft::vector<int>	v1;
+
+	printVec(v1, "v1");
+
+	std::cout << "{ v1.resize(4) }" << std::endl;
+	v1.resize(4);
+	std::cout << std::endl;
+	printVec(v1, "v1");
+
+	std::cout << "{ v1.reserve(2) }" << std::endl;
+	v1.reserve(2);
+	std::cout << std::endl;
+	printVec(v1, "v1");
+
+	std::cout << "{ v1.reserve(9) }" << std::endl;
+	v1.reserve(9);
+	std::cout << std::endl;
+	printVec(v1, "v1");
+
+
+	// std::cout << "v1.begin():\t" << v1.begin() << std::endl;
+
+	/////////////// STACK ///////////////
+	// ft::stack<int>	s1;
+	// ft::stack<int>	s2;
+
+	// if (s1 == s2)
+	// 	std::cout << "s1 == s2" << std::endl;
+	// else
+	// 	std::cout << "s1 != s2" << std::endl;
+
+	// if (s1 >= s2)
+	// 	std::cout << "s1 >= s2" << std::endl;
+	// else
+	// 	std::cout << "s1 < s2" << std::endl;
+
+	// if (s1 <= s2)
+	// 	std::cout << "s1 <= s2" << std::endl;
+	// else
+	// 	std::cout << "s1 > s2" << std::endl;
+
+	// if (s1 < s2)
+	// 	std::cout << "s1 < s2" << std::endl;
+	// else
+	// 	std::cout << "s1 >= s2" << std::endl;
+
+	// if (s1 > s2)
+	// 	std::cout << "s1 > s2" << std::endl;
+	// else
+	// 	std::cout << "s1 <= s2" << std::endl;
+
+	// std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
+	// std::cout << "s1.size():\t" << s1.size() << std::endl;
+
+	// std::cout << "\n{ s1.push(42) }" << std::endl;
+	// s1.push(42);
+	// std::cout << "{ s1.push(3) }\n" << std::endl;
+	// s1.push(3);
+
+	// std::cout << "s1.empty():\t" << s1.empty() << std::endl;
+	// std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
+
+	// for (size_t i = 0; i < 5; i++)
 	// {
-	// 	// vic[i] = i + 1;
-	// 	vec[i] = i + 1;
+	// 	std::cout << "{ s1.push(" << i << ") }" << std::endl;
+	// 	s1.push(i);
+	// 	std::cout << "s1.top():\t" << s1.top() << std::endl;
 	// }
-	// std::cout << "vec.size():\t" << vec.size() << std::endl << std::endl;
 
-	// ft::vector<int> test(vec);
+	// std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
+	// std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
 
-	// vec.push_back(27);
-	// vec.push_back(28);
-	// vec.pop_back();
-	// vec[3] = 12;
-	// // vic[3] = 12;
-	// std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
-	// std::cout << "vec.size():\t" << vec.size() << std::endl << std::endl;
-	//
-	// vec.push_back(27);
-	// vec.push_back(28);
-	// vec.push_back(27);
-	// vec.push_back(28);
-	// std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
-	// std::cout << "vec.size():\t" << vec.size() << std::endl << std::endl;
+	// std::cout << "\n{ s1.pop() }" << std::endl;
+	// s1.pop();
+	// std::cout << "{ s1.pop() }\n" << std::endl;
+	// s1.pop();
 
-	// class human
-	// {
-	// private:
-	// 	/* data */
-	// public:
-	// 	human(/* args */){}
-	// 	~human(){}
-	// };
-	//
-	// human	A;
-	// human	B;
-
-	// ft::vector<int>	vic(vec.begin() + 1, vec.end() - 2);
-	// // ft::vector<int>	vic(A, B);
-	// for (size_t j = 0; j < vic.size(); j++)
-	// 	std::cout << *(vic.begin() + (int)j) << std::endl;
-	// std::cout << std::endl;
-	//
-	// std::cout << "vec.size():\t" << vec.size() << std::endl;
-	// for (size_t i = 0; i < vec.size(); i++)
-	// {
-	// 	std::cout << "vec[" << i << "]:\t\t" << vec[i] << std::endl;
-	// 	// std::cout << "test[" << i << "]:\t" << test[i] << std::endl;
-	// 	// std::cout << "vic[" << i << "]:\t\t" << vic[i] << std::endl;
-	// 	// std::cout << std::endl;
-	// }
-	// std::cout << std::endl;
-
-	// ft::vector<int>::reverse_iterator it = vec.rbegin();
-//	ft::vector<int> vickyveil(vec.begin(), --vec.end());
-	// std::cout << "rbegin:\t\t" << it << std::endl;
-	// std::cout << "*vec.begin():\t" << *vec.begin() << std::endl;
-	// std::cout << "*--vec.end():\t" << *--vec.end() << std::endl;
-	// std::cout << "*vec.end():\t" << *vec.end() << std::endl;
-	// std::cout << "*vec.begin():\t" << *vec.begin() << std::endl;
-	// std::cout << "*vec.rbegin():\t" << *vec.rbegin() << std::endl; // Probleme pointeur reverse_iterator
-	// std::cout << "*vic.rbegin():\t" << *vic.rbegin() << std::endl; // Probleme pointeur reverse_iterator
-	// std::cout << "*vec.rend():\t" << *vec.rend() << std::endl;
-	// std::cout << "*vic.rend():\t" << *vic.rend() << std::endl; // Probleme pointeur reverse_iterator
-	// std::cout << "rend :\t" << *vic.rend() << std::endl;
-	// std::cout << "size:\t\t" << vec.size() << std::endl;
-	// std::cout << "max_size:\t" << vec.max_size() << std::endl;
-//	std::cout << "vec.capacity():\t" << vec.capacity() << std::endl;
-	// std::cout << "empty :" << vec.empty() << std::endl;
-	// std::cout << "at :" << vec.at(4) << std::endl;
-	// std::cout << "back :" << vec.back() << std::endl;
-	// std::cout << "front :" << vec.front() << std::endl;
-	// arr[0] = 10;
-	// std::vector<int> vec();
-	// std::cout << *vec.begin() << std::endl;
-	// std::cout << std::endl;
-
-// ================================== ASSIGN =======================================
-	// ft::vector<int>	caca(4);
-	// for (size_t i = 0; i < caca.size(); i++)
-	// 	caca[i] = i + 1;
-	// std::cout << "caca:" << std::endl;
-	// for (size_t i = 0; i < caca.size(); i++)
-	// 	std::cout << caca[i] << std::endl;
-	//
-	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
-	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
-	//
-	// caca.push_back(5);
-	// std::cout << std::endl << "after pushback:" << std::endl;
-	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
-	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
-	//
-	// // size_t prout = 3;
-	// caca.assign(3, 42);
-	// std::cout << std::endl << "after assign:" << std::endl;
-	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
-	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
-	//
-	// std::cout << std::endl << "caca:" << std::endl;
-	// for (size_t i = 0; i < caca.size(); i++)
-	// 	std::cout << caca[i] << std::endl;
-	//
-	//
-	// int noufnouf[] = {5, 156, 123, 45689};
-	// ft::vector<int> nana;
-	// nana.assign(noufnouf, noufnouf + 3);
-	// std::cout << std::endl << "nana:" << std::endl;
-	// for (size_t i = 0; i < nana.size(); i++)
-	// 	std::cout << nana[i] << std::endl;
-	// int	test[5] = {42,6,57,11,32};
-
-	// ft::vector<int>	pipi(4);
-	// pipi.assign(test, test + 4);
-	// // for (size_t i = 0; i < pipi.size(); i++)
-	// // 	caca[i] = i + 1;
-	// std::cout << "pipi:" << std::endl;
-	// for (size_t i = 0; i < pipi.size(); i++)
-	// 	std::cout << pipi[i] << std::endl;
-
-	// std::cout << "caca.size():\t\t" << pipi.size() << std::endl;
-	// std::cout << "caca.capacity():\t" << pipi.capacity() << std::endl;
-
-	// caca.push_back(5);
-	// std::cout << std::endl << "after pushback:" << std::endl;
-	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
-	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
-
-	// caca.assign(3, 42);
-	// std::cout << std::endl << "after assign:" << std::endl;
-	// std::cout << "caca.size():\t\t" << caca.size() << std::endl;
-	// std::cout << "caca.capacity():\t" << caca.capacity() << std::endl;
-
-	// std::cout << std::endl << "caca:" << std::endl;
-	// for (size_t i = 0; i < caca.size(); i++)
-	// 	std::cout << caca[i] << std::endl;
-//	std::cout << vector.begin() << std::endl;
-
-	// allo.resize(6, 4);
-	// for (size_t i = 0; i < allo.size(); i++)
-	// 	std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
-	//
-	// std::cout << std::endl;
-	// allo.resize(4, 12);
-	// for (size_t i = 0; i < allo.size(); i++)
-	// 	std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
-	// std::cout << std::endl;
-	//
-	// allo.resize(12, 3);
-	// for (size_t i = 0; i < allo.size(); i++)
-	// 	std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
-	//
-	// std::cout << std::endl;
-	// allo.erase(allo.begin(), allo.begin() + 2);
-	// for (size_t i = 0; i < allo.size(); i++)
-	// 	std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
-	//
-	// for (size_t i = 0; i < allo.size(); i++)
-	// {
-	// //		vic[i] = i + 1;
-	// 	allo[i] = i + 1;
-	// }
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < allo.size(); i++)
-	// 	std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
-	//
-	// allo.insert(allo.begin() + 3, 387);
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < allo.size(); i++)
-	// 	std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
-	//
-	// allo.insert(allo.begin() + 5, 4, 888);
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < allo.size(); i++)
-	// 	std::cout << "allo[" << i << "]:\t" << allo[i] << std::endl;
-	// arr[3] = 10;
-
-	// // std::cout << arr[3] << std::endl;
-	// //vec.get_allocator().deallocate(arr, 5);
-	// // std::cout << std::endl << "is_integral:" << std::endl;
-	// // std::cout << "char: " << std::is_integral<char>::value << std::endl;
-	// // std::cout << "int: " << std::is_integral<int>::value << std::endl;
-	// // std::cout << "float: " << std::is_integral<float>::value << std::endl;
-	// std::cout << std::endl << "is_integral:" << std::endl;
-	// std::cout << "char: " << ft::is_integral<char>::value << std::endl;
-	// std::cout << "int: " << ft::is_integral<int>::value << std::endl;
-	// std::cout << "float: " << ft::is_integral<float>::value << std::endl;
-
-	//////////////// STACK ////////////////
-	ft::stack<int>	s1;
-	ft::stack<int>	s2;
-
-	if (s1 == s2)
-		std::cout << "s1 == s2" << std::endl;
-	else
-		std::cout << "s1 != s2" << std::endl;
-
-	if (s1 >= s2)
-		std::cout << "s1 >= s2" << std::endl;
-	else
-		std::cout << "s1 < s2" << std::endl;
-
-	if (s1 <= s2)
-		std::cout << "s1 <= s2" << std::endl;
-	else
-		std::cout << "s1 > s2" << std::endl;
-
-	if (s1 < s2)
-		std::cout << "s1 < s2" << std::endl;
-	else
-		std::cout << "s1 >= s2" << std::endl;
-
-	if (s1 > s2)
-		std::cout << "s1 > s2" << std::endl;
-	else
-		std::cout << "s1 <= s2" << std::endl;
-
-	std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
-	std::cout << "s1.size():\t" << s1.size() << std::endl;
-
-	std::cout << "\n{ s1.push(42) }" << std::endl;
-	s1.push(42);
-	std::cout << "{ s1.push(3) }\n" << std::endl;
-	s1.push(3);
-
-	std::cout << "s1.empty():\t" << s1.empty() << std::endl;
-	std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
-
-	for (size_t i = 0; i < 5; i++)
-	{
-		std::cout << "{ s1.push(" << i << ") }" << std::endl;
-		s1.push(i);
-		std::cout << "s1.top():\t" << s1.top() << std::endl;
-	}
-
-	std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
-	std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
-
-	std::cout << "\n{ s1.pop() }" << std::endl;
-	s1.pop();
-	std::cout << "{ s1.pop() }\n" << std::endl;
-	s1.pop();
-
-	std::cout << "s1.empty():\t" << s1.empty() << std::endl;
-	std::cout << "s1.size():\t" << s1.size() << std::endl;
-	std::cout << "s1.top():\t" << s1.top() << std::endl << std::endl;
+	// std::cout << "s1.empty():\t" << s1.empty() << std::endl;
+	// std::cout << "s1.size():\t" << s1.size() << std::endl;
+	// std::cout << "s1.top():\t" << s1.top() << std::endl << std::endl;
 
 
-	if (s1 == s2)
-		std::cout << "s1 == s2" << std::endl;
-	else
-		std::cout << "s1 != s2" << std::endl;
+	// if (s1 == s2)
+	// 	std::cout << "s1 == s2" << std::endl;
+	// else
+	// 	std::cout << "s1 != s2" << std::endl;
 
-	if (s1 >= s2)
-		std::cout << "s1 >= s2" << std::endl;
-	else
-		std::cout << "s1 < s2" << std::endl;
+	// if (s1 >= s2)
+	// 	std::cout << "s1 >= s2" << std::endl;
+	// else
+	// 	std::cout << "s1 < s2" << std::endl;
 
-	if (s1 <= s2)
-		std::cout << "s1 <= s2" << std::endl;
-	else
-		std::cout << "s1 > s2" << std::endl;
+	// if (s1 <= s2)
+	// 	std::cout << "s1 <= s2" << std::endl;
+	// else
+	// 	std::cout << "s1 > s2" << std::endl;
 
-	if (s1 < s2)
-		std::cout << "s1 < s2" << std::endl;
-	else
-		std::cout << "s1 >= s2" << std::endl;
+	// if (s1 < s2)
+	// 	std::cout << "s1 < s2" << std::endl;
+	// else
+	// 	std::cout << "s1 >= s2" << std::endl;
 
-	if (s1 > s2)
-		std::cout << "s1 > s2" << std::endl;
-	else
-		std::cout << "s1 <= s2" << std::endl;
+	// if (s1 > s2)
+	// 	std::cout << "s1 > s2" << std::endl;
+	// else
+	// 	std::cout << "s1 <= s2" << std::endl;
 
 	return 0;
 }
