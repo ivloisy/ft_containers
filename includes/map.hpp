@@ -17,16 +17,50 @@ namespace ft
 	template <class Key, class T, class Compare = less<Key>, class Alloc = allocator<pair<const Key,T>>>
 	class map
 	{
+		public:
+			typedef _Key                                          	key_type;
+       		typedef _Tp                                           	mapped_type;
+       		typedef std::pair<const _Key, _Tp>                    	value_type;
+       		typedef _Compare                                      	key_compare;
+       		typedef _Alloc                                        	allocator_type;
+
+
+
 		private:
-			pointer _first;
-			size_type _size;
+
+			key_compare				_key_cmp;
+			allocator_type			_alloc;
+			// alloc_node				_alloc_node;
+			typedef _Rb_tree<key_type, value_type, _Select1st<value_type>, key_compare, _Pair_alloc_type> _Rep_type;
+
+	       _Rep_type _M_t;  /// The actual tree structure.
+
+		public:
+
+			typedef typename _Pair_alloc_type::pointer        		pointer;
+			typedef typename _Pair_alloc_type::const_pointer  		const_pointer;
+			typedef typename _Pair_alloc_type::reference      		reference;
+			typedef typename _Pair_alloc_type::const_reference		const_reference;
+			typedef typename _Rep_type::iterator              		iterator;
+			typedef typename _Rep_type::const_iterator        		const_iterator;
+			typedef typename _Rep_type::size_type             		size_type;
+			typedef typename _Rep_type::difference_type       		difference_type;
+			typedef typename _Rep_type::reverse_iterator      		reverse_iterator;
+			typedef typename _Rep_type::const_reverse_iterator		const_reverse_iterator;
+
+		private:
+			// pointeur				_root;
+			// pointeur				_first;
+			// pointeur				_null;
+			size_type				_size;
+
 		public:
 
 		/* =========================== Constructors/Destructors ========================= */
 
 		/* ===== default constructor ====== */
 
-		// explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+		// explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()): _M_t(comp, alloc)
 		// {
 		//
 		// }
