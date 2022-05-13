@@ -30,8 +30,8 @@ void	printVec(ft::vector<T> v, std::string s)
 	{
 		std::cout << s << ".begin():\t" << *v.begin() << std::endl;
 		std::cout << s << ".end():\t" << *--v.end() << std::endl;
-		// std::cout << s << ".begin():\t" << *v.rbegin() << std::endl;
-		// std::cout << s << ".rend():\t" << *v.rend() << std::endl;
+		std::cout << s << ".begin():\t" << *v.rbegin() << std::endl;
+		std::cout << s << ".rend():\t" << *v.rend() << std::endl;
 	}
 	std::cout << s << ".size():\t" << v.size() << std::endl;
 	std::cout << s << ".max_size():\t" << v.max_size() << std::endl;
