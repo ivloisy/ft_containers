@@ -266,16 +266,16 @@ namespace ft
 	*/
 
 	template<class T>
-	class reverse_iterator : public ft::iterator<std::random_access_iterator_tag, T>
+	class reverse_iterator : public ft::iterator_traits<T>
 	{
 		public:
-			typedef typename ft::iterator<std::random_access_iterator_tag, T>::iterator_category 	iterator_category;
-			typedef typename ft::iterator<std::random_access_iterator_tag, T>::value_type			value_type;
-			typedef typename ft::iterator<std::random_access_iterator_tag, T>::difference_type		difference_type;
-			typedef typename ft::iterator<std::random_access_iterator_tag, T>::pointer				pointer;
-			typedef typename ft::iterator<std::random_access_iterator_tag, T>::const_pointer		const_pointer;
-			typedef typename ft::iterator<std::random_access_iterator_tag, T>::reference			reference;
-			typedef typename ft::iterator<std::random_access_iterator_tag, T>::const_reference		const_reference;
+			typedef typename ft::iterator_traits<T>::iterator_category 	iterator_category;
+			typedef typename ft::iterator_traits<T>::value_type			value_type;
+			typedef typename ft::iterator_traits<T>::difference_type		difference_type;
+			typedef typename ft::iterator_traits<T>::pointer				pointer;
+			// typedef typename ft::iterator_traits<T>::const_pointer		const_pointer;
+			typedef typename ft::iterator_traits<T>::reference			reference;
+			// typedef typename ft::iterator_traits<T>::const_reference		const_reference;
 
 		private :
 			pointer _ptr;
@@ -287,10 +287,10 @@ namespace ft
 			*/
 			reverse_iterator() : _ptr(NULL) {}
 
-			explicit reverse_iterator (T it): _ptr(it) {} // ============= a faire !!!!!!!! ================= //
+			explicit reverse_iterator (pointer it): _ptr(it) {} // ============= a faire !!!!!!!! ================= //
 
 			template <class U>
-			reverse_iterator(const reverse_iterator<U> & src) : _ptr(src._ptr){}
+			reverse_iterator(const reverse_iterator<U> & src) : _ptr(src.getter()){}
 
 			~reverse_iterator() {}
 
@@ -322,20 +322,20 @@ namespace ft
 				return *(this->_ptr);
 			}
 
-			const_reference	operator*() const
-			{
-				return *(this->_ptr);
-			}
+			// const_reference	operator*() const
+			// {
+			// 	return *(this->_ptr);
+			// }
 
 			pointer	operator->()
 			{
 				return (this->_ptr);
 			}
 
-			const_pointer	operator->() const
-			{
-				return (this->_ptr);
-			}
+			// const_pointer	operator->() const
+			// {
+			// 	return (this->_ptr);
+			// }
 
 			reverse_iterator &operator--()
 			{
@@ -404,10 +404,10 @@ namespace ft
 				return (*(this->_ptr + value));
 			}
 
-			const_reference	operator[](int value) const
-			{
-				return (*(this->_ptr + value));
-			}
+			// const_reference	operator[](int value) const
+			// {
+			// 	return (*(this->_ptr + value));
+			// }
 
 			pointer getter() const
 			{
