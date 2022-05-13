@@ -14,7 +14,7 @@ namespace ft
 			typedef Container  	container_type;
 			typedef size_t		size_type;
 
-		private:
+		protected:
 			container_type	c;
 
 		public:
@@ -32,7 +32,61 @@ namespace ft
 
 			void	pop() { this->c.pop_back(); }
 
+			template <class T2, class Container2>
+			friend bool operator==(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs);
+
+			template <class T2, class Container2>
+			friend bool operator!=(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs);
+
+			template <class T2, class Container2>
+			friend bool operator<(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs);
+
+			template <class T2, class Container2>
+			friend bool operator<=(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs);
+
+			template <class T2, class Container2>
+			friend bool operator>(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs);
+
+			template <class T2, class Container2>
+			friend bool operator>=(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs);
+
 	};
+	
+	template <class T2, class Container2>
+	bool operator==(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs)
+	{
+		return lhs.c == rhs.c;
+	}
+
+	template <class T2, class Container2>
+	bool operator!=(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs)
+	{
+		return lhs.c != rhs.c;
+	}
+
+	template <class T2, class Container2>
+	bool operator<(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs)
+	{
+		return lhs.c < rhs.c;
+	}
+
+	template <class T2, class Container2>
+	bool operator<=(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs)
+	{
+		return lhs.c <= rhs.c;
+	}
+
+	template <class T2, class Container2>
+	bool operator>(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs)
+	{
+		return lhs.c > rhs.c;
+	}
+
+	template <class T2, class Container2>
+	bool operator>=(const stack<T2,Container2> & lhs, const stack<T2,Container2> & rhs)
+	{
+		return lhs.c >= rhs.c;
+	}
 
 } // namespace ft
 

@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 //#include <vector>/////////////////
-#if 0 //CREATE A REAL STL EXAMPLE (1=STD 0=FT)
+#if 1 //CREATE A REAL STL EXAMPLE (1=STD 0=FT)
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -219,8 +219,34 @@ int main()
 
 	//////////////// STACK ////////////////
 	ft::stack<int>	s1;
-	// ft::stack<int>	s2(5);
-	std::cout << "s1.empty():\t" << s1.empty() << std::endl;
+	ft::stack<int>	s2;
+
+	if (s1 == s2)
+		std::cout << "s1 == s2" << std::endl;
+	else
+		std::cout << "s1 != s2" << std::endl;
+
+	if (s1 >= s2)
+		std::cout << "s1 >= s2" << std::endl;
+	else
+		std::cout << "s1 < s2" << std::endl;
+
+	if (s1 <= s2)
+		std::cout << "s1 <= s2" << std::endl;
+	else
+		std::cout << "s1 > s2" << std::endl;
+
+	if (s1 < s2)
+		std::cout << "s1 < s2" << std::endl;
+	else
+		std::cout << "s1 >= s2" << std::endl;
+
+	if (s1 > s2)
+		std::cout << "s1 > s2" << std::endl;
+	else
+		std::cout << "s1 <= s2" << std::endl;
+
+	std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
 	std::cout << "s1.size():\t" << s1.size() << std::endl;
 
 	std::cout << "\n{ s1.push(42) }" << std::endl;
@@ -248,7 +274,33 @@ int main()
 
 	std::cout << "s1.empty():\t" << s1.empty() << std::endl;
 	std::cout << "s1.size():\t" << s1.size() << std::endl;
-	std::cout << "s1.top():\t" << s1.top() << std::endl;
+	std::cout << "s1.top():\t" << s1.top() << std::endl << std::endl;
+
+
+	if (s1 == s2)
+		std::cout << "s1 == s2" << std::endl;
+	else
+		std::cout << "s1 != s2" << std::endl;
+
+	if (s1 >= s2)
+		std::cout << "s1 >= s2" << std::endl;
+	else
+		std::cout << "s1 < s2" << std::endl;
+
+	if (s1 <= s2)
+		std::cout << "s1 <= s2" << std::endl;
+	else
+		std::cout << "s1 > s2" << std::endl;
+
+	if (s1 < s2)
+		std::cout << "s1 < s2" << std::endl;
+	else
+		std::cout << "s1 >= s2" << std::endl;
+
+	if (s1 > s2)
+		std::cout << "s1 > s2" << std::endl;
+	else
+		std::cout << "s1 <= s2" << std::endl;
 
 	return 0;
 }
