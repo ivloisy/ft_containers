@@ -220,10 +220,25 @@ namespace ft
 			{
 				return (*(this->_ptr + value));
 			}
-			pointer getter() const
-			{
-				return (this->_ptr);
-			}
+
+			template<typename I, typename U>
+			friend bool operator==(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator!=(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator<=(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator>=(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator<(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator>(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs);
+
 	};
 
 	/*
@@ -409,82 +424,96 @@ namespace ft
 				return (*(this->_ptr + value));
 			}
 
-			pointer getter() const
-			{
-				return (this->_ptr);
-			}
+			template<typename I, typename U>
+			friend bool operator==(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator!=(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator<=(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator>=(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator<(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator>(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs);
+
 	};
 
-	template<typename T, typename U>
-	bool operator==(random_access_iterator<T> const &lhs, random_access_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator==(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs)
 	{
-		return (rhs.getter() == lhs.getter());
+		return (rhs._ptr == lhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator!=(random_access_iterator<T> const &lhs, random_access_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator!=(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs)
 	{
-		return (lhs.getter() != rhs.getter());
+		return (lhs._ptr != rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator<=(random_access_iterator<T> const &lhs, random_access_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator<=(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs)
 	{
-		return (lhs.getter() <= rhs.getter());
+		return (lhs._ptr <= rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator>=(random_access_iterator<T> const &lhs, random_access_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator>=(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs)
 	{
-		return (lhs.getter() >= rhs.getter());
+		return (lhs._ptr >= rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator<(random_access_iterator<T> const &lhs, random_access_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator<(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs)
 	{
-		return (lhs.getter() < rhs.getter());
+		return (lhs._ptr < rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator>(random_access_iterator<T> const &lhs, random_access_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator>(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs)
 	{
-		return (lhs.getter() > rhs.getter());
+		return (lhs._ptr > rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator==(reverse_iterator<T> const &lhs, reverse_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator==(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs)
 	{
-		return (lhs.getter() == rhs.getter());
+		return (lhs._ptr == rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator!=(reverse_iterator<T> const &lhs, reverse_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator!=(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs)
 	{
-		return (lhs.getter() != rhs.getter());
+		return (lhs._ptr != rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator<=(reverse_iterator<T> const &lhs, reverse_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator<=(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs)
 	{
-		return (lhs.getter() <= rhs.getter());
+		return (lhs._ptr <= rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator>=(reverse_iterator<T> const &lhs, reverse_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator>=(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs)
 	{
-		return (lhs.getter() >= rhs.getter());
+		return (lhs._ptr >= rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator<(reverse_iterator<T> const &lhs, reverse_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator<(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs)
 	{
-		return (lhs.getter() < rhs.getter());
+		return (lhs._ptr < rhs._ptr);
 	}
 
-	template<typename T, typename U>
-	bool operator>(reverse_iterator<T> const &lhs, reverse_iterator<U> const &rhs)
+	template<typename I, typename U>
+	bool operator>(reverse_iterator<I> const &lhs, reverse_iterator<U> const &rhs)
 	{
-		return (lhs.getter() > rhs.getter());
+		return (lhs._ptr > rhs._ptr);
 	}
 
 	template<typename T>
