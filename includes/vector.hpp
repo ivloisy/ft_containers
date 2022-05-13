@@ -36,10 +36,10 @@ namespace ft
 			typedef const T &							const_reference;
 			typedef T *									pointer;
 			typedef const T *							const_pointer;
-			typedef ft::random_access_iterator<T>		iterator;
-			typedef ft::random_access_iterator<const T>	const_iterator;
-			typedef ft::reverse_iterator<T>				reverse_iterator;
-			typedef ft::reverse_iterator<const T>		const_reverse_iterator;
+			typedef ft::random_access_iterator<T>						iterator;
+			typedef ft::random_access_iterator<const T>				const_iterator;
+			typedef ft::ReverseIterator<iterator>				reverse_iterator;
+			typedef ft::ReverseIterator<const_iterator>		const_reverse_iterator;
 			typedef std::ptrdiff_t						difference_type;
 			typedef size_t								size_type;
 
@@ -83,7 +83,6 @@ namespace ft
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL) : _alloc(alloc), _capacity(std::distance(first, last)), _first(NULL), _size(std::distance(first, last))
 			{
-				// this->_size = std::distance(first, last);
 				this->_first = this->_alloc.allocate(this->_size);
 				pointer current = this->_first;
 				for (size_t i = this->_size; i > 0; i--)
@@ -253,17 +252,15 @@ namespace ft
 			**	Element access
 			*/
 
-			reference	operator[](size_type n) const
+			reference	operator[](size_type n)
 			{
 				return *(this->_first + n);
 			}
-//===============================================================================================
-			// Une ref c'est pas deja const ???? ======== /////
-			// const_reference	operator[](size_type n) const
-			// {
-			// 	return *(this->_first + n);
-			// }
-//===============================================================================================
+			const_reference operator[] (size_type n) const
+			{
+				return (this->_first[n]);
+			}
+
 			reference	at(size_type n)
 			{
 				if (n >= this->_size)
@@ -413,8 +410,8 @@ namespace ft
 			iterator	erase (iterator position)
 			{
 				int ret = std::distance(this->begin(), position);
-				if (position == this->end()/* - 1*/)
-					this->pop_back(); // a confirmer ====================== ////
+				if (position == this->end())
+					this->pop_back();
 				while (position != this->end() && position + 1 != this->end())
 				{
 					this->_alloc.destroy(&*position);
