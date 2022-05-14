@@ -55,17 +55,11 @@ namespace ft
 
 		public :
 
-			/*
-			**	All categories
-			*/
-			operator random_access_iterator<const T> () const
-					{ return (random_access_iterator<const T>(this->_ptr)); }
+			/* =========================== All categories ========================= */
 
- 			random_access_iterator(random_access_iterator const & src) : _ptr(src._ptr){}
+			random_access_iterator(random_access_iterator const & src) : _ptr(src._ptr){}
 
 			random_access_iterator(pointer value) : _ptr(value) {}
-
-			// random_access_iterator(const_pointer value) : _ptr(value) {}
 
 			random_access_iterator &	operator=(const random_access_iterator & rhs)
 			{
@@ -75,6 +69,9 @@ namespace ft
 			}
 
 			~random_access_iterator() {}
+
+			operator random_access_iterator<const T> () const
+			{ return (random_access_iterator<const T>(this->_ptr)); }
 
 			random_access_iterator &operator++()
 			{
@@ -89,9 +86,7 @@ namespace ft
 				return tmp;
 			}
 
-			/*
-			**	Input
-			*/
+			/* =========================== Input ======================================== */
 
 			//	const vs non const ??? ////////////
 			bool	operator==(random_access_iterator const & rhs) const
@@ -124,24 +119,14 @@ namespace ft
 				return (this->_ptr);
 			}
 
-			/*
-			**	Output
-			*/
+			/* =========================== Output ======================================== */
 
-			///////////////
-			///////////////
 
-			/*
-			**	Forward
-			*/
+			/* =========================== Forward ======================================== */
 
 			random_access_iterator(): _ptr(NULL) {}
 
-			///////////////
-
-			/*
-			**	Bidirectional
-			*/
+			/* =========================== Bidirectional ================================== */
 
 			random_access_iterator &	operator--()
 			{
@@ -156,11 +141,7 @@ namespace ft
 				return tmp;
 			}
 
-			///////////////
-
-			/*
-			**	Random access
-			*/
+			/* =========================== Random Access ================================ */
 
 			random_access_iterator	operator+(difference_type value) const
 			{
@@ -220,6 +201,8 @@ namespace ft
 				return (*(this->_ptr + value));
 			}
 
+			/* =========================== Friends Access ================================ */
+
 			template<typename I, typename U>
 			friend bool operator==(random_access_iterator<I> const &lhs, random_access_iterator<U> const &rhs);
 
@@ -240,9 +223,7 @@ namespace ft
 
 	};
 
-	/*
-	** iterator_traits
-	*/
+	/* =========================== iterator_traits ================================ */
 
 	template<class Iterator>
 	struct iterator_traits
@@ -275,9 +256,7 @@ namespace ft
 		typedef T&							reference;
 	};
 
-	/*
-	** ReverseIterator
-	*/
+	/* =========================== Reverse_traits ================================ */
 
 	template<typename T>
 	class ReverseIterator
@@ -294,9 +273,8 @@ namespace ft
 
 		public :
 
-			/*
-			**	All categories
-			*/
+			/* =========================== All categories ========================= */
+
 			ReverseIterator() : _ptr(NULL) {}
 
 			explicit ReverseIterator (T it): _ptr(it) {}
