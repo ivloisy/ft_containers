@@ -16,9 +16,7 @@
 namespace ft
 {
 
-	/*
-	**	is_integral
-	*/
+	/* ======================= is_integral ============================= */
 
 	template< class T >
 	struct is_integral
@@ -116,9 +114,7 @@ namespace ft
 		static const bool value = true;
 	};
 
-	/*
-	**	enable_if
-	*/
+	/* ======================= enable_if ============================= */
 
 	template <bool Cond, class T = void>
 	struct enable_if {};
