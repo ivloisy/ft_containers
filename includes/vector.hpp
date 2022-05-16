@@ -93,7 +93,10 @@ namespace ft
 
 			vector(vector const & src) : _alloc(src._alloc), _capacity(0), _size(0)
 			{
+				// std::cout << "in constructor : " << this->_capacity << std::endl;
+				this->_capacity = src.size();
 				*this = src;
+				// std::cout << "after constructor : " << this->_capacity << std::endl;
 				return ;
 			}
 
@@ -101,8 +104,10 @@ namespace ft
 
 			virtual ~vector()
 			{
+				// std::cout << "in Destructor : " << this->_capacity << std::endl;
 				this->clear();
 				this->get_allocator().deallocate(this->_first, this->_capacity);
+				// std::cout << "out Destructor : " << std::endl;
 				return ;
 			}
 
@@ -112,6 +117,7 @@ namespace ft
 			{
 				if ( this != &rhs)
 				{
+					// std::cout << "in operator : " << this->_capacity << std::endl;
 					this->assign(rhs.begin(), rhs.end());
 				}
 				return *this;
@@ -173,9 +179,13 @@ namespace ft
 
 			void	resize (size_type n, value_type val = value_type())
 			{
-				if (n < this->_size)
+				if (n == 0)
 				{
-					for (size_t i = 0; i < n; i++)
+					this->clear();
+				}
+				else if (n < this->_size)
+				{
+					for (size_t i = 0; i < n + 1; i++)
 						this->pop_back();
 					this->_size = n;
 				}
@@ -192,7 +202,7 @@ namespace ft
 							this->reserve(n);
 						else
 							this->reserve(this->_capacity * 2);
-						for (size_t i = 0; i < n; i++)
+						for (size_t i = this->_size; i < n; i++)
 							this->push_back(val);
 					}
 					this->_size = n;
@@ -380,9 +390,14 @@ namespace ft
 				}
 				else
 				{
+
 					this->_size = std::distance(first, last);
-					this->_capacity = this->_size;
-					this->_first = this->_alloc.allocate(this->_size);
+					if (this->_size == 0)
+						this->_size = 1;
+					// std::cout << "in assign 2 : " << this->_size << std::endl;
+					if (this->_capacity < this->_size)
+						this->_capacity = this->_size;
+					this->_first = this->_alloc.allocate(this->_capacity);
 					pointer current = this->_first;
 					for (size_t i = this->_size; i > 0; i--)
 					{
@@ -407,7 +422,10 @@ namespace ft
 			void assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL)
 			{
 				this->clear();
+
+				std::cout << "in assign : " << this->_size << std::endl;
 				this->insert(this->begin(), first, last);
+				std::cout << "in assign : " << this->_size << std::endl;
 			}
 
 			/* ============ Push & Pop ============ */
@@ -521,7 +539,10 @@ namespace ft
 				void	clear()
 				{
 					for (size_t i = 0; i < this->_size; i++)
+					{
+						// std::cout << "//////////////////////////////////////  " << i << std::endl;
 						_alloc.destroy(this->_first + i);
+					}
 					this->_size = 0;
 				}
 
