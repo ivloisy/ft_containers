@@ -43,6 +43,7 @@ int main()
 		std::cout << '\n';
 	}
 	ft::vector<ft::vector<int> > MIKE(BOB);
+	return 1;
 
 	// CTORs
 	std::cout << "\nCTORS\n";
@@ -151,7 +152,6 @@ int main()
 		(void)oor;
 		std::cout << "OOR error caught\n";
 	}
-
 	// FRONT / BACK
 	std::cout << "\nFRONT / BACK\n";
 	std::cout << "front() of MIKE : " << MIKE.front().front() << '\n';
@@ -165,6 +165,7 @@ int main()
 	//ASSIGN RANGE
 	std::cout << "\nASSIGN RANGE\n";
 	ft::vector<ft::vector<int> >	assign_range;
+	std::cout << "init : " << assign_range.capacity() << ", " << assign_range.size() << std::endl;
 	assign_range.assign(8, test);
 	std::cout << "before : " << assign_range.capacity() << ", " << assign_range.size() << std::endl;
 	std::cout << BOB.size() << std::endl;
