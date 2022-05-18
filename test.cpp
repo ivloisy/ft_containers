@@ -10,6 +10,7 @@
 #else
 	#include "includes/vector.hpp"
 	#include "includes/stack.hpp"
+	#include "includes/map.hpp"
 //	#include <map.hpp>
 //	#include <stack.hpp>
 //	#include <vector.hpp>
@@ -672,10 +673,57 @@ int main()
 	// 	std::cout << "s1 > s2" << std::endl;
 	// else
 	// 	std::cout << "s1 <= s2" << std::endl;
+<<<<<<< HEAD
 	//
 	// return 0;
 
 
+=======
+
+	////////PAIR
+
+	ft::pair<char, int>	p1;
+
+	std::cout << "p1.first =\t" << p1.first << std::endl;
+	std::cout << "p1.second =\t" << p1.second << std::endl;
+
+	p1.first = 'c';
+	p1.second = 42;
+
+	std::cout << "p1.first =\t" << p1.first << std::endl;
+	std::cout << "p1.second =\t" << p1.second << std::endl;
+
+	ft::pair<char, int>	p2(p1);
+
+	std::cout << "p2.first =\t" << p2.first << std::endl;
+	std::cout << "p2.second =\t" << p2.second << std::endl;
+
+	p2.second = 21;
+
+	ft::pair<char, int>	p3(p1.first, p2.second);
+
+	std::cout << "p3.first =\t" << p3.first << std::endl;
+	std::cout << "p3.second =\t" << p3.second << std::endl;
+
+	p3.second = 2;
+
+	std::cout << "p2.first =\t" << p2.first << std::endl;
+	std::cout << "p2.second =\t" << p2.second << std::endl;
+
+	std::cout << "p3.first =\t" << p3.first << std::endl;
+	std::cout << "p3.second =\t" << p3.second << std::endl;
+
+	std::cout << (p1 > p2) << std::endl;
+	std::cout << (p1 < p2) << std::endl;
+	std::cout << (p1 == p2) << std::endl;
+
+	p3.first = 'u';
+
+	ft::pair<char, int>	p4 = ft::make_pair(p3.first, p2.second);
+
+	std::cout << "p4.first =\t" << p4.first << std::endl;
+	std::cout << "p4.second =\t" << p4.second << std::endl;
+>>>>>>> af34554e0abb436dddcd952242ff18fd39ec1d34
 
 // 	ft::vector<int>			test(3, 3);
 //
