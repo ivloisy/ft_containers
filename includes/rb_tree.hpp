@@ -24,11 +24,11 @@ namespace ft
 		};
 
 		template <typename value>
-			struct node : public node_base
-			{
-				typedef node<value>*	link;
-				value					_value;
-			}
+		struct node : public node_base
+		{
+			typedef node<value>*	link;
+			value					_value;
+		}
 	};
 } // namespace ft
 
