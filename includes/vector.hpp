@@ -91,10 +91,17 @@ namespace ft
 
 			/* ===== Copy constructor ====== */
 
-			vector(vector const & src) : _alloc(src._alloc), _capacity(0), _size(0)
+			vector(vector const & src) : _alloc(src._alloc), _capacity(src._capacity), _size(0)
 			{
-				this->_capacity = src.size();
-				*this = src;
+				this->_first = this->_alloc.allocate(this->_capacity);
+				//this->assign(x.begin(), x.end());
+				for (size_type i = 0; i < src._size; i++) {
+					this->push_back(*(src._first + this->_size));
+				}
+				// std::cout << "============== plaf" << std::endl;
+				// this->_capacity = src.size();
+				// *this = src;
+				// std::cout << "<<<<<<<<<<<<<<<plouf" << std::endl;
 				return ;
 			}
 
@@ -195,6 +202,7 @@ namespace ft
 							this->reserve(n);
 						else
 							this->reserve(this->_capacity * 2);
+						// std::cout << this->_capacity << std::endl;
 						for (size_t i = this->_size; i < n; i++)
 							this->push_back(val);
 					}
@@ -368,8 +376,6 @@ namespace ft
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL)
 			{
-				if (this->_size != 0)
-				{
 					ft::vector<T> tmp;
 					size_type diff = std::distance(this->begin(), position);
 					size_type i = 0;
@@ -380,23 +386,6 @@ namespace ft
 					while (i < this->size())
 						tmp.push_back(this->_first[i++]);
 					this->swap(tmp);
-				}
-				else
-				{
-
-					this->_size = std::distance(first, last);
-					if (this->_capacity < this->_size)
-						this->_capacity = this->_size;
-					// this->reserve(this->_capacity);
-					this->_first = this->_alloc.allocate(this->_capacity);
-					pointer current = this->_first;
-					for (size_t i = this->_size; i > 0; i--)
-					{
-						this->_alloc.construct(current, *first);
-						current++;
-						first++;
-					}
-				}
 			}
 
 			/* ============ Assign ============ */
@@ -406,7 +395,8 @@ namespace ft
 				this->clear();
 				if (n > this->_capacity) /// a checker ==========================================/////
 					this->_capacity = 0;
-				this->resize(n, val);
+				this->insert(this->begin(), n, val);
+				// this->resize(n, val);
 			}
 
 			template <class InputIterator>
@@ -445,60 +435,36 @@ namespace ft
 				int ret = std::distance(this->begin(), position);
 				if (position == this->end())
 					this->pop_back();
-				while (position != this->end() && position + 1 != this->end())
+				while (position != this->end() - 1)
 				{
 					this->_alloc.destroy(&*position);
 					this->_alloc.construct(&*position, *(position + 1));
 					position++;
 				}
+				this->_alloc.destroy(&*position);
 				this->_size--;
 				return (iterator(this->begin() + ret));
 			}
 
 			iterator	erase (iterator first, iterator last)
 			{
-				///////////BEN
-				// if (first == this->begin() && last == this->end())
-				// {
-				// 	this->clear();
-				// 	return (this->begin());
-				// }
-				// if (last == this->end())
-				// {
-				// 	last = this->end() - 1;
-				// 	pop_back();
-				// }
-				// int ret = std::distance(this->begin(), first);
-				// int distance = std::distance(first, last);
-				// iterator current = last;
-				// while (current != this->end() && first != last + 1)
-				// {
-				// 	this->_alloc.destroy(&*first);
-				// 	this->_alloc.construct(&*first, *current);
-				// 	first++;
-				// 	current++;
-				// }
-				// this->_size -= distance;
-				// return (this->begin() + ret);
-				//////////COCHON
-				size_t d_last  = std::distance(begin(), last) -1;
-				size_t d_first = std::distance(begin(), first);
-				size_t d = d_last - d_first + 1;
-
-				while (d_last < _size -1)
+				int ret = std::distance(this->begin(), first);
+				int distance = std::distance(first, last);
+				iterator current = first;
+				while (current != last)
 				{
-					*(this->_first + d_first) = *(this->_first + d_last + 1);
-					d_last++;
-					d_first++;
+					this->_alloc.destroy(&*current);
+					current++;
 				}
-				size_t i = 0;
-				while (i <= d)
+				while (first != this->end() && last != this->end())
 				{
-					_alloc.destroy(&(*(end() - i)));
-					i++;
+					this->_alloc.construct(&*first, *last);
+					this->_alloc.destroy(&*last);
+					first++;
+					last++;
 				}
-				_size -= d;
-				return (first);
+				this->_size -= distance;
+				return (this->begin() + ret);
 			}
 
 
