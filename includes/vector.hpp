@@ -36,10 +36,10 @@ namespace ft
 			typedef const T &							const_reference;
 			typedef T *									pointer;
 			typedef const T *							const_pointer;
-			typedef ft::random_access_iterator<T>		iterator;
-			typedef ft::random_access_iterator<const T>	const_iterator;
-			typedef ft::reverse_iterator<T>				reverse_iterator;
-			typedef ft::reverse_iterator<const T>		const_reverse_iterator;
+			typedef ft::random_access_iterator<T>						iterator;
+			typedef ft::random_access_iterator<const T>				const_iterator;
+			typedef ft::ReverseIterator<iterator>				reverse_iterator;
+			typedef ft::ReverseIterator<const_iterator>		const_reverse_iterator;
 			typedef std::ptrdiff_t						difference_type;
 			typedef size_t								size_type;
 
@@ -50,19 +50,16 @@ namespace ft
 			size_type		_size;
 
 		public:
+			/* =========================== Constructors/Destructors ========================= */
 
-			/*
-			**	Default constructor
-			*/
+			/* ===== default constructor ====== */
 
 			explicit vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _first(NULL), _size(0)
 			{
 				return ;
 			}
 
-			/*
-			**	Fill constructor
-			*/
+			/* ===== Fill constructor ====== */
 
 			explicit vector (size_type n, const value_type& value = value_type(), const allocator_type & alloc = allocator_type()) : _alloc(alloc), _capacity(n), _first(NULL), _size(n)
 			{
@@ -76,14 +73,11 @@ namespace ft
 				return ;
 			}
 
-			/*
-			**	Range constructor
-			*/
+			/* ===== Range constructor ====== */
 
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL) : _alloc(alloc), _capacity(std::distance(first, last)), _first(NULL), _size(std::distance(first, last))
 			{
-				// this->_size = std::distance(first, last);
 				this->_first = this->_alloc.allocate(this->_size);
 				pointer current = this->_first;
 				for (size_t i = this->_size; i > 0; i--)
@@ -95,9 +89,7 @@ namespace ft
 				return ;
 			}
 
-			/*
-			**	Copy constuctor
-			*/
+			/* ===== Copy constructor ====== */
 
 			vector(vector const & src) : _alloc(src._alloc), _capacity(0), _size(0)
 			{
@@ -105,9 +97,7 @@ namespace ft
 				return ;
 			}
 
-			/*
-			**	Destructor
-			*/
+			/* ===== Destructor ====== */
 
 			virtual ~vector()
 			{
@@ -116,9 +106,7 @@ namespace ft
 				return ;
 			}
 
-			/*
-			**	Operator
-			*/
+			/* =========== Operator =========== */
 
 			vector &	operator=(vector const & rhs)
 			{
@@ -129,9 +117,7 @@ namespace ft
 				return *this;
 			}
 
-			/*
-			**	Iterators
-			*/
+			/* =========================== Iterators ======================================== */
 
 			iterator	begin()
 			{
@@ -173,9 +159,7 @@ namespace ft
 				return const_reverse_iterator(this->_first - 1);
 			}
 
-			/*
-			**	Capacity
-			*/
+			/* =========================== Capacity ========================================= */
 
 			size_type	size() const
 			{
@@ -249,21 +233,17 @@ namespace ft
 				}
 			}
 
-			/*
-			**	Element access
-			*/
+			/* =========================== Element access =================================== */
 
-			reference	operator[](size_type n) const
+			reference	operator[](size_type n)
 			{
 				return *(this->_first + n);
 			}
-//===============================================================================================
-			// Une ref c'est pas deja const ???? ======== /////
-			// const_reference	operator[](size_type n) const
-			// {
-			// 	return *(this->_first + n);
-			// }
-//===============================================================================================
+			const_reference operator[] (size_type n) const
+			{
+				return (this->_first[n]);
+			}
+
 			reference	at(size_type n)
 			{
 				if (n >= this->_size)
@@ -298,10 +278,10 @@ namespace ft
 				return (*(this->_first + _size -1));
 			}
 
-			/*
-			**	Modifiers
-			*/
-			//
+			/* =========================== Modifiers ======================================== */
+
+			/* ============ Insert ============ */
+
 			iterator	insert (iterator position, const value_type & val)
 			{
 				int ret = std::distance(this->begin(), position);
@@ -375,6 +355,7 @@ namespace ft
 				}
 			}
 
+			/* ============ Assign ============ */
 
 			void assign (size_type n, const value_type& val)
 			{
@@ -390,6 +371,8 @@ namespace ft
 				this->clear();
 				this->insert(this->begin(), first, last);
 			}
+
+			/* ============ Push & Pop ============ */
 
 			void	push_back (const value_type& val)
 			{
@@ -410,11 +393,13 @@ namespace ft
 				this->_size--;
 			}
 
+			/* ============ Erase ============ */
+
 			iterator	erase (iterator position)
 			{
 				int ret = std::distance(this->begin(), position);
-				if (position == this->end()/* - 1*/)
-					this->pop_back(); // a confirmer ====================== ////
+				if (position == this->end())
+					this->pop_back();
 				while (position != this->end() && position + 1 != this->end())
 				{
 					this->_alloc.destroy(&*position);
@@ -451,40 +436,43 @@ namespace ft
 				return (this->begin() + ret);
 			}
 
-		private:
-			template <class ToSwap>
-			void ft_swap(ToSwap &a, ToSwap &b)
-			{
-				ToSwap tmp = a;
-				a = b;
-				b = tmp;
-			}
 
-		public:
+			/* ============ Swap ============ */
 
-			void	swap (vector & x)
-			{
-				ft_swap(this->_first, x._first);
-				ft_swap(this->_alloc, x._alloc);
-				ft_swap(this->_size, x._size);
-				ft_swap(this->_capacity, x._capacity);
-			}
+			private:
+				template <class ToSwap>
+				void ft_swap(ToSwap &a, ToSwap &b)
+				{
+					ToSwap tmp = a;
+					a = b;
+					b = tmp;
+				}
 
-			void	clear()
-			{
-				for (size_t i = 0; i < this->_size; i++)
-					_alloc.destroy(this->_first + i);
-				this->_size = 0;
-			}
+			public:
 
-			/*
-			**	Allocator
-			*/
+				void	swap (vector & x)
+				{
+					ft_swap(this->_first, x._first);
+					ft_swap(this->_alloc, x._alloc);
+					ft_swap(this->_size, x._size);
+					ft_swap(this->_capacity, x._capacity);
+				}
 
-			allocator_type	get_allocator() const
-			{
-				return this->_alloc;
-			}
+				/* ============ Clear ============ */
+
+				void	clear()
+				{
+					for (size_t i = 0; i < this->_size; i++)
+						_alloc.destroy(this->_first + i);
+					this->_size = 0;
+				}
+
+				/* =========================== Allocator ======================================== */
+
+				allocator_type	get_allocator() const
+				{
+					return this->_alloc;
+				}
 
 	};
 
