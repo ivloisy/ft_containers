@@ -6,7 +6,7 @@
 /*   By: ivloisy <ivloisy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 20:44:19 by ivloisy           #+#    #+#             */
-/*   Updated: 2022/05/16 18:32:28 by ivloisy          ###   ########.fr       */
+/*   Updated: 2022/05/18 17:44:10 by ivloisy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,12 @@ namespace ft
 			vector(vector const & src) : _alloc(src._alloc), _capacity(0), _size(0)
 			{
 				// std::cout << "in constructor : " << this->_capacity << std::endl;
-				this->_capacity = src.size();
-				*this = src;
+				// this->_capacity = src.size();
+				//this->reserve(src.size());
+			//	this->_first = this->_alloc.allocate(this->_capacity);
+				// *this = src;
+				this->reserve(src._capacity);
+				this->insert(this->begin(), src.begin(), src.end());
 				// std::cout << "after constructor : " << this->_capacity << std::endl;
 				return ;
 			}
@@ -118,7 +122,7 @@ namespace ft
 				if ( this != &rhs)
 				{
 					// std::cout << "in operator : " << this->_capacity << std::endl;
-					this->assign(rhs.begin(), rhs.end());
+					this->insert(this->begin(), rhs.begin(), rhs.end());
 				}
 				return *this;
 			}
@@ -295,67 +299,68 @@ namespace ft
 			iterator	insert (iterator position, const value_type & val)
 			{
 				///////////BEN
-				// int ret = std::distance(this->begin(), position);
-				// if (position != this->end())
-				// {
-				// 	if (this->_size + 1 > this->_capacity)
-				// 		this->reserve(this->_capacity * 2);
-				// 	this->_size++;
-				// 	value_type insert = *position;
-				// 	this->_alloc.destroy(&*position);
-				// 	this->_alloc.construct(&*position, val);
-				// 	position++;
-				// 	value_type save = *position;
-				// 	while (position != this->end())
-				// 	{
-				//
-				// 		this->_alloc.destroy(&*position);
-				// 		this->_alloc.construct(&*position, insert);
-				// 		insert = save;
-				// 		position++;
-				// 		save = *position;
-				// 	}
-				// }
-				// else
-				// 	push_back(val);
-				// return (this->begin() + ret);
-				/////COCHON
-				size_t n = &(*position) - this->_first;
-				//std::cout << "position du ite: " << n<< std::endl;
-				//std::cout << "          " << n << std::endl;
-
-				if (this->_capacity >= this->_size + 1)
+				int ret = std::distance(this->begin(), position);
+				if (position != this->end())
 				{
-					int i = 0;
-					while (this->_size -i > n)
+					if (this->_size + 1 > this->_capacity)
+						this->reserve(this->_capacity * 2);
+					this->_size++;
+					value_type insert = *position;
+					this->_alloc.destroy(&*position);
+					this->_alloc.construct(&*position, val);
+					position++;
+					value_type save = *position;
+					while (position != this->end())
 					{
-						_alloc.construct(this->_first + this->_size - i, *(this->_first + this->_size -i-1));
-						i++;
+
+						this->_alloc.destroy(&*position);
+						this->_alloc.construct(&*position, insert);
+						insert = save;
+						position++;
+						save = *position;
 					}
-					this->_alloc.construct(this->_first + this->_size - i , val);
-					_size++;
-
-
+					// this->_alloc.construct(&*position, insert);
 				}
 				else
-				{
-					int i = 0;
-					if (_capacity == 0)
-						reserve(1);
-					else
-						reserve(_size *2);
-					while (_size -i > n)
-					{
-						_alloc.construct(_first + _size - i, *(_first + _size -i-1));
-						i++;
-					}
-					if ((_first + _size - i))
-						_alloc.destroy(_first + _size - i);
-					_alloc.construct(_first + _size - i , val);
-					_size++;
-
-				}
-				return (_first + n);
+					push_back(val);
+				return (this->begin() + ret);
+				/////COCHON
+				// size_t n = &(*position) - this->_first;
+				// //std::cout << "position du ite: " << n<< std::endl;
+				// //std::cout << "          " << n << std::endl;
+				//
+				// if (this->_capacity >= this->_size + 1)
+				// {
+				// 	int i = 0;
+				// 	while (this->_size -i > n)
+				// 	{
+				// 		_alloc.construct(this->_first + this->_size - i, *(this->_first + this->_size -i-1));
+				// 		i++;
+				// 	}
+				// 	this->_alloc.construct(this->_first + this->_size - i , val);
+				// 	_size++;
+				//
+				//
+				// }
+				// else
+				// {
+				// 	int i = 0;
+				// 	if (_capacity == 0)
+				// 		reserve(1);
+				// 	else
+				// 		reserve(_size *2);
+				// 	while (_size -i > n)
+				// 	{
+				// 		_alloc.construct(_first + _size - i, *(_first + _size -i-1));
+				// 		i++;
+				// 	}
+				// 	if ((_first + _size - i))
+				// 		_alloc.destroy(_first + _size - i);
+				// 	_alloc.construct(_first + _size - i , val);
+				// 	_size++;
+				//
+				// }
+				// return (_first + n);
 			}
 
 			void	insert (iterator position, size_type n, const value_type & val)
@@ -390,8 +395,13 @@ namespace ft
 				}
 				else
 				{
+					///////////////////////LUCAS 
 
-					this->_size = std::distance(first, last);
+					while (first != last) {
+						this->push_back(*first);
+						first++;
+					}
+					/*this->_size = std::distance(first, last);
 					if (this->_size == 0)
 						this->_size = 1;
 					// std::cout << "in assign 2 : " << this->_size << std::endl;
@@ -404,7 +414,7 @@ namespace ft
 						this->_alloc.construct(current, *first);
 						current++;
 						first++;
-					}
+					}*/
 				}
 			}
 
@@ -412,6 +422,7 @@ namespace ft
 
 			void assign (size_type n, const value_type& val)
 			{
+				std::cout << "coucou" << this->_size << std::endl;
 				this->clear();
 				if (n > this->_capacity)
 					this->_capacity = 0;
@@ -423,9 +434,9 @@ namespace ft
 			{
 				this->clear();
 
-				std::cout << "in assign : " << this->_size << std::endl;
+				// std::cout << "in assign : " << this->_size << std::endl;
 				this->insert(this->begin(), first, last);
-				std::cout << "in assign : " << this->_size << std::endl;
+				// std::cout << "in assign : " << this->_size << std::endl;
 			}
 
 			/* ============ Push & Pop ============ */
@@ -462,6 +473,7 @@ namespace ft
 					this->_alloc.construct(&*position, *(position + 1));
 					position++;
 				}
+				this->_alloc.destroy(&*position);
 				this->_size--;
 				return (iterator(this->begin() + ret));
 			}
