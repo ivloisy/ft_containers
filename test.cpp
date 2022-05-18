@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 //#include <vector>/////////////////
-#if 1 //CREATE A REAL STL EXAMPLE (1=STD 0=FT)
+#if 0 //CREATE A REAL STL EXAMPLE (1=STD 0=FT)
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -10,6 +10,7 @@
 #else
 	#include "includes/vector.hpp"
 	#include "includes/stack.hpp"
+	#include "includes/map.hpp"
 //	#include <map.hpp>
 //	#include <stack.hpp>
 //	#include <vector.hpp>
@@ -17,6 +18,9 @@
 
 int main()
 {
+
+	std::cout << std::boolalpha;
+
 	// ft::vector<int>	vec(4);
 	// ft::vector<int>	vla(vec);
 	// // std::vector<int>	vic(5);
@@ -218,89 +222,133 @@ int main()
 	// std::cout << "float: " << ft::is_integral<float>::value << std::endl;
 
 	//////////////// STACK ////////////////
-	ft::stack<int>	s1;
-	ft::stack<int>	s2;
+	// ft::stack<int>	s1;
+	// ft::stack<int>	s2;
+	//
+	// if (s1 == s2)
+	// 	std::cout << "s1 == s2" << std::endl;
+	// else
+	// 	std::cout << "s1 != s2" << std::endl;
+	//
+	// if (s1 >= s2)
+	// 	std::cout << "s1 >= s2" << std::endl;
+	// else
+	// 	std::cout << "s1 < s2" << std::endl;
+	//
+	// if (s1 <= s2)
+	// 	std::cout << "s1 <= s2" << std::endl;
+	// else
+	// 	std::cout << "s1 > s2" << std::endl;
+	//
+	// if (s1 < s2)
+	// 	std::cout << "s1 < s2" << std::endl;
+	// else
+	// 	std::cout << "s1 >= s2" << std::endl;
+	//
+	// if (s1 > s2)
+	// 	std::cout << "s1 > s2" << std::endl;
+	// else
+	// 	std::cout << "s1 <= s2" << std::endl;
+	//
+	// std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
+	// std::cout << "s1.size():\t" << s1.size() << std::endl;
+	//
+	// std::cout << "\n{ s1.push(42) }" << std::endl;
+	// s1.push(42);
+	// std::cout << "{ s1.push(3) }\n" << std::endl;
+	// s1.push(3);
+	//
+	// std::cout << "s1.empty():\t" << s1.empty() << std::endl;
+	// std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
+	//
+	// for (size_t i = 0; i < 5; i++)
+	// {
+	// 	std::cout << "{ s1.push(" << i << ") }" << std::endl;
+	// 	s1.push(i);
+	// 	std::cout << "s1.top():\t" << s1.top() << std::endl;
+	// }
+	//
+	// std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
+	// std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
+	//
+	// std::cout << "\n{ s1.pop() }" << std::endl;
+	// s1.pop();
+	// std::cout << "{ s1.pop() }\n" << std::endl;
+	// s1.pop();
+	//
+	// std::cout << "s1.empty():\t" << s1.empty() << std::endl;
+	// std::cout << "s1.size():\t" << s1.size() << std::endl;
+	// std::cout << "s1.top():\t" << s1.top() << std::endl << std::endl;
+	//
+	//
+	// if (s1 == s2)
+	// 	std::cout << "s1 == s2" << std::endl;
+	// else
+	// 	std::cout << "s1 != s2" << std::endl;
+	//
+	// if (s1 >= s2)
+	// 	std::cout << "s1 >= s2" << std::endl;
+	// else
+	// 	std::cout << "s1 < s2" << std::endl;
+	//
+	// if (s1 <= s2)
+	// 	std::cout << "s1 <= s2" << std::endl;
+	// else
+	// 	std::cout << "s1 > s2" << std::endl;
+	//
+	// if (s1 < s2)
+	// 	std::cout << "s1 < s2" << std::endl;
+	// else
+	// 	std::cout << "s1 >= s2" << std::endl;
+	//
+	// if (s1 > s2)
+	// 	std::cout << "s1 > s2" << std::endl;
+	// else
+	// 	std::cout << "s1 <= s2" << std::endl;
 
-	if (s1 == s2)
-		std::cout << "s1 == s2" << std::endl;
-	else
-		std::cout << "s1 != s2" << std::endl;
+	////////PAIR
 
-	if (s1 >= s2)
-		std::cout << "s1 >= s2" << std::endl;
-	else
-		std::cout << "s1 < s2" << std::endl;
+	ft::pair<char, int>	p1;
 
-	if (s1 <= s2)
-		std::cout << "s1 <= s2" << std::endl;
-	else
-		std::cout << "s1 > s2" << std::endl;
+	std::cout << "p1.first =\t" << p1.first << std::endl;
+	std::cout << "p1.second =\t" << p1.second << std::endl;
 
-	if (s1 < s2)
-		std::cout << "s1 < s2" << std::endl;
-	else
-		std::cout << "s1 >= s2" << std::endl;
+	p1.first = 'c';
+	p1.second = 42;
 
-	if (s1 > s2)
-		std::cout << "s1 > s2" << std::endl;
-	else
-		std::cout << "s1 <= s2" << std::endl;
+	std::cout << "p1.first =\t" << p1.first << std::endl;
+	std::cout << "p1.second =\t" << p1.second << std::endl;
 
-	std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
-	std::cout << "s1.size():\t" << s1.size() << std::endl;
+	ft::pair<char, int>	p2(p1);
 
-	std::cout << "\n{ s1.push(42) }" << std::endl;
-	s1.push(42);
-	std::cout << "{ s1.push(3) }\n" << std::endl;
-	s1.push(3);
+	std::cout << "p2.first =\t" << p2.first << std::endl;
+	std::cout << "p2.second =\t" << p2.second << std::endl;
 
-	std::cout << "s1.empty():\t" << s1.empty() << std::endl;
-	std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
+	p2.second = 21;
 
-	for (size_t i = 0; i < 5; i++)
-	{
-		std::cout << "{ s1.push(" << i << ") }" << std::endl;
-		s1.push(i);
-		std::cout << "s1.top():\t" << s1.top() << std::endl;
-	}
+	ft::pair<char, int>	p3(p1.first, p2.second);
 
-	std::cout << "\ns1.empty():\t" << s1.empty() << std::endl;
-	std::cout << "s1.size():\t" << s1.size() << std::endl << std::endl;
+	std::cout << "p3.first =\t" << p3.first << std::endl;
+	std::cout << "p3.second =\t" << p3.second << std::endl;
 
-	std::cout << "\n{ s1.pop() }" << std::endl;
-	s1.pop();
-	std::cout << "{ s1.pop() }\n" << std::endl;
-	s1.pop();
+	p3.second = 2;
 
-	std::cout << "s1.empty():\t" << s1.empty() << std::endl;
-	std::cout << "s1.size():\t" << s1.size() << std::endl;
-	std::cout << "s1.top():\t" << s1.top() << std::endl << std::endl;
+	std::cout << "p2.first =\t" << p2.first << std::endl;
+	std::cout << "p2.second =\t" << p2.second << std::endl;
 
+	std::cout << "p3.first =\t" << p3.first << std::endl;
+	std::cout << "p3.second =\t" << p3.second << std::endl;
 
-	if (s1 == s2)
-		std::cout << "s1 == s2" << std::endl;
-	else
-		std::cout << "s1 != s2" << std::endl;
+	std::cout << (p1 > p2) << std::endl;
+	std::cout << (p1 < p2) << std::endl;
+	std::cout << (p1 == p2) << std::endl;
 
-	if (s1 >= s2)
-		std::cout << "s1 >= s2" << std::endl;
-	else
-		std::cout << "s1 < s2" << std::endl;
+	p3.first = 'u';
 
-	if (s1 <= s2)
-		std::cout << "s1 <= s2" << std::endl;
-	else
-		std::cout << "s1 > s2" << std::endl;
+	ft::pair<char, int>	p4 = ft::make_pair(p3.first, p2.second);
 
-	if (s1 < s2)
-		std::cout << "s1 < s2" << std::endl;
-	else
-		std::cout << "s1 >= s2" << std::endl;
-
-	if (s1 > s2)
-		std::cout << "s1 > s2" << std::endl;
-	else
-		std::cout << "s1 <= s2" << std::endl;
+	std::cout << "p4.first =\t" << p4.first << std::endl;
+	std::cout << "p4.second =\t" << p4.second << std::endl;
 
 	return 0;
 }
