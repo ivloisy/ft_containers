@@ -39,6 +39,191 @@ namespace ft
 	*/
 
 	template<class T>
+	class bidirectional_iterator : public ft::iterator<std::bidirectional_iterator_tag, T>
+	{
+		public:
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::iterator_category 	iterator_category;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::value_type			value_type;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::difference_type		difference_type;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::pointer				pointer;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::const_pointer			const_pointer;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::reference				reference;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::const_reference		const_reference;
+
+		private :
+			pointer _ptr;
+
+		public :
+
+			/* =========================== All categories ========================= */
+
+			bidirectional_iterator(bidirectional_iterator const & src) : _ptr(src._ptr){}
+
+			bidirectional_iterator(pointer value) : _ptr(value) {}
+
+			bidirectional_iterator &	operator=(const bidirectional_iterator & rhs)
+			{
+				if (this != &rhs)
+					_ptr = rhs._ptr;
+				return *this;
+			}
+
+			~bidirectional_iterator() {}
+
+			operator bidirectional_iterator<const T> () const
+			{ return (bidirectional_iterator<const T>(this->_ptr)); }
+
+			bidirectional_iterator &operator++()
+			{
+				++this->_ptr;
+				return *this;
+			}
+
+			bidirectional_iterator	operator++(int)
+			{
+				bidirectional_iterator tmp = (*this);
+				++(this)->_ptr;
+				return tmp;
+			}
+
+			/* =========================== Input ======================================== */
+
+			//	const vs non const ??? ////////////
+			bool	operator==(bidirectional_iterator const & rhs) const
+			{
+				return this->_ptr == rhs._ptr;
+			}
+
+			bool	operator!=(bidirectional_iterator const &rhs) const
+			{
+				return this->_ptr != rhs._ptr;
+			}
+
+			reference	operator*()
+			{
+				return (*this->_ptr);
+			}
+
+			const_reference	operator*() const
+			{
+				return (*this->_ptr);
+			}
+
+			pointer	operator->()
+			{
+				return (this->_ptr);
+			}
+
+			const_pointer	operator->() const
+			{
+				return (this->_ptr);
+			}
+
+			/* =========================== Output ======================================== */
+
+
+			/* =========================== Forward ======================================== */
+
+			bidirectional_iterator(): _ptr(NULL) {}
+
+			/* =========================== Bidirectional ================================== */
+
+			bidirectional_iterator &	operator--()
+			{
+				--this->_ptr;
+				return *this;
+			}
+
+			bidirectional_iterator	operator--(int)
+			{
+				bidirectional_iterator tmp(*this);
+				--this->_ptr;
+				return tmp;
+			}
+
+			// /* =========================== Random Access ================================ */
+      //
+			// bidirectional_iterator	operator+(difference_type value) const
+			// {
+			// 	return (this->_ptr + value);
+			// }
+      //
+			// bidirectional_iterator	operator-(int value) const
+			// {
+			// 	bidirectional_iterator tmp(*this);
+			// 	return tmp -= value;
+			// }
+      //
+			// difference_type	operator-(bidirectional_iterator const & rhs) const
+			// {
+			// 	return this->_ptr - rhs._ptr;
+			// }
+      //
+			// bool	operator<(bidirectional_iterator const & rhs) const
+			// {
+			// 	return this->_ptr < rhs._ptr;
+			// }
+      //
+			// bool	operator>(bidirectional_iterator const & rhs) const
+			// {
+			// 	return this->_ptr > rhs._ptr;
+			// }
+      //
+			// bool	operator<=(bidirectional_iterator const & rhs) const
+			// {
+			// 	return this->_ptr <= rhs._ptr;
+			// }
+      //
+			// bool	operator>=(bidirectional_iterator const & rhs) const
+			// {
+			// 	return this->_ptr >= rhs._ptr;
+			// }
+      //
+			// bidirectional_iterator &	operator+=(int value)
+			// {
+			// 	this->_ptr += value;
+			// 	return *this;
+			// }
+      //
+			// bidirectional_iterator &	operator-=(int value)
+			// {
+			// 	this->_ptr -= value;
+			// 	return *this;
+			// }
+      //
+			// reference	operator[](int value)
+			// {
+			// 	return (*(this->_ptr + value));
+			// }
+      //
+			// const_reference	operator[](int value) const
+			// {
+			// 	return (*(this->_ptr + value));
+			// }
+
+			/* =========================== Friends Access ================================ */
+
+			template<typename I, typename U>
+			friend bool operator==(bidirectional_iterator<I> const &lhs, bidirectional_iterator<U> const &rhs);
+
+			template<typename I, typename U>
+			friend bool operator!=(bidirectional_iterator<I> const &lhs, bidirectional_iterator<U> const &rhs);
+
+			// template<typename I, typename U>
+			// friend bool operator<=(bidirectional_iterator<I> const &lhs, bidirectional_iterator<U> const &rhs);
+      //
+			// template<typename I, typename U>
+			// friend bool operator>=(bidirectional_iterator<I> const &lhs, bidirectional_iterator<U> const &rhs);
+      //
+			// template<typename I, typename U>
+			// friend bool operator<(bidirectional_iterator<I> const &lhs, bidirectional_iterator<U> const &rhs);
+      //
+			// template<typename I, typename U>
+			// friend bool operator>(bidirectional_iterator<I> const &lhs, bidirectional_iterator<U> const &rhs);
+
+	};
+
+	template<class T>
 	class random_access_iterator : public ft::iterator<std::random_access_iterator_tag, T>
 	{
 		public:
@@ -325,20 +510,10 @@ namespace ft
 			{
 				this->_it -= value;
 				return *this;
-
 			}
 
 			ReverseIterator	operator-(difference_type value) const
 			{
-				// difference_type	i = 0;
-				// while (i <= value)
-				// {
-				//
-				// }
-				// ReverseIterator tmp(*this);
-				// return tmp -= value;
-				// return ReverseIterator(this->_it + value);
-
 				return ReverseIterator(this->_it + value);
 			}
 
@@ -529,48 +704,6 @@ namespace ft
 	ReverseIterator<T> operator+(typename ReverseIterator<T>::difference_type lhs, ReverseIterator<T> const &rhs) {
 		return (rhs+lhs);
 	}
-
-/*============================ both ========================================*/
-	//
-	// template<typename I, typename U>
-	// bool operator==(ReverseIterator<I> const &lhs, I const &rhs)
-	// {
-	// 	return (lhs._it == rhs._ptr);
-	// }
-	//
-	// template<typename I, typename U>
-	// bool operator!=(ReverseIterator<I> const &lhs, I const &rhs)
-	// {
-	// 	return (lhs._it != rhs._ptr);
-	// }
-	//
-	// template<typename I, typename U>
-	// bool operator<=(ReverseIterator<I> const &lhs, I const &rhs)
-	// {
-	// 	return (lhs._it <= rhs._it);
-	// }
-	//
-	// template<typename I, typename U>
-	// bool operator>=(ReverseIterator<I> const &lhs, I const &rhs)
-	// {
-	// 	return (lhs._it >= rhs._it);
-	// }
-	//
-	// template<typename I, typename U>
-	// bool operator<(ReverseIterator<I> const &lhs, ReverseIterator<U> const &rhs)
-	// {
-	// 	return (lhs._it < rhs._it);
-	// }
-	//
-	// template<typename I, typename U>
-	// bool operator>(ReverseIterator<I> const &lhs, ReverseIterator<U> const &rhs)
-	// {
-	// 	return (lhs._it > rhs._it);
-	// }
-	// template<typename T>
-	// ReverseIterator<T> operator+(typename ReverseIterator<T>::difference_type lhs, ReverseIterator<T> const &rhs) {
-	// 	return (rhs+lhs);
-	// }
 
 } // namespace ft
 

@@ -6,7 +6,7 @@
 /*   By: ivloisy <ivloisy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 20:44:19 by ivloisy           #+#    #+#             */
-/*   Updated: 2022/05/16 18:32:28 by ivloisy          ###   ########.fr       */
+/*   Updated: 2022/05/19 04:04:03 by ivloisy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ namespace ft
 		public:
 			typedef T									value_type;
 			typedef Alloc								allocator_type;
-			typedef T &									reference;
+			typedef typename allocator_type::reference	reference;
+			// typedef T &								reference;
 			typedef const T &							const_reference;
 			typedef T *									pointer;
 			typedef const T *							const_pointer;
