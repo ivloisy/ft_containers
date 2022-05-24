@@ -7,6 +7,7 @@
 # include "iterator.hpp"
 # include "type_traits.hpp"
 # include "utility.hpp"
+# include "rb_tree.hpp"
 
 namespace ft
 {
@@ -15,33 +16,32 @@ namespace ft
 	class map
 	{
 		public:
-			typedef Key																				key_type;
-			typedef T																					mapped_type;
-			typedef ft::pair<const Key, mapped_type>					value_type;
-			typedef Compare																		key_compare;
-			class																							value_comp;
-			typedef Alloc																			allocator_type;
-			typedef typename allocator_type::reference				reference;
-			typedef typename allocator_type::const_reference	const_reference;
-			typedef typename allocator_type::pointer					pointer;
-			typedef typename allocator_type::const_pointer		const_pointer;
-			typedef ft::bidirectional_iterator<T>							iterator;
-			typedef ft::bidirectional_iterator<const T>				const_iterator;
-			typedef ft::ReverseIterator<iterator>							reverse_iterator;
-			typedef ft::ReverseIterator<const_iterator>				const_reverse_iterator;
-			typedef std::ptrdiff_t														difference_type;
-			typedef size_t																		size_type;
+			typedef Key															key_type;
+			typedef T															mapped_type;
+			typedef ft::pair<const Key, mapped_type>							value_type;
+			typedef Compare														key_compare;
+			class																value_comp;
+			typedef Alloc														allocator_type;
+			typedef typename allocator_type::reference							reference;
+			typedef typename allocator_type::const_reference					const_reference;
+			typedef typename allocator_type::pointer							pointer;
+			typedef typename allocator_type::const_pointer						const_pointer;
+			typedef ft::bidirectional_iterator<T>								iterator;
+			typedef ft::bidirectional_iterator<const T>							const_iterator;
+			typedef ft::ReverseIterator<iterator>								reverse_iterator;
+			typedef ft::ReverseIterator<const_iterator>							const_reverse_iterator;
+			typedef std::ptrdiff_t												difference_type;
+			typedef size_t														size_type;
 
 
 		private:
 
 			key_compare			_key_cmp;
-			allocator_type	_alloc;
-			// alloc_node				_alloc_node;
-			typedef rb_tree<key_type, value_type, _Select1st<value_type>, key_compare, _Pair_alloc_type> _Rep_type;
-
-				 _Rep_type _tree;  /// The actual tree structure.
-
+			allocator_type		_alloc;
+			node_ptr			_data;
+			node_ptr			_TNULL;
+			alloc_node			_alloc_node;
+			size_type			_size;
 		public:
 
 			typedef typename _Pair_alloc_type::pointer        		pointer;
@@ -171,10 +171,43 @@ namespace ft
 
 		/* ============ Insert ============ */
 
-		// pair<iterator,bool> insert (const value_type& val)
+		// bool insert(pair<key, data>)
 		// {
+		// 	NodePtr current = this->root;
+		// 	NodePtr n = new node_map; /// =========== suppr new et DELETE
 		//
+		// 	while (key < current->left->_key || key > current->right->_key)
+		// 	{
+		// 		if (key < current->left->_key)
+		// 			current = current->left;
+		// 		else
+		// 			current = current->right;
+		// 	}
+		// 	if (key < current->_key)
+		// 	{
+		// 		n->left = current->left;
+		// 		current->left = n;
+		// 		n->right = TNULL;
+		// 		return true;
+		// 	}
+		// 	else if (key > current->_key)
+		// 	{
+		// 		n->right = current->right;
+		// 		current->right = n;
+		// 		n->left = TNULL;
+		// 		return true;
+		// 	}
+		// 	else
+		// 	{
+		// 		delete n;
+		// 		return false;
+		// 	}
 		// }
+
+		pair<iterator,bool> insert (const value_type& val)
+		{
+
+		}
 		//
 		//
 		// iterator insert (iterator position, const value_type& val)
