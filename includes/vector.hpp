@@ -91,7 +91,7 @@ namespace ft
 
 			/* ===== Copy constructor ====== */
 
-			vector(vector const & src) : _alloc(src._alloc), _capacity(src._capacity), _size(0)
+			vector(vector const & src) : _alloc(src._alloc), _capacity(src._size), _size(0)
 			{
 				this->_first = this->_alloc.allocate(this->_capacity);
 				//this->assign(x.begin(), x.end());
@@ -199,10 +199,14 @@ namespace ft
 					else
 					{
 						if (this->_capacity * 2 < n)
+						{
+							// std::cout << "avant reserve////// " << this->_capacity << std::endl;
 							this->reserve(n);
+						}
 						else
 							this->reserve(this->_capacity * 2);
 						// std::cout << this->_capacity << std::endl;
+						// std::cout << "apres reserve////// " << this->_capacity << std::endl;
 						for (size_t i = this->_size; i < n; i++)
 							this->push_back(val);
 					}
@@ -223,15 +227,21 @@ namespace ft
 
 			void	reserve (size_type n)
 			{
+				if (n == 0)
+					n = 1;
 				if (n > this->max_size())
 					throw(std::exception());
 				if (n > this->_capacity)
 				{
 					pointer		tmp;
 					size_t		tmps = this->_size;
-					size_type	newCap = this->_capacity == 0 ? n : this->_capacity;
-					while (n > newCap)
-						newCap *= 2;
+					// size_t		newCap = n == 0 ? 1 : n;
+					size_type	newCap = n; //this->_capacity == 0 ? n : this->_capacity;
+					// if (n > newCap/* * 2*/)
+					// 	newCap = n;
+					// else
+					// 	while (n > newCap)
+					// 		newCap *= 2;
 					if (newCap > this->max_size())
 						throw(std::exception());
 					tmp = this->_alloc.allocate(newCap);
@@ -363,6 +373,12 @@ namespace ft
 			{
 				ft::vector<T> tmp;
 				size_type diff = std::distance(this->begin(), position);
+				if (this->_size + n >= this->_capacity * 2)
+					tmp.reserve(this->_size + n);
+				else if (this->_size + n >= this->_capacity)
+					tmp.reserve(this->_size * 2);
+				else
+					tmp.reserve(this->_capacity);
 				size_type i = 0;
 				while (i < diff)
 					tmp.push_back(this->_first[i++]);
@@ -378,6 +394,14 @@ namespace ft
 			{
 					ft::vector<T> tmp;
 					size_type diff = std::distance(this->begin(), position);
+					size_type n = std::distance(first, last);
+
+					if (this->_size + n >= this->_capacity * 2)
+						tmp.reserve(this->_size + n);
+					else if (this->_size + n >= this->_capacity)
+						tmp.reserve(this->_size * 2);
+					else
+						tmp.reserve(this->_capacity);
 					size_type i = 0;
 					while (i < diff)
 						tmp.push_back(this->_first[i++]);
@@ -410,8 +434,11 @@ namespace ft
 
 			void	push_back (const value_type& val)
 			{
+				// if (this->_capacity == 0)
+				// 	this->_capacity = 1;
 				if (this->_capacity < this->_size + 1)
-					this->reserve(this->_size + 1);
+					this->reserve(this->_capacity * 2);
+					// this->reserve(this->_size + 1);
 				pointer current = this->_first;
 				for (size_t n = 0; n < this->_size; n++)
 					current++;
