@@ -18,7 +18,11 @@ namespace ft
 		public:
 			typedef Key															key_type;
 			typedef T															mapped_type;
+
 			typedef ft::pair<const Key, mapped_type>							value_type;
+			typedef ft::Node<value_type>										node;
+			typedef Node*														node_ptr;
+
 			typedef Compare														key_compare;
 			class																value_comp;
 			typedef Alloc														allocator_type;
@@ -39,8 +43,8 @@ namespace ft
 			key_compare			_key_cmp;
 			allocator_type		_alloc;
 			node_ptr			_data;
-			node_ptr			_TNULL;
-			alloc_node			_alloc_node;
+			node_ptr			TNULL;
+			alloc_node			_alloc;
 			size_type			_size;
 		public:
 
@@ -69,7 +73,11 @@ namespace ft
 
 		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()): _M_t(comp, alloc)
 		{
+			ft::Node<value_type>* to_insert = _alloc.allocate(1);
+			_alloc.construct(to_insert, value_type());
 
+			TNULL = to_insert;
+			_data = TNULL;
 		}
 
 		/* ====== range constructor ======= */
@@ -89,7 +97,9 @@ namespace ft
 
 		/* ========= destructor =========== */
 
-		~map(){}
+		~map(){
+
+		}
 
 
 		/* =========== Operator =========== */
@@ -101,10 +111,10 @@ namespace ft
 
 		/* =========================== Iterators ======================================== */
 
-		// iterator	begin()
-		// {
-		// 	return iterator(this->_first);
-		// }
+		iterator	begin()
+		{
+			return iterator(this->_first);
+		}
 		//
 		// const_iterator	begin() const
 		// {
@@ -322,5 +332,6 @@ namespace ft
 
 	};
 } // namespace ft
+
 
 #endif
