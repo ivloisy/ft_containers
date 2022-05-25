@@ -350,47 +350,47 @@ class RedBlackTree {
   // }
 
 ===================================================
-  // // Inserting a node
-  // void insert(int key) {
-  //   NodePtr node = new Node;
-  //   node->parent = nullptr;
-  //   node->data = key;
-  //   node->left = TNULL;
-  //   node->right = TNULL;
-  //   node->color = 1;
-  //
-  //   NodePtr y = nullptr;
-  //   NodePtr x = this->root;
-  //
-  //   while (x != TNULL) {
-  //     y = x;
-  //     if (node->data < x->data) {
-  //       x = x->left;
-  //     } else {
-  //       x = x->right;
-  //     }
-  //   }
-  //
-  //   node->parent = y;
-  //   if (y == nullptr) {
-  //     root = node;
-  //   } else if (node->data < y->data) {
-  //     y->left = node;
-  //   } else {
-  //     y->right = node;
-  //   }
-  //
-  //   if (node->parent == nullptr) {
-  //     node->color = 0;
-  //     return;
-  //   }
-  //
-  //   if (node->parent->parent == nullptr) {
-  //     return;
-  //   }
-  //
-  //   insertFix(node);
-  // }
+  // Inserting a node
+  void insert(int key) {
+    NodePtr node = new Node;
+    node->parent = nullptr;
+    node->data = key;
+    node->left = TNULL;
+    node->right = TNULL;
+    node->color = 1;
+
+    NodePtr y = nullptr;
+    NodePtr x = this->root;
+
+    while (x != TNULL) {
+      y = x;
+      if (node->data < x->data) {
+        x = x->left;
+      } else {
+        x = x->right;
+      }
+    }
+
+    node->parent = y;
+    if (y == nullptr) {
+      root = node;
+    } else if (node->data < y->data) {
+      y->left = node;
+    } else {
+      y->right = node;
+    }
+
+    if (node->parent == nullptr) {
+      node->color = 0;
+      return;
+    }
+
+    if (node->parent->parent == nullptr) {
+      return;
+    }
+
+    insertFix(node);
+  }
 ==============================================
 
   // NodePtr getRoot() {

@@ -1,129 +1,149 @@
 #ifndef RB_TREE_HPP
+
 # define RB_TREE_HPP
 
 # include <iostream>
-
 # include "iterator.hpp"
 # include "type_traits.hpp"
 
 namespace ft
 {
 
-	template <typename T>
-	struct Node
+	enum tree_color { _S_red = false, _S_black = true };
+
+	struct rb_tree
 	{
-		typedef T			value_type;
-		typedef Node*		NodePtr;
 
-		value_type	value;
-		bool		color;
-		NodePtr		parent;
-		NodePtr		left;
-		NodePtr		right;
-		NodePtr		root;
-		NodePtr		TNULL;
+		// struct Node {
+		//   int data;
+		//   Node *parent;
+		//   Node *left;
+		//   Node *right;
+		//   int color;
+		// };
 
-		Node(): value(0), color(0), parent(nullptr), left(nullptr), right(nullptr), root(nullptr), TNULL(nullptr) {}
-
-		Node(const value_type& val): value(val), color(0), parent(nullptr), left(nullptr), right(nullptr), root(nullptr), TNULL(nullptr) {}
-
-		~Node() {}
-
-		NodePtr	searchTreeHelper(NodePtr node, key skey)
+		struct node_base
 		{
-			if (skey == TNULL || skey == node->_key)
-				return node;
-			if (skey < node->_key)
-				return searchTreeHelper(node->left, skey);
-			return searchTreeHelper(node->right, skey);
-		}
+			typedef node_base*			ptr_base;
+			typedef const node_base*	const_ptr_base;
 
-		NodePtr	searchTree(key skey)
+			tree_color	_color;
+			ptr_base	_parents;
+			ptr_base	_left;
+			ptr_base	_right;
+		};
+
+		template <typename value>
+		struct node : public node_base
 		{
-			return searchTreeHelper(this->root, skey);
-		}
+			typedef node<value>*	link;
+			value					_value;
+		};
 
-		NodePtr minimum(NodePtr node)
+		class RedBlackTree
 		{
-			while (node->left != TNULL)
-				node = node->left;
-			return node;
-		}
+		   private:
+			   NodePtr searchTreeHelper(NodePtr node, int key) {
+			     if (node == TNULL || key == node->data) {
+			       return node;
+			     }
 
-		NodePtr maximum(NodePtr node)
-		{
-			while (node->right != TNULL)
-				node = node->right;
-			return node;
-		}
+			     if (key < node->data) {
+			       return searchTreeHelper(node->left, key);
+			     }
+			     return searchTreeHelper(node->right, key);
+			   }
+		   public:
+			   NodePtr minimum(NodePtr node) {
+			     while (node->left != TNULL) {
+			       node = node->left;
+			     }
+			     return node;
+			   }
 
-		NodePtr successor(NodePtr x)
-		{
-			if (x->right != TNULL)
-				return minimum(x->right);
+			   NodePtr maximum(NodePtr node) {
+			     while (node->right != TNULL) {
+			       node = node->right;
+			     }
+			     return node;
+			   }
 
-			NodePtr y = x->parent;
-			while (y != TNULL && x == y->right)
-			{
-				x = y;
-				y = y->parent;
-			}
-			return y;
-		}
+			   NodePtr successor(NodePtr x)
+			   {
+			     if (x->right != TNULL)
+			 	{
+			       return minimum(x->right);
+			     }
 
-		NodePtr predecessor(NodePtr x) {
-			if (x->left != TNULL)
-				return maximum(x->left);
+			     NodePtr y = x->parent;
+			     while (y != TNULL && x == y->right)
+			 	{
+			       x = y;
+			       y = y->parent;
+			     }
+			     return y;
+			   }
 
-			NodePtr y = x->parent;
-			while (y != TNULL && x == y->left)
-			{
-				x = y;
-				y = y->parent;
-			}
+			   NodePtr predecessor(NodePtr x) {
+			     if (x->left != TNULL) {
+			       return maximum(x->left);
+			     }
 
-			return y;
-		}
+			     NodePtr y = x->parent;
+			     while (y != TNULL && x == y->left) {
+			       x = y;
+			       y = y->parent;
+			     }
 
-		void leftRotate(prtNode x)
-		{
-			NodePtr y = x->right;
-			x->right = y->left;
-			if (y->left != TNULL)
-				y->left->parent = x;
-			if (x->parent == TNULL)
-				this->root = y;
-			else if (x->parent->left == x)
-				x->parent->left = y;
-			else
-				x->parent->right = y;
-			y->parent = x->parent;
-			x->parent = y;
-			y->left = x;
-		}
+			     return y;
+			   }
 
-		void rightRotate(NodePtr y)
-		{
-			NodePtr y = x->left;
-			x->left = y->right;
-			if (y->right != TNULL)
-				y->right->parent = x;
-			if (x->parent == TNULL)
-				this->root = y;
-			else if (x->parent->left == x)
-				x->parent->left = y;
-			else
-				x->parent->right = y;
-			y->parent = x->parent;
-			x->parent = y;
-			y->right = x;
-		}
+			   void leftRotate(NodePtr x) {
+			     NodePtr y = x->right;
+			     x->right = y->left;
+			     if (y->left != TNULL) {
+			       y->left->parent = x;
+			     }
+			     y->parent = x->parent;
+			     if (x->parent == nullptr) {
+			       this->root = y;
+			     } else if (x == x->parent->left) {
+			       x->parent->left = y;
+			     } else {
+			       x->parent->right = y;
+			     }
+			     y->left = x;
+			     x->parent = y;
+			   }
 
-		NodePtr getRoot()
-		{
-			return this->root;
-		}
+			   void rightRotate(NodePtr x) {
+			     NodePtr y = x->left;
+			     x->left = y->right;
+			     if (y->right != TNULL) {
+			       y->right->parent = x;
+			     }
+			     y->parent = x->parent;
+			     if (x->parent == nullptr) {
+			       this->root = y;
+			     } else if (x == x->parent->right) {
+			       x->parent->right = y;
+			     } else {
+			       x->parent->left = y;
+			     }
+			     y->right = x;
+			     x->parent = y;
+			   }
+
+			   NodePtr getRoot() {
+			     return this->root;
+			   }
+
+			   void deleteNode(int data) {
+				 deleteNodeHelper(this->root, data);
+			   }
+	   };
 	};
+
 } // namespace ft
 
 #endif
