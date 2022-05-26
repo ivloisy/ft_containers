@@ -40,42 +40,36 @@ namespace ft
 
 			key_compare			_key_cmp;
 			allocator_type		_alloc;
-			node_ptr			_data;
-			node_ptr			TNULL;
-			alloc_node			_alloc;
 			size_type			_size;
-		public:
+			rb_tree		_tree;
 
-			typedef typename _Pair_alloc_type::pointer        		pointer;
-			typedef typename _Pair_alloc_type::const_pointer  		const_pointer;
-			// typedef typename _Pair_alloc_type::reference      		reference;
-			// typedef typename _Pair_alloc_type::const_reference		const_reference;
-			typedef typename _Rep_type::iterator              		iterator;
-			typedef typename _Rep_type::const_iterator        		const_iterator;
-			typedef typename _Rep_type::size_type             		size_type;
-			typedef typename _Rep_type::difference_type       		difference_type;
-			typedef typename _Rep_type::reverse_iterator      		reverse_iterator;
-			typedef typename _Rep_type::const_reverse_iterator		const_reverse_iterator;
-
-		private:
-			// pointeur				_root;
-			// pointeur				_first;
-			// pointeur				_null;
-			size_type				_size;
-
-		public:
+		// public:
+		//
+		// 	typedef typename _Pair_alloc_type::pointer        		pointer;
+		// 	typedef typename _Pair_alloc_type::const_pointer  		const_pointer;
+		// 	// typedef typename _Pair_alloc_type::reference      		reference;
+		// 	// typedef typename _Pair_alloc_type::const_reference		const_reference;
+		// 	typedef typename _Rep_type::iterator              		iterator;
+		// 	typedef typename _Rep_type::const_iterator        		const_iterator;
+		// 	typedef typename _Rep_type::size_type             		size_type;
+		// 	typedef typename _Rep_type::difference_type       		difference_type;
+		// 	typedef typename _Rep_type::reverse_iterator      		reverse_iterator;
+		// 	typedef typename _Rep_type::const_reverse_iterator		const_reverse_iterator;
+		//
+		// private:
+		// 	// pointeur				_root;
+		// 	// pointeur				_first;
+		// 	// pointeur				_null;
+		// 	size_type				_size;
+		//
+		// public:
 
 		/* =========================== Constructors/Destructors ========================= */
 
 		/* ===== default constructor ====== */
 
-		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()): _M_t(comp, alloc)
+		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) : 
 		{
-			ft::Node<value_type>* to_insert = _alloc.allocate(1);
-			_alloc.construct(to_insert, value_type());
-
-			TNULL = to_insert;
-			_data = TNULL;
 		}
 
 		/* ====== range constructor ======= */
