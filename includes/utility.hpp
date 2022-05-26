@@ -28,10 +28,10 @@ namespace ft
 		{
 			if (this != &pr)
 			{
-				this->first = pr->first;
-				this->second = pr->second;
+				this->first = pr.first;
+				this->second = pr.second;
 			}
-			return ;
+			return *this;
 		}
 
 	};

@@ -19,9 +19,7 @@ namespace ft
 			typedef Key															key_type;
 			typedef T															mapped_type;
 
-			typedef ft::pair<const Key, mapped_type>							value_type;
-			typedef ft::Node<value_type>										node;
-			typedef Node*														node_ptr;
+			typedef ft::pair<const Key, T>							value_type;
 
 			typedef Compare														key_compare;
 			class																value_comp;
