@@ -28,10 +28,11 @@ namespace ft
 			typedef typename allocator_type::const_reference					const_reference;
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
-			typedef ft::bidirectional_iterator<T>								iterator;
-			typedef ft::bidirectional_iterator<const T>							const_iterator;
-			typedef ft::ReverseIterator<iterator>								reverse_iterator;
-			typedef ft::ReverseIterator<const_iterator>							const_reverse_iterator;
+			// typedef typename ft::rb_tree<Key, value_type, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<value_type>
+			typedef typename ft::rb_tree_iterator<value_type>								iterator;
+			typedef typename ft::rb_tree_iterator<const value_type>							const_iterator;
+			// typedef ft::ReverseIterator<iterator>								reverse_iterator;
+			// typedef ft::ReverseIterator<const_iterator>							const_reverse_iterator;
 			typedef std::ptrdiff_t												difference_type;
 			typedef size_t														size_type;
 
@@ -41,7 +42,7 @@ namespace ft
 			key_compare			_key_cmp;
 			allocator_type		_alloc;
 			size_type			_size;
-			rb_tree		_tree;
+			rb_tree<Key, value_type, Key, Compare>		_tree;
 
 		// public:
 		//
@@ -62,13 +63,13 @@ namespace ft
 		// 	// pointeur				_null;
 		// 	size_type				_size;
 		//
-		// public:
+		public:
 
 		/* =========================== Constructors/Destructors ========================= */
 
 		/* ===== default constructor ====== */
 
-		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) : 
+		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) : _tree(comp, alloc)
 		{
 		}
 
@@ -103,10 +104,10 @@ namespace ft
 
 		/* =========================== Iterators ======================================== */
 
-		iterator	begin()
-		{
-			return iterator(this->_first);
-		}
+		// iterator	begin()
+		// {
+		// 	return iterator(this->_first);
+		// }
 		//
 		// const_iterator	begin() const
 		// {
@@ -208,9 +209,9 @@ namespace ft
 
 		pair<iterator,bool> insert (const value_type& val)
 		{
-
+			return this->_tree.insert(val);
 		}
-		//
+
 		//
 		// iterator insert (iterator position, const value_type& val)
 		// {

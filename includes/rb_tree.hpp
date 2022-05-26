@@ -24,6 +24,84 @@ namespace ft
 		value		_value;
 	};
 
+	template<typename _Tp>
+	struct rb_tree_iterator
+	{
+		typedef _Tp  value_type;
+		typedef _Tp& reference;
+		typedef _Tp* pointer;
+
+		typedef std::bidirectional_iterator_tag				iterator_category;
+		typedef ptrdiff_t									difference_type;
+
+		typedef rb_tree_iterator<_Tp>       			 	rb_iterator;
+		typename node_base<_Tp>::ptr_base					current_node;
+
+		rb_tree_iterator()
+		: current_node() { }
+
+		explicit
+		rb_tree_iterator(node_base<_Tp>* x)
+		: current_node(x) { }
+
+		reference
+		operator*() const
+		{
+			// return static_cast<node_base<_Tp>*>(current_node)->_value;
+			return *(current_node)->_value;
+		}
+
+		// pointer
+		// operator->() const
+		// {
+		//    return std::__addressof(static_cast<node_base<_Val>*>
+		//           (current_node)->_value);
+		// }
+
+		rb_iterator&
+		operator++()
+		{
+			current_node = current_node.successor(current_node);
+			return *this;
+		}
+
+		rb_iterator
+		operator++(int)
+		{
+			rb_iterator __tmp = *this;
+			current_node = current_node.successor(current_node);
+			return __tmp;
+		}
+
+		rb_iterator&
+		operator--()
+		{
+			current_node = current_node.predecessor(current_node);
+			return *this;
+		}
+
+		rb_iterator
+		operator--(int)
+		{
+			rb_iterator __tmp = *this;
+			current_node = current_node.predecessor(current_node);
+			return __tmp;
+		}
+
+		bool
+		operator==(const rb_iterator& x) const
+		{
+			return current_node == x.current_node;
+		}
+
+		bool
+		operator!=(const rb_iterator& x) const
+		{
+			return current_node != x.current_node;
+		}
+
+	};
+
 	template<typename _Key, typename _Val, typename _KeyOfValue, typename _Compare, typename _Alloc = std::allocator<_Val> >
 	class rb_tree
 	{
@@ -259,10 +337,10 @@ namespace ft
 				return searchTreeHelper(node->_right, key);
 			}
 
-			rb_tree_iterator<_Val> checkIfExist(ptr_base node, int key)
+			ft::rb_tree_iterator<_Val> checkIfExist(ptr_base node, int key)
 			{
 				if (node == TNULL || key == node->_value.first)
-					return rb_tree_iterator<_Val>(node);
+					return ft::rb_tree_iterator<_Val>(node);
 				if (key < node->_value.first)
 					return checkIfExist(node->_left, key);
 				return checkIfExist(node->_right, key);
@@ -283,6 +361,8 @@ namespace ft
 
 		rb_tree(const _Compare& comp, const allocator_type& a = allocator_type())
 		{
+			(void)comp;
+			(void)a;
 			TNULL = new base;
 			TNULL->_color = false;
 			TNULL->_left = TNULL;
@@ -299,7 +379,7 @@ namespace ft
 				it.second = false;
 				return (it);
 			}
-			ptr_base node = std::allocate(1);
+			ptr_base node = new base;
 			node->_parent = TNULL;
 			node->_value = v;
 			node->_left = TNULL;
@@ -474,84 +554,6 @@ namespace ft
 		{
 			if (root)
 				printHelper(this->root, "", true);
-		}
-
-	};
-
-	template<typename _Tp>
-	struct rb_tree_iterator
-	{
-		typedef _Tp  value_type;
-		typedef _Tp& reference;
-		typedef _Tp* pointer;
-
-		typedef std::bidirectional_iterator_tag				iterator_category;
-		typedef ptrdiff_t									difference_type;
-
-		typedef rb_tree_iterator<_Tp>       			 	rb_iterator;
-		typename node_base<_Tp>::ptr_base					current_node;
-
-		rb_tree_iterator()
-		: current_node() { }
-
-		explicit
-		rb_tree_iterator(node_base<_Tp>* x)
-		: current_node(x) { }
-
-		reference
-		operator*() const
-		{
-			// return static_cast<node_base<_Tp>*>(current_node)->_value;
-			return *(current_node)->_value;
-		}
-
-		// pointer
-		// operator->() const
-		// {
-		//    return std::__addressof(static_cast<node_base<_Val>*>
-		//           (current_node)->_value);
-		// }
-
-		rb_iterator&
-		operator++()
-		{
-			current_node = current_node.successor(current_node);
-			return *this;
-		}
-
-		rb_iterator
-		operator++(int)
-		{
-			rb_iterator __tmp = *this;
-			current_node = current_node.successor(current_node);
-			return __tmp;
-		}
-
-		rb_iterator&
-		operator--()
-		{
-			current_node = current_node.predecessor(current_node);
-			return *this;
-		}
-
-		rb_iterator
-		operator--(int)
-		{
-			rb_iterator __tmp = *this;
-			current_node = current_node.predecessor(current_node);
-			return __tmp;
-		}
-
-		bool
-		operator==(const rb_iterator& x) const
-		{
-			return current_node == x.current_node;
-		}
-
-		bool
-		operator!=(const rb_iterator& x) const
-		{
-			return current_node != x.current_node;
 		}
 
 	};
