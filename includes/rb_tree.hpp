@@ -22,34 +22,7 @@ namespace ft
 		ptr_base	_left;
 		ptr_base	_right;
 		value		_value;
-		//
-		// ptr_base minimum(ptr_base node) {
-		//   while (node->_left != TNULL) {
-		// 	node = node->_left;
-		//   }
-		//   return node;
-		// }
-		//
-		// ptr_base maximum(ptr_base node) {
-		//   while (node->_right != TNULL) {
-		// 	node = node->_right;
-		//   }
-		//   return node;
-		// }
-		//
-		// const_ptr_base minimum(const_ptr_base node) {
-		//   while (node->_left != TNULL) {
-		// 	node = node->_left;
-		//   }
-		//   return node;
-		// }
-		//
-		// const_ptr_base maximum(const_ptr_base node) {
-		//   while (node->_right != TNULL) {
-		// 	node = node->_right;
-		//   }
-		//   return node;
-		// }
+
 	};
 
 	template<typename _Key, typename _Val, typename _KeyOfValue, typename _Compare, typename _Alloc = std::allocator<_Val> >
@@ -72,13 +45,20 @@ namespace ft
 	      typedef const value_type*												const_pointer;
 	      typedef value_type&													reference;
 	      typedef const value_type&												const_reference;
-	      // typedef node<_Val>*													_Link_type;
-	      // typedef const node<_Val>*												_Const_Link_type;
 	      typedef size_t														size_type;
 	      typedef ptrdiff_t														difference_type;
 	      typedef _Alloc														allocator_type;
 
 			rb_tree()
+			{
+				TNULL = new base;
+				TNULL->_color = false;
+				TNULL->_left = TNULL;
+				TNULL->_right = TNULL;
+				root = TNULL;
+			}
+
+			_Rb_tree(const _Compare& comp, const allocator_type& a = allocator_type())
 			{
 				TNULL = new base;
 				TNULL->_color = false;
@@ -110,7 +90,8 @@ namespace ft
 			       reference
 			       operator*() const
 			       {
-					   return static_cast<node_base<_Tp>*>(current_node)->_value;
+					   // return static_cast<node_base<_Tp>*>(current_node)->_value;
+					   return *(current_node)->_value;
 				   }
 
 			       // pointer
@@ -164,6 +145,172 @@ namespace ft
 
 			   };
 
+			   void deleteNodeHelper(ptr_base node, int key) {
+				 ptr_base z = TNULL;
+				 ptr_base x, y;
+				 while (node != TNULL) {
+				   if (node->_value.first == key) {
+					 z = node;
+				   }
+
+				   if (node->_value.first <= key) {
+					 node = node->_right;
+				   } else {
+					 node = node->_left;
+				   }
+				 }
+
+				 if (z == TNULL) {
+				   std::cout << "Key not found in the tree" << std::endl;
+				   return;
+				 }
+
+				 y = z;
+				 int y_original_color = y->_color;
+				 if (z->_left == TNULL) {
+				   x = z->_right;
+				   rbTransplant(z, z->_right);
+				 } else if (z->_right == TNULL) {
+				   x = z->_left;
+				   rbTransplant(z, z->_left);
+				 } else {
+				   y = minimum(z->_right);
+				   y_original_color = y->_color;
+				   x = y->_right;
+				   if (y->_parent == z) {
+					 x->_parent = y;
+				   } else {
+					 rbTransplant(y, y->_right);
+					 y->_right = z->_right;
+					 y->_right->_parent = y;
+				   }
+
+				   rbTransplant(z, y);
+				   y->_left = z->_left;
+				   y->_left->_parent = y;
+				   y->_color = z->_color;
+				 }
+				 delete z;
+				 // if (y_original_color == 0) {
+				 //   deleteFix(x);
+				 // }
+			   }
+
+			   void rbTransplant(ptr_base u, ptr_base v) {
+				 if (u->_parent == TNULL) {
+				   root = v;
+				 } else if (u == u->_parent->_left) {
+				   u->_parent->_left = v;
+				 } else {
+				   u->_parent->_right = v;
+				 }
+				 v->_parent = u->_parent;
+			   }
+
+			   void insertFix(ptr_base k) {
+			     ptr_base u;
+			     while (k->_parent->_color == 1) {
+			   	if (k->_parent == k->_parent->_parent->_right) {
+			   	  u = k->_parent->_parent->_left;
+			   	  if (u->_color == 1) {
+			   		u->_color = 0;
+			   		k->_parent->_color = 0;
+			   		k->_parent->_parent->_color = 1;
+			   		k = k->_parent->_parent;
+			   	  } else {
+			   		if (k == k->_parent->_left) {
+			   		  k = k->_parent;
+			   		  rightRotate(k);
+			   		}
+			   		k->_parent->_color = 0;
+			   		k->_parent->_parent->_color = 1;
+			   		leftRotate(k->_parent->_parent);
+			   	  }
+			   	} else {
+			   	  u = k->_parent->_parent->_right;
+
+			   	  if (u->_color == 1) {
+			   		u->_color = 0;
+			   		k->_parent->_color = 0;
+			   		k->_parent->_parent->_color = 1;
+			   		k = k->_parent->_parent;
+			   	  } else {
+			   		if (k == k->_parent->_right) {
+			   		  k = k->_parent;
+			   		  leftRotate(k);
+			   		}
+			   		k->_parent->_color = 0;
+			   		k->_parent->_parent->_color = 1;
+			   		rightRotate(k->_parent->_parent);
+			   	  }
+			   	}
+			   	if (k == root) {
+			   	  break;
+			   	}
+			     }
+			     root->_color = 0;
+			   }
+
+			   void deleteFix(ptr_base x) {
+			     ptr_base s;
+			     while (x != root && x->_color == 0) {
+			       if (x == x->_parent->_left) {
+			         s = x->_parent->_right;
+			         if (s->_color == 1) {
+			           s->_color = 0;
+			           x->_parent->_color = 1;
+			           leftRotate(x->_parent);
+			           s = x->_parent->_right;
+			         }
+
+			         if (s->_left->_color == 0 && s->_right->_color == 0) {
+			           s->_color = 1;
+			           x = x->_parent;
+			         } else {
+			           if (s->_right->_color == 0) {
+			             s->_left->_color = 0;
+			             s->_color = 1;
+			             rightRotate(s);
+			             s = x->_parent->_right;
+			           }
+
+			           s->_color = x->_parent->_color;
+			           x->_parent->_color = 0;
+			           s->_right->_color = 0;
+			           leftRotate(x->_parent);
+			           x = root;
+			         }
+			       } else {
+			         s = x->_parent->_left;
+			         if (s->_color == 1) {
+			           s->_color = 0;
+			           x->_parent->_color = 1;
+			           rightRotate(x->_parent);
+			           s = x->_parent->_left;
+			         }
+
+			         if (s->_right->_color == 0 && s->_right->_color == 0) {
+			           s->_color = 1;
+			           x = x->_parent;
+			         } else {
+			           if (s->_left->_color == 0) {
+			             s->_right->_color = 0;
+			             s->_color = 1;
+			             leftRotate(s);
+			             s = x->_parent->_left;
+			           }
+
+			           s->_color = x->_parent->_color;
+			           x->_parent->_color = 0;
+			           s->_left->_color = 0;
+			           rightRotate(x->_parent);
+			           x = root;
+			         }
+			       }
+			     }
+			     x->_color = 0;
+			   }
+
 			ft::pair<typename rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<_Val>, bool>
 			insert(const _Val& v)
 			{
@@ -215,7 +362,7 @@ namespace ft
   		        return (it);
 			  }
 
-		      // insertFix(node);
+		      insertFix(node);
 
 			  it.first = rb_tree_iterator<_Val>(node);
 			  it.second = true;
@@ -224,36 +371,65 @@ namespace ft
 
 			ptr_base successor(ptr_base x)
 		   {
-		     if (x->right != TNULL)
+		     if (x->_right != TNULL)
 		     {
-		  	  return minimum(x->right);
+		  	  return minimum(x->_right);
 		     }
 
-		  	ptr_base y = x->parent;
-		  	while (y != TNULL && x == y->right)
+		  	ptr_base y = x->_parent;
+		  	while (y != TNULL && x == y->_right)
 		     {
 		  	  x = y;
-		  	  y = y->parent;
+		  	  y = y->_parent;
 		  	}
 		  	return y;
 		   }
 
 		   ptr_base predecessor(ptr_base x) {
-		  	if (x->left != TNULL) {
-		  	  return maximum(x->left);
+		  	if (x->_left != TNULL) {
+		  	  return maximum(x->_left);
 		  	}
 
-		  	ptr_base y = x->parent;
-		  	while (y != TNULL && x == y->left) {
+		  	ptr_base y = x->_parent;
+		  	while (y != TNULL && x == y->_left) {
 		  	  x = y;
-		  	  y = y->parent;
+		  	  y = y->_parent;
 		  	}
 
 		  	return y;
 		   }
 
 
-	   private:
+
+	   	ptr_base minimum(ptr_base node) {
+	   	  while (node->_left != TNULL) {
+	   		node = node->_left;
+	   	  }
+	   	  return node;
+	   	}
+
+	   	ptr_base maximum(ptr_base node) {
+	   	  while (node->_right != TNULL) {
+	   		node = node->_right;
+	   	  }
+	   	  return node;
+	   	}
+
+	   	constPtr_base minimum(constPtr_base node) {
+	   	  while (node->_left != TNULL) {
+	   		node = node->_left;
+	   	  }
+	   	  return node;
+	   	}
+
+	   	constPtr_base maximum(constPtr_base node) {
+	   	  while (node->_right != TNULL) {
+	   		node = node->_right;
+	   	  }
+	   	  return node;
+	   	}
+
+	   // private:
 		   ptr_base searchTreeHelper(ptr_base node, int key) {
 		     if (node == TNULL || key == node->_value.first) {
 		       return node;
@@ -278,50 +454,50 @@ namespace ft
 	   // public:
 	   //
 
-	   //
-		//    void leftRotate(ptr_base x) {
-		//      ptr_base y = x->right;
-		//      x->right = y->left;
-		//      if (y->left != TNULL) {
-		//        y->left->parent = x;
-		//      }
-		//      y->parent = x->parent;
-		//      if (x->parent == nullptr) {
-		//        this->root = y;
-		//      } else if (x == x->parent->left) {
-		//        x->parent->left = y;
-		//      } else {
-		//        x->parent->right = y;
-		//      }
-		//      y->left = x;
-		//      x->parent = y;
-		//    }
-	   //
-		//    void rightRotate(ptr_base x) {
-		//      ptr_base y = x->left;
-		//      x->left = y->right;
-		//      if (y->right != TNULL) {
-		//        y->right->parent = x;
-		//      }
-		//      y->parent = x->parent;
-		//      if (x->parent == nullptr) {
-		//        this->root = y;
-		//      } else if (x == x->parent->right) {
-		//        x->parent->right = y;
-		//      } else {
-		//        x->parent->left = y;
-		//      }
-		//      y->right = x;
-		//      x->parent = y;
-		//    }
-	   //
-		//    ptr_base getRoot() {
-		//      return this->root;
-		//    }
-	   //
-		//    void deleteNode(int data) {
-		// 	 deleteNodeHelper(this->root, data);
-		//    }
+
+		   void leftRotate(ptr_base x) {
+		     ptr_base y = x->_right;
+		     x->_right = y->_left;
+		     if (y->_left != TNULL) {
+		       y->_left->_parent = x;
+		     }
+		     y->_parent = x->_parent;
+		     if (x->_parent == TNULL) {
+		       this->root = y;
+		     } else if (x == x->_parent->_left) {
+		       x->_parent->_left = y;
+		     } else {
+		       x->_parent->_right = y;
+		     }
+		     y->_left = x;
+		     x->_parent = y;
+		   }
+
+		   void rightRotate(ptr_base x) {
+		     ptr_base y = x->_left;
+		     x->_left = y->_right;
+		     if (y->_right != TNULL) {
+		       y->_right->_parent = x;
+		     }
+		     y->_parent = x->_parent;
+		     if (x->_parent == TNULL) {
+		       this->root = y;
+		     } else if (x == x->_parent->_right) {
+		       x->_parent->_right = y;
+		     } else {
+		       x->_parent->_left = y;
+		     }
+		     y->_right = x;
+		     x->_parent = y;
+		   }
+
+		   ptr_base getRoot() {
+		     return this->root;
+		   }
+
+		   void deleteNode(int data) {
+			 deleteNodeHelper(this->root, data);
+		   }
 
 		void printHelper(ptr_base root, std::string indent, bool last) {
 	      if (root != TNULL) {

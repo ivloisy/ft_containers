@@ -26,7 +26,7 @@ int main()
 	ft::pair<int, int> lolo(12, 4);
 	ft::pair<int, int> lulu(4, 2);
 	ft::pair<int, int> lili(5, 7);
-	ft::pair<int, int> lele(5, 7);
+	// ft::pair<int, int> lele(5, 7);
 
 
 
@@ -47,8 +47,12 @@ int main()
 	std::cout << it.second << std::endl;
 	it = test.insert(lili);
 	std::cout << it.second << std::endl;
-	it = test.insert(lele);
-	std::cout << it.second << std::endl;
+	// it = test.insert(lele);
+	// std::cout << it.second << std::endl;
+	test.deleteNode(4);
+	test.deleteNode(1);
+	test.deleteNode(12);
+	test.deleteNode(5);
 
 	test.printTree();
 
