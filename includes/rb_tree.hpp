@@ -22,6 +22,7 @@ namespace ft
 		ptr_base	_left;
 		ptr_base	_right;
 		value		_value;
+
 	};
 
 	template<typename _Tp>
@@ -119,13 +120,10 @@ namespace ft
 			typedef size_t														size_type;
 			typedef ptrdiff_t													difference_type;
 			typedef _Alloc														allocator_type;
-			typedef ft::node_base<_Val>											node_type;
-			typedef std::allocator<node_type>									alloc_node;
 
 		private:
 			ptr_base root;
 			ptr_base TNULL;
-			alloc_node _alloc_node;
 
 			void rbTransplant(ptr_base u, ptr_base v)
 			{
@@ -190,9 +188,9 @@ namespace ft
 					y->_color = z->_color;
 				}
 				delete z;
-				// if (y_original_color == 0) {
-				//   deleteFix(x);
-				// }
+				if (y_original_color == 0) {
+				  deleteFix(x);
+				}
 			}
 
 			void insertFix(ptr_base k)
@@ -340,10 +338,10 @@ namespace ft
 				return searchTreeHelper(node->_right, key);
 			}
 
-			ft::rb_tree_iterator<_Val> checkIfExist(ptr_base node, int key)
+			rb_tree_iterator<_Val> checkIfExist(ptr_base node, int key)
 			{
 				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<_Val>(node);
+					return rb_tree_iterator<_Val>(node);
 				if (key < node->_value.first)
 					return checkIfExist(node->_left, key);
 				return checkIfExist(node->_right, key);
@@ -373,6 +371,11 @@ namespace ft
 			root = TNULL;
 		}
 
+		~rb_tree()
+		{
+
+		}
+
 		ft::pair<rb_tree_iterator<_Val>, bool>
 		insert(const _Val& v)
 		{
@@ -382,14 +385,10 @@ namespace ft
 				it.second = false;
 				return (it);
 			}
-			// v.first = reinterpret_cast<_Key>(v.first);
-			// ptr_base node = new base;
-			node_type* node = this->_alloc_node.allocate(1);
-			this->_alloc_node.construct(node._value, v);
-			// node->_alloc.allocate(1);
-			// node->_alloc.construct(node->value, v);
+			// ptr_base node = new node_base<_Val>;
+			ptr_base node = std::allocate(1);
 			node->_parent = TNULL;
-			// node->_value = v;
+			node->_value = v;
 			node->_left = TNULL;
 			node->_right = TNULL;
 			node->_color = true;
@@ -463,6 +462,8 @@ namespace ft
 			return y;
 		}
 
+
+
 		ptr_base minimum(ptr_base node)
 		{
 			while (node->_left != TNULL)
@@ -490,6 +491,7 @@ namespace ft
 				node = node->_right;
 			return node;
 		}
+
 
 		void leftRotate(ptr_base x)
 		{

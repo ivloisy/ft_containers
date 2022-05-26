@@ -23,22 +23,22 @@ int main()
 {
 	ft::pair<char, int> test('c', 42);
 	ft::map<char, int>	m1;
-	// m1.insert(test);
-	// int x = 1
+	m1.insert(test);
+	// int x = 1;
 	// ft::pair<int, int> lala(1, 3);
 	// ft::pair<int, int> lolo(12, 4);
 	// ft::pair<int, int> lulu(4, 2);
 	// ft::pair<int, int> lili(5, 7);
 	// ft::pair<int, int> lele(5, 7);
-	// //
-	// //
-	// //
-	// //
+	// // //
+	// // //
+	// // //
+	// // //
 	// ft::rb_tree<int, ft::pair<int, int>, int, std::less<int> > test;
 	// //
 	// ft::pair<ft::rb_tree_iterator<ft::pair<int, int> >, bool> it;
 	// //
-	// //
+	// // //
 	// // std::cout << "ok" << std::endl;
 	// it = test.insert(lala);
 	//

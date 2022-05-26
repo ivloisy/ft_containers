@@ -42,7 +42,7 @@ namespace ft
 			key_compare			_key_comp;
 			allocator_type		_alloc;
 			size_type			_size;
-			rbt<value_type, allocator_type, Compare>		_tree;
+			rb_tree<Key, value_type, Key, Compare>		_tree;
 
 		// public:
 		//
@@ -70,7 +70,7 @@ namespace ft
 		/* ===== default constructor ====== */
 
 
-		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()): _alloc(alloc), _key_comp(comp), _tree(alloc, _key_comp)
+		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()): _key_comp(comp), _alloc(alloc), _tree(_key_comp, alloc)
 		{
 		}
 
@@ -208,7 +208,7 @@ namespace ft
 		// 	}
 		// }
 
-		pair<iterator,bool> insert (const value_type& val)
+		pair<ft::rb_tree_iterator<value_type> ,bool> insert (const value_type& val)
 		{
 			return this->_tree.insert(val);
 		}
