@@ -167,6 +167,12 @@ namespace ft
 			ft::pair<typename rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<_Val>, bool>
 			insert(const _Val& v)
 			{
+				ft::pair<typename rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<_Val>, bool> it;
+				if ((it.first = searchTreeHelper2(this->root, v.first)) != rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<_Val>(TNULL))
+				{
+	  				it.second = false;
+	  		        return (it);
+				}
 		      ptr_base node = new base;
 		      node->_parent = TNULL;
 		      node->_value = v;
@@ -177,7 +183,6 @@ namespace ft
 		      ptr_base y = TNULL;
 		      ptr_base x = this->root;
 
-			  ft::pair<typename rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<_Val>, bool> it;
 		      while (x != TNULL)
 			  {
 		        y = x;
@@ -249,16 +254,27 @@ namespace ft
 
 
 	   private:
-		//    ptr_base searchTreeHelper(ptr_base node, int key) {
-		//      if (node == TNULL || key == node->data) {
-		//        return node;
-		//      }
-	   //
-		//      if (key < node->data) {
-		//        return searchTreeHelper(node->left, key);
-		//      }
-		//      return searchTreeHelper(node->right, key);
-		//    }
+		   ptr_base searchTreeHelper(ptr_base node, int key) {
+		     if (node == TNULL || key == node->_value.first) {
+		       return node;
+		     }
+
+		     if (key < node->_value.first) {
+		       return searchTreeHelper(node->_left, key);
+		     }
+		     return searchTreeHelper(node->_right, key);
+		   }
+
+		   rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<_Val> searchTreeHelper2(ptr_base node, int key) {
+		     if (node == TNULL || key == node->_value.first) {
+		       return rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<_Val>(node);
+		     }
+
+		     if (key < node->_value.first) {
+		       return searchTreeHelper2(node->_left, key);
+		     }
+		     return searchTreeHelper2(node->_right, key);
+		   }
 	   // public:
 	   //
 
