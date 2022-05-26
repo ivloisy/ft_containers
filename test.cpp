@@ -23,7 +23,7 @@ int main()
 {
 	ft::pair<char, int> test('c', 42);
 	ft::map<char, int>	m1;
-	m1.insert(test);
+	// m1.insert(test);
 	// int x = 1
 	// ft::pair<int, int> lala(1, 3);
 	// ft::pair<int, int> lolo(12, 4);

@@ -119,10 +119,13 @@ namespace ft
 			typedef size_t														size_type;
 			typedef ptrdiff_t													difference_type;
 			typedef _Alloc														allocator_type;
+			typedef ft::node_base<_Val>											node_type;
+			typedef std::allocator<node_type>									alloc_node;
 
 		private:
 			ptr_base root;
 			ptr_base TNULL;
+			alloc_node _alloc_node;
 
 			void rbTransplant(ptr_base u, ptr_base v)
 			{
@@ -379,9 +382,14 @@ namespace ft
 				it.second = false;
 				return (it);
 			}
-			ptr_base node = new base;
+			// v.first = reinterpret_cast<_Key>(v.first);
+			// ptr_base node = new base;
+			node_type* node = this->_alloc_node.allocate(1);
+			this->_alloc_node.construct(node._value, v);
+			// node->_alloc.allocate(1);
+			// node->_alloc.construct(node->value, v);
 			node->_parent = TNULL;
-			node->_value = v;
+			// node->_value = v;
 			node->_left = TNULL;
 			node->_right = TNULL;
 			node->_color = true;

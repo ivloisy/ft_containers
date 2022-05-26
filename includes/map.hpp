@@ -29,8 +29,8 @@ namespace ft
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
 			// typedef typename ft::rb_tree<Key, value_type, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<value_type>
-			typedef typename ft::rb_tree_iterator<value_type>								iterator;
-			typedef typename ft::rb_tree_iterator<const value_type>							const_iterator;
+			// typedef typename ft::rb_tree_iterator<value_type>								iterator;
+			// typedef typename ft::rb_tree_iterator<const value_type>							const_iterator;
 			// typedef ft::ReverseIterator<iterator>								reverse_iterator;
 			// typedef ft::ReverseIterator<const_iterator>							const_reverse_iterator;
 			typedef std::ptrdiff_t												difference_type;
@@ -39,10 +39,10 @@ namespace ft
 
 		private:
 
-			key_compare			_key_cmp;
+			key_compare			_key_comp;
 			allocator_type		_alloc;
 			size_type			_size;
-			rb_tree<Key, value_type, Key, Compare>		_tree;
+			rbt<value_type, allocator_type, Compare>		_tree;
 
 		// public:
 		//
@@ -69,7 +69,8 @@ namespace ft
 
 		/* ===== default constructor ====== */
 
-		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) : _tree(comp, alloc)
+
+		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()): _alloc(alloc), _key_comp(comp), _tree(alloc, _key_comp)
 		{
 		}
 
@@ -106,24 +107,24 @@ namespace ft
 
 		// iterator	begin()
 		// {
-		// 	return iterator(this->_first);
+		// 	return ft::rb_tree_iterator::minimum();
 		// }
-		//
+
 		// const_iterator	begin() const
 		// {
-		// 	return const_iterator(this->_first);
+		// 	return ft::rb_tree_iterator::minimum();
 		// }
 		//
 		// iterator	end()
 		// {
-		// 	return iterator(this->_first + this->_size);
+		// 	return ft::rb_tree_iterator::maximum();
 		// }
-		//
+
 		// const_iterator	end() const
 		// {
-		// 	return const_iterator(this->_first + this->_size);
+		// 	return ft::rb_tree_iterator::maximum();
 		// }
-		//
+
 		// reverse_iterator	rbegin()
 		// {
 		// 	return reverse_iterator(this->_first + (this->_size - 1));

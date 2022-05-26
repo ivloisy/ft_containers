@@ -26,11 +26,11 @@ namespace ft
 
 		pair &	operator=(const pair & pr)
 		{
-			// if (this != pr)
-			// {
+			if (this != &pr)
+			{
 				this->first = pr.first;
 				this->second = pr.second;
-			// }
+			}
 			return *this;
 		}
 
