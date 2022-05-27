@@ -31,6 +31,10 @@ int main()
 	m1.insert(test4);
 	m1.insert(test5);
 	m1.printTree();
+	// ft::pair<ft::rb_tree_iterator<ft::pair<int, int>, ft::node_base<ft::pair<int, int> > >, bool> it(m1.begin(), false);
+	// std::cout << *it.first;
+	// std::cout << it.second << std::endl;
+
 // 	ft::vector<int>			test(3, 3);
 //
 // 	std::cout << "self assignation test\n";

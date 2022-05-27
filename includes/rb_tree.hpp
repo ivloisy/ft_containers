@@ -29,84 +29,6 @@ namespace ft
 
 	};
 
-	template<typename _Tp>
-	struct rb_tree_iterator
-	{
-		typedef _Tp  value_type;
-		typedef _Tp& reference;
-		typedef _Tp* pointer;
-
-		typedef std::bidirectional_iterator_tag				iterator_category;
-		typedef ptrdiff_t									difference_type;
-
-		typedef rb_tree_iterator<_Tp>       			 	rb_iterator;
-		typename node_base<_Tp>::ptr_base					current_node;
-
-		rb_tree_iterator()
-		: current_node() { }
-
-		explicit
-		rb_tree_iterator(node_base<_Tp>* x)
-		: current_node(x) { }
-
-		reference
-		operator*() const
-		{
-			return static_cast<node_base<_Tp>*>(current_node)->_value;
-			// return *(current_node)->_value;
-		}
-
-		// pointer
-		// operator->() const
-		// {
-		//    return std::__addressof(static_cast<node_base<_Val>*>
-		//           (current_node)->_value);
-		// }
-
-		rb_iterator&
-		operator++()
-		{
-			current_node = current_node.successor(current_node);
-			return *this;
-		}
-
-		rb_iterator
-		operator++(int)
-		{
-			rb_iterator __tmp = *this;
-			current_node = current_node.successor(current_node);
-			return __tmp;
-		}
-
-		rb_iterator&
-		operator--()
-		{
-			current_node = current_node.predecessor(current_node);
-			return *this;
-		}
-
-		rb_iterator
-		operator--(int)
-		{
-			rb_iterator __tmp = *this;
-			current_node = current_node.predecessor(current_node);
-			return __tmp;
-		}
-
-		bool
-		operator==(const rb_iterator& x) const
-		{
-			return current_node == x.current_node;
-		}
-
-		bool
-		operator!=(const rb_iterator& x) const
-		{
-			return current_node != x.current_node;
-		}
-
-	};
-
 	template<typename _Key, typename _Val, typename _KeyOfValue, typename _Compare, typename _Alloc = std::allocator<node_base<_Val> > >
 	class rb_tree
 	{
@@ -193,9 +115,9 @@ namespace ft
 					y->_color = z->_color;
 				}
 				delete z;
-				// if (y_original_color == 0) {
-				//   deleteFix(x);
-				// }
+				if (y_original_color == 0) {
+				  deleteFix(x);
+				}
 			}
 
 			void insertFix(ptr_base k)
@@ -343,10 +265,10 @@ namespace ft
 				return searchTreeHelper(node->_right, key);
 			}
 
-			ft::rb_tree_iterator<_Val> checkIfExist(ptr_base node, int key)
+			ft::rb_tree_iterator<_Val, base> checkIfExist(ptr_base node, int key)
 			{
 				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<_Val>(node);
+					return ft::rb_tree_iterator<_Val, base>(node);
 				if (key < node->_value.first)
 					return checkIfExist(node->_left, key);
 				return checkIfExist(node->_right, key);
@@ -380,12 +302,12 @@ namespace ft
 			root = TNULL;
 		}
 
-		ft::pair<rb_tree_iterator<_Val>, bool>
+		ft::pair<rb_tree_iterator<_Val, base>, bool>
 		insert(const _Val& v)
 		{
-			ft::pair<rb_tree_iterator<_Val>, bool> it;
+			ft::pair<rb_tree_iterator<_Val, base>, bool> it;
 			ft::pair<int, int> test;
-			if ((it.first = checkIfExist(this->root, v.first)) != rb_tree_iterator<_Val>(TNULL))
+			if ((it.first = checkIfExist(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL))
 			{
 				it.second = false;
 				return (it);
@@ -396,7 +318,7 @@ namespace ft
 			node->_left = TNULL;
 			node->_right = TNULL;
 			node->_color = true;
-			
+
 			ptr_base y = TNULL;
 			ptr_base x = this->root;
 
@@ -420,21 +342,21 @@ namespace ft
 			if (node->_parent == TNULL)
 			{
 				node->_color = 0;
-				it.first = rb_tree_iterator<_Val>(y);
+				it.first = rb_tree_iterator<_Val, base>(y);
 				it.second = true;
 				return (it);
 			}
 
 			if (node->_parent->_parent == TNULL)
 			{
-				it.first = rb_tree_iterator<_Val>(y);
+				it.first = ft::rb_tree_iterator<_Val, base>(y);
 				it.second = true;
 				return (it);
 			}
 
 			insertFix(node);
 
-			it.first = rb_tree_iterator<_Val>(node);
+			it.first = ft::rb_tree_iterator<_Val, base>(node);
 			it.second = true;
 			return (it);
 		}
