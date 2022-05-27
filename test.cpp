@@ -19,6 +19,18 @@
 int main()
 {
 
+	ft::pair<int, int> test1('S', 42);
+	ft::pair<int, int> test2('a', 42);
+	ft::pair<int, int> test3('l', 42);
+	ft::pair<int, int> test4('u', 42);
+	ft::pair<int, int> test5('t', 42);
+	ft::map<int, int>	m1;
+	m1.insert(test1);
+	m1.insert(test2);
+	m1.insert(test3);
+	m1.insert(test4);
+	m1.insert(test5);
+	m1.printTree();
 // 	ft::vector<int>			test(3, 3);
 //
 // 	std::cout << "self assignation test\n";
@@ -1085,14 +1097,14 @@ int main()
 // // 	std::cout << '\n';
 // //
 // // 	std::cout << std::endl;
-	std::cout << std::endl << "INSERT TESTS" << std::endl;
-	ft::vector<int> test(1, 1);
-	ft::vector<int> test2(5, 5);
-
-	std::cout << test.capacity() << std::endl;
-	test.assign(7, 2);
-	// test.insert(test.begin(), 200, 12);
-	std::cout << test.capacity() << std::endl;
+	// std::cout << std::endl << "INSERT TESTS" << std::endl;
+	// ft::vector<int> test(1, 1);
+	// ft::vector<int> test2(5, 5);
+	//
+	// std::cout << test.capacity() << std::endl;
+	// test.assign(7, 2);
+	// // test.insert(test.begin(), 200, 12);
+	// std::cout << test.capacity() << std::endl;
 	// print_vector<T>(test);
 	return (0);
 }
