@@ -14,18 +14,85 @@ namespace ft
 	template <typename value>
 	class node_base
 	{
+
 		public:
 			typedef node_base*			ptr_base;
 			typedef const node_base*	const_ptr_base;
-			node_base(void): _value(value()) {}
-			node_base(const value& v): _value(v) {}
-			node_base(const node_base& src):
-			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
 			bool		_color;
 			ptr_base	_parent;
 			ptr_base	_left;
 			ptr_base	_right;
 			value		_value;
+		private:
+			ptr_base* null(ptr_base x) const
+			{
+				node_base* _tmp = x;
+				while ( _tmp->_right )
+				_tmp = _tmp->_right;
+				return _tmp;
+			}
+		public:
+			node_base(void): _value(value()) {}
+			node_base(const value& v): _value(v) {}
+			node_base(const node_base& src):
+			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
+
+
+			// ptr_base successor(ptr_base x) const
+			// {
+			// 	if (x->_right != null())
+			// 		return minimum(x->_right);
+			// 	ptr_base y = x->_parent;
+			// 	while (y != null() && x == y->_right)
+			// 	{
+			// 		x = y;
+			// 		y = y->_parent;
+			// 	}
+			// 	return y;
+			// }
+			//
+			// ptr_base predecessor(ptr_base x) const
+			// {
+			// 	if (x->_left != null())
+			// 		return maximum(x->_left);
+			// 	ptr_base y = x->_parent;
+			// 	while (y != null() && x == y->_left)
+			// 	{
+			// 		x = y;
+			// 		y = y->_parent;
+			// 	}
+			//
+			// 	return y;
+			// }
+			//
+			// ptr_base minimum(ptr_base node) const
+			// {
+			// 	while (node->_left != null())
+			// 		node = node->_left;
+			// 	return node;
+			// }
+			//
+			// ptr_base maximum(ptr_base node) const
+			// {
+			// 	while (node->_right != null())
+			// 		node = node->_right;
+			// 	return node;
+			// }
+			//
+			// const_ptr_base minimum(const_ptr_base node) const
+			// {
+			// 	while (node->_left != null())
+			// 		node = node->_left;
+			// 	return node;
+			// }
+			//
+			// const_ptr_base maximum(const_ptr_base node) const
+			// {
+			// 	while (node->_right != null())
+			// 		node = node->_right;
+			// 	return node;
+			// }
+
 
 	};
 
@@ -36,7 +103,7 @@ namespace ft
 		protected:
 			typedef ft::node_base<_Val>												base;
 			typedef ft::node_base<_Val>*											ptr_base;
-			typedef const node_base<_Val>*										constPtr_base;
+			typedef const ft::node_base<_Val>*										constPtr_base;
 			typedef _Key														key_type;
 			typedef _Val														value_type;
 			typedef value_type*													pointer;
@@ -372,7 +439,7 @@ namespace ft
 			return (it);
 		}
 
-		ptr_base successor(ptr_base x) const
+		ptr_base successor(ptr_base x)
 		{
 			if (x->_right != TNULL)
 				return minimum(x->_right);
@@ -385,7 +452,7 @@ namespace ft
 			return y;
 		}
 
-		ptr_base predecessor(ptr_base x) const
+		ptr_base predecessor(ptr_base x)
 		{
 			if (x->_left != TNULL)
 				return maximum(x->_left);
@@ -399,28 +466,28 @@ namespace ft
 			return y;
 		}
 
-		ptr_base minimum(ptr_base node) const
+		ptr_base minimum(ptr_base node)
 		{
 			while (node->_left != TNULL)
 				node = node->_left;
 			return node;
 		}
 
-		ptr_base maximum(ptr_base node) const
+		ptr_base maximum(ptr_base node)
 		{
 			while (node->_right != TNULL)
 				node = node->_right;
 			return node;
 		}
 
-		constPtr_base minimum(constPtr_base node) const
+		constPtr_base minimum(constPtr_base node)
 		{
 			while (node->_left != TNULL)
 				node = node->_left;
 			return node;
 		}
 
-		constPtr_base maximum(constPtr_base node) const
+		constPtr_base maximum(constPtr_base node)
 		{
 			while (node->_right != TNULL)
 				node = node->_right;
@@ -465,6 +532,11 @@ namespace ft
 		{
 			return this->root;
 		}
+
+		// constPtr_base getConstRoot() const
+		// {
+		// 	return this->root;
+		// }
 
 		size_type getSize() const
 		{
