@@ -95,8 +95,9 @@ namespace ft
 
 		/* ========= destructor =========== */
 
-		~map(){
-
+		~map()
+		{
+			clear();
 		}
 
 
@@ -151,16 +152,16 @@ namespace ft
 
 		/* =========================== Capacity ========================================= */
 
-		// bool	empty() const
-		// {
-		// 	return this->_size == false;
-		// }
-		//
-		// size_type	size() const
-		// {
-		// 	return this->_size;
-		// }
-		//
+		bool	empty() const
+		{
+			return !size() ;
+		}
+
+		size_type	size() const
+		{
+			return this->_tree.getSize();
+		}
+
 		// size_type	max_size() const
 		// {
 		// 	return allocator_type().max_size();
@@ -255,10 +256,13 @@ namespace ft
 
 		/* ============= Clear ============ */
 
-		// void clear()
-		// {
-		//
-		// }
+		void clear()
+		{
+			while (!this->empty())
+			{
+				this->_tree.deleteNode(this->_tree.getRootKey());
+			}
+		}
 
 		/* =========================== Observers ======================================== */
 
@@ -321,10 +325,10 @@ namespace ft
 
 		/* =========================== Allocator ======================================== */
 
-		// allocator_type get_allocator() const
-		// {
-		//
-		// }
+		allocator_type get_allocator() const
+		{
+			return this->_alloc;
+		}
 
 
 

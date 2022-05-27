@@ -51,6 +51,7 @@ namespace ft
 			ptr_base root;
 			ptr_base TNULL;
 			allocator_type _alloc;
+			size_type	_size;
 
 			void rbTransplant(ptr_base u, ptr_base v)
 			{
@@ -82,7 +83,7 @@ namespace ft
 					std::cout << "Key not found in the tree" << std::endl;
 					return;
 				}
-
+				this->_size--;
 				y = z;
 				int y_original_color = y->_color;
 				if (z->_left == TNULL)
@@ -287,6 +288,7 @@ namespace ft
 			TNULL->_right = TNULL;
 			TNULL->_parent = TNULL;
 			root = TNULL;
+			_size = 0;
 		}
 
 		rb_tree(const _Compare& comp, const allocator_type& a = allocator_type())
@@ -300,6 +302,13 @@ namespace ft
 			TNULL->_right = TNULL;
 			TNULL->_parent = TNULL;
 			root = TNULL;
+			_size = 0;
+		}
+
+		~rb_tree()
+		{
+			this->_alloc.destroy(TNULL);
+			this->_alloc.deallocate(TNULL, 1);
 		}
 
 		ft::pair<rb_tree_iterator<_Val, base>, bool>
@@ -312,6 +321,7 @@ namespace ft
 				it.second = false;
 				return (it);
 			}
+			this->_size++;
 			ptr_base node = this->_alloc.allocate(1);
 			this->_alloc.construct(node, base(v));
 			node->_parent = TNULL;
@@ -450,14 +460,24 @@ namespace ft
 			x->_parent = y;
 		}
 
-		ptr_base getRoot()
+		ptr_base getRoot() const
 		{
 			return this->root;
+		}
+
+		size_type getSize() const
+		{
+			return this->_size;
 		}
 
 		void deleteNode(int data)
 		{
 			deleteNodeHelper(this->root, data);
+		}
+
+		_Key getRootKey() const
+		{
+			return this->root->_value.first;
 		}
 
 		void printHelper(ptr_base root, std::string indent, bool last)
