@@ -22,19 +22,35 @@ namespace ft
 			typedef ft::pair<const Key, T>							value_type;
 
 			typedef Compare														key_compare;
-			class																value_comp;
 			typedef Alloc														allocator_type;
 			typedef typename allocator_type::reference							reference;
 			typedef typename allocator_type::const_reference					const_reference;
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
 			// typedef typename ft::rb_tree<Key, value_type, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<value_type>
-			// typedef typename ft::rb_tree_iterator<value_type>								iterator;
+			typedef typename ft::rb_tree_iterator<value_type, pointer>								iterator;
 			// typedef typename ft::rb_tree_iterator<const value_type>							const_iterator;
 			// typedef ft::ReverseIterator<iterator>								reverse_iterator;
 			// typedef ft::ReverseIterator<const_iterator>							const_reverse_iterator;
 			typedef std::ptrdiff_t												difference_type;
 			typedef size_t														size_type;
+			class	value_compare : public std::binary_function<value_type, value_type, bool>
+			{
+				friend class map;
+
+				protected:
+					Compare comp;
+					value_compare (Compare c) : comp(c) {}
+
+				public:
+					typedef bool result_type;
+					typedef value_type first_argument_type;
+					typedef value_type second_argument_type;
+					bool operator() (const value_type& x, const value_type& y) const
+					{
+						return comp(x.first, y.first);
+					}
+			};
 
 
 		private:
@@ -42,7 +58,7 @@ namespace ft
 			key_compare			_key_comp;
 			allocator_type		_alloc;
 			size_type			_size;
-			rb_tree<Key, value_type, Key, Compare>		_tree;
+			rb_tree<Key, value_type, Key, Compare, allocator_type>		_tree;
 
 		// public:
 		//
@@ -70,7 +86,7 @@ namespace ft
 		/* ===== default constructor ====== */
 
 
-		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()): _key_comp(comp), _alloc(alloc), _tree(_key_comp, alloc)
+		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()): _key_comp(comp), _alloc(alloc), _tree(_key_comp, _alloc)
 		{
 		}
 
@@ -208,7 +224,7 @@ namespace ft
 		// 	}
 		// }
 
-		pair<ft::rb_tree_iterator<value_type> ,bool> insert (const value_type& val)
+		ft::pair<iterator ,bool> insert (const value_type& val)
 		{
 			return this->_tree.insert(val);
 		}

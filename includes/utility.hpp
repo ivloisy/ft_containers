@@ -33,7 +33,10 @@ namespace ft
 			}
 			return *this;
 		}
-
+		
+		operator pair<T1 const, T2 const>(void) const {
+	    return (pair<T1 const, T2 const>(this->first, this->second));
+		}
 	};
 
 	template <class T1, class T2>
@@ -65,6 +68,8 @@ namespace ft
 	{
 		return ( pair<T1,T2>(x,y) );
 	}
+
+
 
 } // namespace ft
 
