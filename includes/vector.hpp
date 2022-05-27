@@ -94,14 +94,9 @@ namespace ft
 			vector(vector const & src) : _alloc(src._alloc), _capacity(src._size), _size(0)
 			{
 				this->_first = this->_alloc.allocate(this->_capacity);
-				//this->assign(x.begin(), x.end());
 				for (size_type i = 0; i < src._size; i++) {
 					this->push_back(*(src._first + this->_size));
 				}
-				// std::cout << "============== plaf" << std::endl;
-				// this->_capacity = src.size();
-				// *this = src;
-				// std::cout << "<<<<<<<<<<<<<<<plouf" << std::endl;
 				return ;
 			}
 
@@ -199,14 +194,9 @@ namespace ft
 					else
 					{
 						if (this->_capacity * 2 < n)
-						{
-							// std::cout << "avant reserve////// " << this->_capacity << std::endl;
 							this->reserve(n);
-						}
 						else
 							this->reserve(this->_capacity * 2);
-						// std::cout << this->_capacity << std::endl;
-						// std::cout << "apres reserve////// " << this->_capacity << std::endl;
 						for (size_t i = this->_size; i < n; i++)
 							this->push_back(val);
 					}
@@ -235,13 +225,7 @@ namespace ft
 				{
 					pointer		tmp;
 					size_t		tmps = this->_size;
-					// size_t		newCap = n == 0 ? 1 : n;
-					size_type	newCap = n; //this->_capacity == 0 ? n : this->_capacity;
-					// if (n > newCap/* * 2*/)
-					// 	newCap = n;
-					// else
-					// 	while (n > newCap)
-					// 		newCap *= 2;
+					size_type	newCap = n;
 					if (newCap > this->max_size())
 						throw(std::exception());
 					tmp = this->_alloc.allocate(newCap);
@@ -420,7 +404,6 @@ namespace ft
 				if (n > this->_capacity) /// a checker ==========================================/////
 					this->_capacity = 0;
 				this->insert(this->begin(), n, val);
-				// this->resize(n, val);
 			}
 
 			template <class InputIterator>
@@ -434,11 +417,8 @@ namespace ft
 
 			void	push_back (const value_type& val)
 			{
-				// if (this->_capacity == 0)
-				// 	this->_capacity = 1;
 				if (this->_capacity < this->_size + 1)
 					this->reserve(this->_capacity * 2);
-					// this->reserve(this->_size + 1);
 				pointer current = this->_first;
 				for (size_t n = 0; n < this->_size; n++)
 					current++;
