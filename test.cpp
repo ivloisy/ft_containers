@@ -13,10 +13,6 @@
 	#include "includes/map.hpp"
 	#include "includes/rb_tree.hpp"
 	#include "includes/utility.hpp"
-	// #include <map>
-//	#include <stack.hpp>
-//	#include <vector.hpp>
-	// #include <tree>
 #endif
 
 int main()
@@ -55,7 +51,7 @@ int main()
 	//
 	// test.printTree();
 
-// 	ft::vector<int>			test(3, 3);
+	ft::vector<int>			test(3, 3);
 // //
 // 	ft::vector<int>::reference tmp = test[1];
 // 	std::cout << tmp << std::endl;

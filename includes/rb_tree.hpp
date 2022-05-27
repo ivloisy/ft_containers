@@ -12,16 +12,21 @@ namespace ft
 
 
 	template <typename value>
-	struct node_base
+	class node_base
 	{
-		typedef node_base*			ptr_base;
-		typedef const node_base*	const_ptr_base;
+		public:
+			typedef node_base*			ptr_base;
+			typedef const node_base*	const_ptr_base;
+			node_base(void): _value(value()) {}
+			node_base(const value& v): _value(v) {}
+			node_base(const node_base& src):
+			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
+			bool		_color;
+			ptr_base	_parent;
+			ptr_base	_left;
+			ptr_base	_right;
+			value		_value;
 
-		bool		_color;
-		ptr_base	_parent;
-		ptr_base	_left;
-		ptr_base	_right;
-		value		_value;
 	};
 
 	template<typename _Tp>
@@ -47,8 +52,8 @@ namespace ft
 		reference
 		operator*() const
 		{
-			// return static_cast<node_base<_Tp>*>(current_node)->_value;
-			return *(current_node)->_value;
+			return static_cast<node_base<_Tp>*>(current_node)->_value;
+			// return *(current_node)->_value;
 		}
 
 		// pointer
@@ -102,13 +107,13 @@ namespace ft
 
 	};
 
-	template<typename _Key, typename _Val, typename _KeyOfValue, typename _Compare, typename _Alloc = std::allocator<_Val> >
+	template<typename _Key, typename _Val, typename _KeyOfValue, typename _Compare, typename _Alloc = std::allocator<node_base<_Val> > >
 	class rb_tree
 	{
 
 		protected:
-			typedef node_base<_Val>												base;
-			typedef node_base<_Val>*											ptr_base;
+			typedef ft::node_base<_Val>												base;
+			typedef ft::node_base<_Val>*											ptr_base;
 			typedef const node_base<_Val>*										constPtr_base;
 			typedef _Key														key_type;
 			typedef _Val														value_type;
@@ -123,6 +128,7 @@ namespace ft
 		private:
 			ptr_base root;
 			ptr_base TNULL;
+			allocator_type _alloc;
 
 			void rbTransplant(ptr_base u, ptr_base v)
 			{
@@ -352,10 +358,14 @@ namespace ft
 
 		rb_tree()
 		{
-			TNULL = new base;
-			TNULL->_color = false;
-			TNULL->_left = TNULL;
-			TNULL->_right = TNULL;
+			base tmp;
+			tmp._color = false;
+			tmp._left = TNULL;
+			tmp._right = TNULL;
+			tmp._parent = TNULL;
+			tmp._value = value_type();
+			TNULL = this->_alloc.allocate(1);
+			this->_alloc.construct(TNULL, tmp);
 			root = TNULL;
 		}
 
@@ -363,10 +373,8 @@ namespace ft
 		{
 			(void)comp;
 			(void)a;
-			TNULL = new base;
-			TNULL->_color = false;
-			TNULL->_left = TNULL;
-			TNULL->_right = TNULL;
+			TNULL = this->_alloc.allocate(1);
+			this->_alloc.construct(TNULL, base());
 			root = TNULL;
 		}
 
@@ -374,17 +382,14 @@ namespace ft
 		insert(const _Val& v)
 		{
 			ft::pair<rb_tree_iterator<_Val>, bool> it;
+			ft::pair<int, int> test;
 			if ((it.first = checkIfExist(this->root, v.first)) != rb_tree_iterator<_Val>(TNULL))
 			{
 				it.second = false;
 				return (it);
 			}
-			ptr_base node = new base;
-			node->_parent = TNULL;
-			node->_value = v;
-			node->_left = TNULL;
-			node->_right = TNULL;
-			node->_color = true;
+			ptr_base node = this->_alloc.allocate(1);
+			this->_alloc.construct(node, base(v));
 
 			ptr_base y = TNULL;
 			ptr_base x = this->root;
