@@ -97,7 +97,7 @@ namespace ft
 
 		protected:
 
-			typename node_base::ptr_base					current_node;
+			node_base *					current_node;
 
 			node_base* null(void) const
 			{
@@ -169,7 +169,7 @@ namespace ft
 
 			~rb_tree_iterator( void ) {};
 
-			pointer base( void ) const { return &(current_node->getKey(current_node)); }
+			pointer base( void ) const { return (current_node); }
 
 			reference operator*( void ) const { return *base(); }
 			pointer operator->( void ) const { return &(operator*()); }

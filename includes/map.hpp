@@ -114,12 +114,12 @@ namespace ft
 
 		iterator	end()
 		{
-			return iterator(this->_tree.maximum(this->_tree.getRoot()) + 1);
+			return iterator(this->_tree.maximum(this->_tree.getRoot()));
 		}
 
 		const_iterator	end() const
 		{
-			return const_iterator(this->_tree.maximum(this->_tree.getRoot()) + 1);
+			return const_iterator(this->_tree.maximum(this->_tree.getRoot()));
 		}
 
 		reverse_iterator	rbegin()
@@ -310,11 +310,11 @@ namespace ft
 			iterator it = begin();
 			while (it != end())
 			{
-				if (*it.key_comp(k))
+				if (it->key_comp(k))
 					break;
 				it++;
 			}
-			return iterator(this->_tree.predecessor(it));
+			return iterator(this->_tree.predecessor(&it));
 		}
 
 		const_iterator upper_bound (const key_type& k) const

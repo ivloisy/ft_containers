@@ -37,7 +37,6 @@ namespace ft
 			node_base(const node_base& src):
 			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
 
-
 			// ptr_base successor(ptr_base x) const
 			// {
 			// 	if (x->_right != null())
@@ -466,33 +465,33 @@ namespace ft
 			return y;
 		}
 
-		ptr_base minimum(ptr_base node)
+		ptr_base minimum(ptr_base node) const
 		{
 			while (node->_left != TNULL)
 				node = node->_left;
 			return node;
 		}
 
-		ptr_base maximum(ptr_base node)
+		ptr_base maximum(ptr_base node) const
 		{
 			while (node->_right != TNULL)
 				node = node->_right;
 			return node;
 		}
 
-		constPtr_base minimum(constPtr_base node)
-		{
-			while (node->_left != TNULL)
-				node = node->_left;
-			return node;
-		}
+		// constPtr_base minimum(constPtr_base node) const
+		// {
+		// 	while (node->_left != TNULL)
+		// 		node = node->_left;
+		// 	return node;
+		// }
 
-		constPtr_base maximum(constPtr_base node)
-		{
-			while (node->_right != TNULL)
-				node = node->_right;
-			return node;
-		}
+		// constPtr_base maximum(constPtr_base node) const
+		// {
+		// 	while (node->_right != TNULL)
+		// 		node = node->_right;
+		// 	return node;
+		// }
 
 		void leftRotate(ptr_base x)
 		{
