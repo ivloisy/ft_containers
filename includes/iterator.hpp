@@ -94,7 +94,7 @@ namespace ft
 		typedef _Tp* pointer;
 
 		// typedef ft::bidirectional_iterator_tag				iterator_category;
-		typedef ptrdiff_t									difference_type;
+		typedef std::ptrdiff_t									difference_type;
 
 		typedef rb_tree_iterator<_Tp, node_base>       			 	rb_iterator;
 		typename node_base::ptr_base					current_node;

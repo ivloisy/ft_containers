@@ -44,7 +44,7 @@ namespace ft
 			typedef value_type&													reference;
 			typedef const value_type&											const_reference;
 			typedef size_t														size_type;
-			typedef ptrdiff_t													difference_type;
+			typedef std::ptrdiff_t													difference_type;
 			typedef _Alloc														allocator_type;
 
 		private:
@@ -64,7 +64,7 @@ namespace ft
 				v->_parent = u->_parent;
 			}
 
-			void deleteNodeHelper(ptr_base node, int key)
+			int deleteNodeHelper(ptr_base node, _Key key)
 			{
 				ptr_base z = TNULL;
 				ptr_base x, y;
@@ -81,7 +81,7 @@ namespace ft
 				if (z == TNULL)
 				{
 					std::cout << "Key not found in the tree" << std::endl;
-					return;
+					return 0;
 				}
 				this->_size--;
 				y = z;
@@ -119,6 +119,7 @@ namespace ft
 				if (y_original_color == 0) {
 				  deleteFix(x);
 				}
+				return 1;
 			}
 
 			void insertFix(ptr_base k)
@@ -252,7 +253,7 @@ namespace ft
 				x->_color = 0;
 			}
 
-			ptr_base searchTreeHelper(ptr_base node, int key)
+			ptr_base searchTreeHelper(ptr_base node, _Key key)
 			{
 				if (node == TNULL || key == node->_value.first)
 				{
@@ -266,7 +267,7 @@ namespace ft
 				return searchTreeHelper(node->_right, key);
 			}
 
-			ft::rb_tree_iterator<_Val, base> checkIfExist(ptr_base node, int key)
+			ft::rb_tree_iterator<_Val, base> checkIfExist(ptr_base node, _Key key)
 			{
 				if (node == TNULL || key == node->_value.first)
 					return ft::rb_tree_iterator<_Val, base>(node);
@@ -371,7 +372,7 @@ namespace ft
 			return (it);
 		}
 
-		ptr_base successor(ptr_base x)
+		ptr_base successor(ptr_base x) const
 		{
 			if (x->_right != TNULL)
 				return minimum(x->_right);
@@ -384,7 +385,7 @@ namespace ft
 			return y;
 		}
 
-		ptr_base predecessor(ptr_base x)
+		ptr_base predecessor(ptr_base x) const
 		{
 			if (x->_left != TNULL)
 				return maximum(x->_left);
@@ -398,28 +399,28 @@ namespace ft
 			return y;
 		}
 
-		ptr_base minimum(ptr_base node)
+		ptr_base minimum(ptr_base node) const
 		{
 			while (node->_left != TNULL)
 				node = node->_left;
 			return node;
 		}
 
-		ptr_base maximum(ptr_base node)
+		ptr_base maximum(ptr_base node) const
 		{
 			while (node->_right != TNULL)
 				node = node->_right;
 			return node;
 		}
 
-		constPtr_base minimum(constPtr_base node)
+		constPtr_base minimum(constPtr_base node) const
 		{
 			while (node->_left != TNULL)
 				node = node->_left;
 			return node;
 		}
 
-		constPtr_base maximum(constPtr_base node)
+		constPtr_base maximum(constPtr_base node) const
 		{
 			while (node->_right != TNULL)
 				node = node->_right;
@@ -470,14 +471,14 @@ namespace ft
 			return this->_size;
 		}
 
-		void deleteNode(int data)
+		size_type deleteNode(_Key data)
 		{
-			deleteNodeHelper(this->root, data);
+			return deleteNodeHelper(this->root, data);
 		}
 
-		_Key getRootKey() const
+		_Key getKey(constPtr_base target) const
 		{
-			return this->root->_value.first;
+			return target->_value.first;
 		}
 
 		void printHelper(ptr_base root, std::string indent, bool last)

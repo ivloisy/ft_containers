@@ -475,42 +475,42 @@ namespace ft
 			}
 
 
-			/* ============ Swap ============ */
+		/* ============ Swap ============ */
 
-			private:
-				template <class ToSwap>
-				void ft_swap(ToSwap &a, ToSwap &b)
-				{
-					ToSwap tmp = a;
-					a = b;
-					b = tmp;
-				}
+		private:
+			template <class ToSwap>
+			void ft_swap(ToSwap &a, ToSwap &b)
+			{
+				ToSwap tmp = a;
+				a = b;
+				b = tmp;
+			}
 
-			public:
+		public:
 
-				void	swap (vector & x)
-				{
-					ft_swap(this->_first, x._first);
-					ft_swap(this->_alloc, x._alloc);
-					ft_swap(this->_size, x._size);
-					ft_swap(this->_capacity, x._capacity);
-				}
+			void	swap (vector & x)
+			{
+				ft_swap(this->_first, x._first);
+				ft_swap(this->_alloc, x._alloc);
+				ft_swap(this->_size, x._size);
+				ft_swap(this->_capacity, x._capacity);
+			}
 
-				/* ============ Clear ============ */
+			/* ============ Clear ============ */
 
-				void	clear()
-				{
-					for (size_t i = 0; i < this->_size; i++)
-						_alloc.destroy(this->_first + i);
-					this->_size = 0;
-				}
+			void	clear()
+			{
+				for (size_t i = 0; i < this->_size; i++)
+					_alloc.destroy(this->_first + i);
+				this->_size = 0;
+			}
 
-				/* =========================== Allocator ======================================== */
+			/* =========================== Allocator ======================================== */
 
-				allocator_type	get_allocator() const
-				{
-					return this->_alloc;
-				}
+			allocator_type	get_allocator() const
+			{
+				return this->_alloc;
+			}
 
 	};
 

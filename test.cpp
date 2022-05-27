@@ -32,9 +32,11 @@ int main()
 	m1.insert(test3);
 	m1.insert(test4);
 	m1.insert(test5);
-	m1.printTree();
+	// m1.printTree();
 	std::cout << "m1.size() = " << m1.size() << std::endl;
 	std::cout << "m1.empty() = " << m1.empty() << std::endl;
+	std::cout << "m1.max_size() = " << m1.max_size() << std::endl;
+
 	// ft::pair<ft::rb_tree_iterator<ft::pair<int, int>, ft::node_base<ft::pair<int, int> > >, bool> it(m1.begin(), false);
 	// std::cout << *it.first;
 	// std::cout << it.second << std::endl;
