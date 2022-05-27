@@ -358,14 +358,12 @@ namespace ft
 
 		rb_tree()
 		{
-			base tmp;
-			tmp._color = false;
-			tmp._left = TNULL;
-			tmp._right = TNULL;
-			tmp._parent = TNULL;
-			tmp._value = value_type();
 			TNULL = this->_alloc.allocate(1);
-			this->_alloc.construct(TNULL, tmp);
+			this->_alloc.construct(TNULL, base());
+			TNULL->_color = false;
+			TNULL->_left = TNULL;
+			TNULL->_right = TNULL;
+			TNULL->_parent = TNULL;
 			root = TNULL;
 		}
 
@@ -375,6 +373,10 @@ namespace ft
 			(void)a;
 			TNULL = this->_alloc.allocate(1);
 			this->_alloc.construct(TNULL, base());
+			TNULL->_color = false;
+			TNULL->_left = TNULL;
+			TNULL->_right = TNULL;
+			TNULL->_parent = TNULL;
 			root = TNULL;
 		}
 
@@ -390,7 +392,11 @@ namespace ft
 			}
 			ptr_base node = this->_alloc.allocate(1);
 			this->_alloc.construct(node, base(v));
-
+			node->_parent = TNULL;
+			node->_left = TNULL;
+			node->_right = TNULL;
+			node->_color = true;
+			
 			ptr_base y = TNULL;
 			ptr_base x = this->root;
 

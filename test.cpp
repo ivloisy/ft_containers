@@ -17,9 +17,18 @@
 
 int main()
 {
-	ft::pair<char, int> test('c', 42);
-	ft::map<char, int>	m1;
+	ft::pair<int, int> test('S', 42);
+	ft::pair<int, int> test2('a', 42);
+	ft::pair<int, int> test3('l', 42);
+	ft::pair<int, int> test4('u', 42);
+	ft::pair<int, int> test5('t', 42);
+	ft::map<int, int>	m1;
 	m1.insert(test);
+	m1.insert(test2);
+	m1.insert(test3);
+	m1.insert(test4);
+	m1.insert(test5);
+
 	// int x = 1
 	// ft::pair<int, int> lala(1, 3);
 	// ft::pair<int, int> lolo(12, 4);
@@ -49,9 +58,9 @@ int main()
 	// it = test.insert(lele);
 	// std::cout << it.second << std::endl;
 	//
-	// test.printTree();
+	m1.printTree();
 
-	ft::vector<int>			test(3, 3);
+	// ft::vector<int>			test(3, 3);
 // //
 // 	ft::vector<int>::reference tmp = test[1];
 // 	std::cout << tmp << std::endl;

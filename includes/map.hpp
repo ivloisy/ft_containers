@@ -73,6 +73,11 @@ namespace ft
 		{
 		}
 
+		void printTree()
+		{
+			this->_tree.printTree();
+		}
+
 		/* ====== range constructor ======= */
 
 		// template <class InputIterator>
