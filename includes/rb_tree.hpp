@@ -467,6 +467,34 @@ namespace ft
 			return y;
 		}
 
+		ptr_base constPredecessor(ptr_base x) const
+		{
+			if (x->_left != TNULL)
+				return maximum(x->_left);
+			ptr_base y = x->_parent;
+			while (y != TNULL && x == y->_left)
+			{
+				x = y;
+				y = y->_parent;
+			}
+
+			return y;
+		}
+
+		// constPtr_base predecessor(ptr_base x) sconst
+		// {
+		// 	if (x->_left != TNULL)
+		// 		return maximum(x->_left);
+		// 	ptr_base y = x->_parent;
+		// 	while (y != TNULL && x == y->_left)
+		// 	{
+		// 		x = y;
+		// 		y = y->_parent;
+		// 	}
+		//
+		// 	return y;
+		// }
+
 		ptr_base minimum(ptr_base node) const
 		{
 			while (node->_left != TNULL)

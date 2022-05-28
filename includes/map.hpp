@@ -293,7 +293,7 @@ namespace ft
 			iterator it = begin();
 			while (it != end())
 			{
-				if (*it.key_comp(k))
+				if (it->key_comp(k))
 					break;
 				it++;
 			}
@@ -302,7 +302,14 @@ namespace ft
 
 		const_iterator lower_bound (const key_type& k) const
 		{
-			return const_iterator(lower_bound(k));
+			const_iterator it = begin();
+			while (it != end())
+			{
+				if (it->key_comp(k))
+					break;
+				it++;
+			}
+			return const_iterator(this->_tree.constPredecessor(it));
 		}
 
 		iterator upper_bound (const key_type& k)
@@ -314,12 +321,19 @@ namespace ft
 					break;
 				it++;
 			}
-			return iterator(this->_tree.predecessor(&it));
+			return iterator(this->_tree.predecessor(it));
 		}
 
 		const_iterator upper_bound (const key_type& k) const
 		{
-			return const_iterator(upper_bound(k));
+			const_iterator it = begin();
+			while (it != end())
+			{
+				if (it->key_comp(k))
+					break;
+				it++;
+			}
+			return const_iterator(this->_tree.constPredecessor(it));
 		}
 
 		pair<const_iterator,const_iterator> equal_range (const key_type& k) const
