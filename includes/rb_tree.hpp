@@ -14,96 +14,85 @@ namespace ft
 	template <typename value>
 	class node_base
 	{
+
 		public:
 			typedef node_base*			ptr_base;
 			typedef const node_base*	const_ptr_base;
-			node_base(void): _value(value()) {}
-			node_base(const value& v): _value(v) {}
-			node_base(const node_base& src):
-			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
 			bool		_color;
 			ptr_base	_parent;
 			ptr_base	_left;
 			ptr_base	_right;
 			value		_value;
+		private:
+			ptr_base* null(ptr_base x) const
+			{
+				node_base* _tmp = x;
+				while ( _tmp->_right )
+				_tmp = _tmp->_right;
+				return _tmp;
+			}
+		public:
+			node_base(void): _value(value()) {}
+			node_base(const value& v): _value(v) {}
+			node_base(const node_base& src):
+			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
 
-	};
 
-	template<typename _Tp>
-	struct rb_tree_iterator
-	{
-		typedef _Tp  value_type;
-		typedef _Tp& reference;
-		typedef _Tp* pointer;
+			// ptr_base successor(ptr_base x) const
+			// {
+			// 	if (x->_right != null())
+			// 		return minimum(x->_right);
+			// 	ptr_base y = x->_parent;
+			// 	while (y != null() && x == y->_right)
+			// 	{
+			// 		x = y;
+			// 		y = y->_parent;
+			// 	}
+			// 	return y;
+			// }
+			//
+			// ptr_base predecessor(ptr_base x) const
+			// {
+			// 	if (x->_left != null())
+			// 		return maximum(x->_left);
+			// 	ptr_base y = x->_parent;
+			// 	while (y != null() && x == y->_left)
+			// 	{
+			// 		x = y;
+			// 		y = y->_parent;
+			// 	}
+			//
+			// 	return y;
+			// }
+			//
+			// ptr_base minimum(ptr_base node) const
+			// {
+			// 	while (node->_left != null())
+			// 		node = node->_left;
+			// 	return node;
+			// }
+			//
+			// ptr_base maximum(ptr_base node) const
+			// {
+			// 	while (node->_right != null())
+			// 		node = node->_right;
+			// 	return node;
+			// }
+			//
+			// const_ptr_base minimum(const_ptr_base node) const
+			// {
+			// 	while (node->_left != null())
+			// 		node = node->_left;
+			// 	return node;
+			// }
+			//
+			// const_ptr_base maximum(const_ptr_base node) const
+			// {
+			// 	while (node->_right != null())
+			// 		node = node->_right;
+			// 	return node;
+			// }
 
-		typedef std::bidirectional_iterator_tag				iterator_category;
-		typedef ptrdiff_t									difference_type;
-
-		typedef rb_tree_iterator<_Tp>       			 	rb_iterator;
-		typename node_base<_Tp>::ptr_base					current_node;
-
-		rb_tree_iterator()
-		: current_node() { }
-
-		explicit
-		rb_tree_iterator(node_base<_Tp>* x)
-		: current_node(x) { }
-
-		reference
-		operator*() const
-		{
-			return static_cast<node_base<_Tp>*>(current_node)->_value;
-			// return *(current_node)->_value;
-		}
-
-		// pointer
-		// operator->() const
-		// {
-		//    return std::__addressof(static_cast<node_base<_Val>*>
-		//           (current_node)->_value);
-		// }
-
-		rb_iterator&
-		operator++()
-		{
-			current_node = current_node.successor(current_node);
-			return *this;
-		}
-
-		rb_iterator
-		operator++(int)
-		{
-			rb_iterator __tmp = *this;
-			current_node = current_node.successor(current_node);
-			return __tmp;
-		}
-
-		rb_iterator&
-		operator--()
-		{
-			current_node = current_node.predecessor(current_node);
-			return *this;
-		}
-
-		rb_iterator
-		operator--(int)
-		{
-			rb_iterator __tmp = *this;
-			current_node = current_node.predecessor(current_node);
-			return __tmp;
-		}
-
-		bool
-		operator==(const rb_iterator& x) const
-		{
-			return current_node == x.current_node;
-		}
-
-		bool
-		operator!=(const rb_iterator& x) const
-		{
-			return current_node != x.current_node;
-		}
 
 	};
 
@@ -114,7 +103,7 @@ namespace ft
 		protected:
 			typedef ft::node_base<_Val>												base;
 			typedef ft::node_base<_Val>*											ptr_base;
-			typedef const node_base<_Val>*										constPtr_base;
+			typedef const ft::node_base<_Val>*										constPtr_base;
 			typedef _Key														key_type;
 			typedef _Val														value_type;
 			typedef value_type*													pointer;
@@ -122,13 +111,14 @@ namespace ft
 			typedef value_type&													reference;
 			typedef const value_type&											const_reference;
 			typedef size_t														size_type;
-			typedef ptrdiff_t													difference_type;
+			typedef std::ptrdiff_t													difference_type;
 			typedef _Alloc														allocator_type;
 
 		private:
 			ptr_base root;
 			ptr_base TNULL;
 			allocator_type _alloc;
+			size_type	_size;
 
 			void rbTransplant(ptr_base u, ptr_base v)
 			{
@@ -141,7 +131,7 @@ namespace ft
 				v->_parent = u->_parent;
 			}
 
-			void deleteNodeHelper(ptr_base node, int key)
+			int deleteNodeHelper(ptr_base node, _Key key)
 			{
 				ptr_base z = TNULL;
 				ptr_base x, y;
@@ -158,9 +148,9 @@ namespace ft
 				if (z == TNULL)
 				{
 					std::cout << "Key not found in the tree" << std::endl;
-					return;
+					return 0;
 				}
-
+				this->_size--;
 				y = z;
 				int y_original_color = y->_color;
 				if (z->_left == TNULL)
@@ -193,9 +183,10 @@ namespace ft
 					y->_color = z->_color;
 				}
 				delete z;
-				// if (y_original_color == 0) {
-				//   deleteFix(x);
-				// }
+				if (y_original_color == 0) {
+				  deleteFix(x);
+				}
+				return 1;
 			}
 
 			void insertFix(ptr_base k)
@@ -329,7 +320,7 @@ namespace ft
 				x->_color = 0;
 			}
 
-			ptr_base searchTreeHelper(ptr_base node, int key)
+			ptr_base searchTreeHelper(ptr_base node, _Key key)
 			{
 				if (node == TNULL || key == node->_value.first)
 				{
@@ -343,10 +334,10 @@ namespace ft
 				return searchTreeHelper(node->_right, key);
 			}
 
-			ft::rb_tree_iterator<_Val> checkIfExist(ptr_base node, int key)
+			ft::rb_tree_iterator<_Val, base> checkIfExist(ptr_base node, _Key key)
 			{
 				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<_Val>(node);
+					return ft::rb_tree_iterator<_Val, base>(node);
 				if (key < node->_value.first)
 					return checkIfExist(node->_left, key);
 				return checkIfExist(node->_right, key);
@@ -365,6 +356,7 @@ namespace ft
 			TNULL->_right = TNULL;
 			TNULL->_parent = TNULL;
 			root = TNULL;
+			_size = 0;
 		}
 
 		rb_tree(const _Compare& comp, const allocator_type& a = allocator_type())
@@ -378,25 +370,33 @@ namespace ft
 			TNULL->_right = TNULL;
 			TNULL->_parent = TNULL;
 			root = TNULL;
+			_size = 0;
 		}
 
-		ft::pair<rb_tree_iterator<_Val>, bool>
+		~rb_tree()
+		{
+			this->_alloc.destroy(TNULL);
+			this->_alloc.deallocate(TNULL, 1);
+		}
+
+		ft::pair<rb_tree_iterator<_Val, base>, bool>
 		insert(const _Val& v)
 		{
-			ft::pair<rb_tree_iterator<_Val>, bool> it;
+			ft::pair<rb_tree_iterator<_Val, base>, bool> it;
 			ft::pair<int, int> test;
-			if ((it.first = checkIfExist(this->root, v.first)) != rb_tree_iterator<_Val>(TNULL))
+			if ((it.first = checkIfExist(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL))
 			{
 				it.second = false;
 				return (it);
 			}
+			this->_size++;
 			ptr_base node = this->_alloc.allocate(1);
 			this->_alloc.construct(node, base(v));
 			node->_parent = TNULL;
 			node->_left = TNULL;
 			node->_right = TNULL;
 			node->_color = true;
-			
+
 			ptr_base y = TNULL;
 			ptr_base x = this->root;
 
@@ -420,21 +420,21 @@ namespace ft
 			if (node->_parent == TNULL)
 			{
 				node->_color = 0;
-				it.first = rb_tree_iterator<_Val>(y);
+				it.first = rb_tree_iterator<_Val, base>(y);
 				it.second = true;
 				return (it);
 			}
 
 			if (node->_parent->_parent == TNULL)
 			{
-				it.first = rb_tree_iterator<_Val>(y);
+				it.first = ft::rb_tree_iterator<_Val, base>(y);
 				it.second = true;
 				return (it);
 			}
 
 			insertFix(node);
 
-			it.first = rb_tree_iterator<_Val>(node);
+			it.first = ft::rb_tree_iterator<_Val, base>(node);
 			it.second = true;
 			return (it);
 		}
@@ -528,14 +528,29 @@ namespace ft
 			x->_parent = y;
 		}
 
-		ptr_base getRoot()
+		ptr_base getRoot() const
 		{
 			return this->root;
 		}
 
-		void deleteNode(int data)
+		// constPtr_base getConstRoot() const
+		// {
+		// 	return this->root;
+		// }
+
+		size_type getSize() const
 		{
-			deleteNodeHelper(this->root, data);
+			return this->_size;
+		}
+
+		size_type deleteNode(_Key data)
+		{
+			return deleteNodeHelper(this->root, data);
+		}
+
+		_Key getKey(constPtr_base target) const
+		{
+			return target->_value.first;
 		}
 
 		void printHelper(ptr_base root, std::string indent, bool last)
