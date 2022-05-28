@@ -157,6 +157,13 @@ namespace ft
 				return node;
 			}
 
+			node_base& test(node_base* node) const
+			{
+				// while (node->_right != null())
+				// 	node = node->_right;
+				return node;
+			}
+
 		public:
 
 			rb_tree_iterator(): current_node() { }
@@ -169,7 +176,7 @@ namespace ft
 
 			~rb_tree_iterator( void ) {};
 
-			pointer base( void ) const { return (current_node); }
+			pointer base( void ) const { return &(current_node->_value); }
 
 			reference operator*( void ) const { return *base(); }
 			pointer operator->( void ) const { return &(operator*()); }

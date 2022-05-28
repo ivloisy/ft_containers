@@ -37,6 +37,8 @@ namespace ft
 			node_base(const node_base& src):
 			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
 
+			value & getPair() { return this->_value; }
+
 			// ptr_base successor(ptr_base x) const
 			// {
 			// 	if (x->_right != null())
