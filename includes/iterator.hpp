@@ -307,7 +307,7 @@ namespace ft
 			ptr_node 			root( void ) {
 
 				ptr_node _tmp = current;
-				while ( _tmp && _tmp->_parent )
+				while ( _tmp && _tmp->_parent != null())
 					_tmp = _tmp->_parent;
 				return _tmp;
 			}

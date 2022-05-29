@@ -195,13 +195,13 @@ namespace ft
 			  {
 				  insert(*first++);
 			  }
-			  insert(*last);
 		  }
 
 		/* ============= Erase ============ */
 
 		void erase (iterator position)
 		{
+			std::cout << "OOOOOOOOOOOOOOOOOO" << std::endl;
 			this->_tree.deleteNode(this->_tree.getKey(*position));
 		}
 
