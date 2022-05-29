@@ -164,11 +164,11 @@ namespace ft
 
 		mapped_type& operator[] (const key_type & k)
 		{
-			iterator tmp;
-
-			insert(ft::make_pair(k, mapped_type()));
-			tmp = find(k);
-			return *tmp.second;
+			// iterator tmp;
+			//
+			// insert(ft::make_pair(k, mapped_type()));
+			// tmp = find(k);
+			return (this->_tree.searchTreeHelper(k))->_value.second;
 		}
 
 
@@ -184,8 +184,9 @@ namespace ft
 
 		iterator insert (iterator position, const value_type& val)
 		{
-			(void)position;
-			(void)val;
+			(void) position;
+			ft::pair<iterator, bool> p = insert(val);
+			return p.first;
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -248,20 +249,13 @@ namespace ft
 
 		key_compare	key_comp( void ) const { return key_compare(); }
 
-		value_compare	value_comp( void ) const { return value_compare(key_comp()); }
+		value_compare	value_compare( void ) const { return value_compare(key_comp()); }
 
 		/* =========================== Operations ======================================= */
 
 		iterator find (const key_type& k)
 		{
-			iterator it = begin();
-			while (it != end())
-			{
-				if (key_comp(this->_tree.getKey(*it), k))
-					break;
-				it++;
-			}
-			return it;
+			return iterator(this->_tree.searchTreeHelper(k));
 		}
 
 		const_iterator find (const key_type& k) const
@@ -290,50 +284,22 @@ namespace ft
 
 		iterator lower_bound (const key_type& k)
 		{
-			iterator it = begin();
-			while (it != end())
-			{
-				if (it->key_comp(k))
-					break;
-				it++;
-			}
-			return iterator(this->_tree.predecessor(it));
+			return iterator(this->_tree.predecessor(this->_tree.searchTreeHelper(k)));
 		}
 
 		const_iterator lower_bound (const key_type& k) const
 		{
-			const_iterator it = begin();
-			while (it != end())
-			{
-				if (it->key_comp(k))
-					break;
-				it++;
-			}
-			return const_iterator(this->_tree.constPredecessor(it));
+			return const_iterator(this->_tree.constPredecessor(this->_tree.searchTreeHelper(k)));
 		}
 
 		iterator upper_bound (const key_type& k)
 		{
-			iterator it = begin();
-			while (it != end())
-			{
-				if (it->key_comp(k))
-					break;
-				it++;
-			}
-			return iterator(this->_tree.predecessor(it));
+			return iterator(this->_tree.predecessor(this->_tree.searchTreeHelper(k)));
 		}
 
 		const_iterator upper_bound (const key_type& k) const
 		{
-			const_iterator it = begin();
-			while (it != end())
-			{
-				if (it->key_comp(k))
-					break;
-				it++;
-			}
-			return const_iterator(this->_tree.constPredecessor(it));
+			return const_iterator(this->_tree.constPredecessor(this->_tree.searchTreeHelper(k)));
 		}
 
 		pair<const_iterator,const_iterator> equal_range (const key_type& k) const
@@ -342,6 +308,9 @@ namespace ft
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			// return this->_tree.searchTreeHelper(k)
+			ft::pair<const_iterator, const_iterator> ret(begin(), end());
+			return ret;
 		}
 
 		pair<iterator,iterator>             equal_range (const key_type& k)
@@ -350,6 +319,8 @@ namespace ft
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			ft::pair<iterator, iterator> ret(begin(), end());
+			return ret;
 		}
 
 		/* =========================== Allocator ======================================== */

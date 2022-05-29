@@ -9,15 +9,15 @@ namespace ft
 {
 
 
-	// struct input_iterator_tag {};
-	//
-	// struct output_iterator_tag {};
-	//
-	// struct forward_iterator_tag : public input_iterator_tag {};
-	//
-	// struct bidirectional_iterator_tag : public forward_iterator_tag {};
-	//
-	// struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+	struct input_iterator_tag {};
+
+	struct output_iterator_tag {};
+
+	struct forward_iterator_tag : public input_iterator_tag {};
+
+	struct bidirectional_iterator_tag : public forward_iterator_tag {};
+
+	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
 
 	template<class Category,			// iterator::iterator_category
@@ -86,7 +86,7 @@ namespace ft
 	*/
 
 	template<typename _Tp, typename node_base >
-	class rb_tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, _Tp>
+	class rb_tree_iterator : public ft::iterator<ft::bidirectional_iterator_tag, _Tp>
 	{
 		public :
 
@@ -230,7 +230,7 @@ namespace ft
 	};
 
 	template<class T>
-	class random_access_iterator : public iterator <std::random_access_iterator_tag, T>
+	class random_access_iterator : public iterator <ft::random_access_iterator_tag, T>
 	{
 		public:
 			typedef typename random_access_iterator<T>::iterator_category 	iterator_category;

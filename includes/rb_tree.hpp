@@ -335,6 +335,21 @@ namespace ft
 				return searchTreeHelper(node->_right, key);
 			}
 
+			ptr_base searchTreeHelper(ptr_base node, _Key key) const
+			{
+				if (node == TNULL || key == node->_value.first)
+				{
+				return node;
+				}
+
+				if (key < node->_value.first)
+				{
+					return searchTreeHelper(node->_left, key);
+				}
+				return searchTreeHelper(node->_right, key);
+			}
+
+
 			ft::rb_tree_iterator<_Val, base> checkIfExist(ptr_base node, _Key key)
 			{
 				if (node == TNULL || key == node->_value.first)
@@ -347,6 +362,21 @@ namespace ft
 		public:
 
 		/* =========================== Constructors/Destructors ========================= */
+
+		ptr_base searchTreeHelper(_Key key) const
+		{
+			ptr_base node = this->getRoot();
+			if (node == TNULL || key == node->_value.first)
+			{
+			return node;
+			}
+
+			if (key < node->_value.first)
+			{
+				return this->searchTreeHelper(node->_left, key);
+			}
+			return this->searchTreeHelper(node->_right, key);
+		}
 
 		rb_tree()
 		{

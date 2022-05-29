@@ -76,7 +76,7 @@ namespace ft
 			/* ===== Range constructor ====== */
 
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL) : _alloc(alloc), _capacity(std::distance(first, last)), _first(NULL), _size(std::distance(first, last))
+			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL) : _alloc(alloc), _capacity(ft::distance(first, last)), _first(NULL), _size(ft::distance(first, last))
 			{
 				this->_first = this->_alloc.allocate(this->_size);
 				pointer current = this->_first;
@@ -290,7 +290,7 @@ namespace ft
 			iterator	insert (iterator position, const value_type & val)
 			{
 				///////////BEN
-				// int ret = std::distance(this->begin(), position);
+				// int ret = ft::distance(this->begin(), position);
 				// if (position != this->end())
 				// {
 				// 	if (this->_size + 1 > this->_capacity)
@@ -356,7 +356,7 @@ namespace ft
 			void	insert (iterator position, size_type n, const value_type & val)
 			{
 				ft::vector<T> tmp;
-				size_type diff = std::distance(this->begin(), position);
+				size_type diff = ft::distance(this->begin(), position);
 				if (this->_size + n >= this->_capacity * 2)
 					tmp.reserve(this->_size + n);
 				else if (this->_size + n >= this->_capacity)
@@ -377,8 +377,8 @@ namespace ft
 			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = NULL)
 			{
 					ft::vector<T> tmp;
-					size_type diff = std::distance(this->begin(), position);
-					size_type n = std::distance(first, last);
+					size_type diff = ft::distance(this->begin(), position);
+					size_type n = ft::distance(first, last);
 
 					if (this->_size + n >= this->_capacity * 2)
 						tmp.reserve(this->_size + n);
@@ -439,7 +439,7 @@ namespace ft
 
 			iterator	erase (iterator position)
 			{
-				int ret = std::distance(this->begin(), position);
+				int ret = ft::distance(this->begin(), position);
 				if (position == this->end())
 					this->pop_back();
 				while (position != this->end() - 1)
@@ -455,8 +455,8 @@ namespace ft
 
 			iterator	erase (iterator first, iterator last)
 			{
-				int ret = std::distance(this->begin(), first);
-				int distance = std::distance(first, last);
+				int ret = ft::distance(this->begin(), first);
+				int distance = ft::distance(first, last);
 				iterator current = first;
 				while (current != last)
 				{
