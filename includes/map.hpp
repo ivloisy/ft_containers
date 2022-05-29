@@ -63,13 +63,9 @@ namespace ft
 		template <class InputIterator>
 		  map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
-			(void)first;
-			(void)last;
-			(void)comp;
-			(void)alloc;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+			map ret(comp, alloc);
+			insert(first, last);
 		}
 
 		/* ===== copy constructor ========= */
@@ -114,12 +110,12 @@ namespace ft
 
 		iterator	end()
 		{
-			return iterator(this->_tree.maximum(this->_tree.getRoot()));
+			return iterator(this->_tree.end());
 		}
 
 		const_iterator	end() const
 		{
-			return const_iterator(this->_tree.maximum(this->_tree.getRoot()));
+			return const_iterator(this->_tree.end());
 		}
 
 		reverse_iterator	rbegin()
@@ -195,11 +191,11 @@ namespace ft
 		template <class InputIterator>
 		  void insert (InputIterator first, InputIterator last)
 		  {
-			  (void)first;
-			  (void)last;
-			  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			  while(first != last)
+			  {
+				  insert(*first++);
+			  }
+			  insert(*last);
 		  }
 
 		/* ============= Erase ============ */
