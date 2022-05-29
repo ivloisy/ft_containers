@@ -134,6 +134,7 @@ namespace ft
 			ptr_base root;
 			ptr_base TNULL;
 			allocator_type _alloc;
+			size_type	_size;
 
 			void rbTransplant(ptr_base u, ptr_base v)
 			{
@@ -165,7 +166,7 @@ namespace ft
 					std::cout << "Key not found in the tree" << std::endl;
 					return;
 				}
-
+				this->_size--;
 				y = z;
 				int y_original_color = y->_color;
 				if (z->_left == TNULL)
@@ -334,21 +335,7 @@ namespace ft
 				x->_color = 0;
 			}
 
-			ptr_base searchTreeHelper(ptr_base node, int key)
-			{
-				if (node == TNULL || key == node->_value.first)
-				{
-				return node;
-				}
-
-				if (key < node->_value.first)
-				{
-					return searchTreeHelper(node->_left, key);
-				}
-				return searchTreeHelper(node->_right, key);
-			}
-
-			ft::rb_tree_iterator<_Val, base> checkIfExist(ptr_base node, int key)
+			ft::rb_tree_iterator<_Val, base> checkIfExist(ptr_base node, key_type key)
 			{
 				if (node == TNULL || key == node->_value.first)
 					return ft::rb_tree_iterator<_Val, base>(node);
@@ -370,6 +357,7 @@ namespace ft
 			TNULL->_right = TNULL;
 			TNULL->_parent = TNULL;
 			root = TNULL;
+			this->_size = 0;
 		}
 
 		rb_tree(const _Compare& comp, const allocator_type& a = allocator_type())
@@ -383,6 +371,21 @@ namespace ft
 			TNULL->_right = TNULL;
 			TNULL->_parent = TNULL;
 			root = TNULL;
+			this->_size = 0;
+		}
+
+		ptr_base searchTreeHelper(ptr_base node, key_type key)
+		{
+			if (node == TNULL || key == node->_value.first)
+			{
+			return node;
+			}
+
+			if (key < node->_value.first)
+			{
+				return searchTreeHelper(node->_left, key);
+			}
+			return searchTreeHelper(node->_right, key);
 		}
 
 		ft::pair<rb_tree_iterator<_Val, base>, bool>
@@ -395,6 +398,7 @@ namespace ft
 				it.second = false;
 				return (it);
 			}
+			this->_size++;
 			ptr_base node = this->_alloc.allocate(1);
 			this->_alloc.construct(node, base(v));
 			node->_parent = TNULL;
@@ -471,33 +475,35 @@ namespace ft
 			return y;
 		}
 
-		ptr_base minimum(ptr_base node)
+		ptr_base minimum(ptr_base node) const
 		{
-			while (node->_left != TNULL)
-				node = node->_left;
-			return node;
+			ptr_base	tmp = node;
+			while (tmp->_left != TNULL)
+				tmp = tmp->_left;
+			return tmp;
 		}
 
-		ptr_base maximum(ptr_base node)
+		ptr_base maximum(ptr_base node) const
 		{
-			while (node->_right != TNULL)
-				node = node->_right;
-			return node;
+			ptr_base	tmp = node;
+			while (tmp->_right != TNULL)
+				tmp = tmp->_right;
+			return tmp;
 		}
 
-		constPtr_base minimum(constPtr_base node)
-		{
-			while (node->_left != TNULL)
-				node = node->_left;
-			return node;
-		}
-
-		constPtr_base maximum(constPtr_base node)
-		{
-			while (node->_right != TNULL)
-				node = node->_right;
-			return node;
-		}
+		// constPtr_base minimum(constPtr_base node) const
+		// {
+		// 	while (node->_left != TNULL)
+		// 		node = node->_left;
+		// 	return node;
+		// }
+		//
+		// constPtr_base maximum(constPtr_base node) const
+		// {
+		// 	while (node->_right != TNULL)
+		// 		node = node->_right;
+		// 	return node;
+		// }
 
 		void leftRotate(ptr_base x)
 		{
@@ -533,9 +539,19 @@ namespace ft
 			x->_parent = y;
 		}
 
-		ptr_base getRoot()
+		ptr_base getRoot() const
 		{
 			return this->root;
+		}
+
+		ptr_base end() const
+		{
+			return this->TNULL;
+		}
+
+		size_type getSize() const
+		{
+			return this->_size;
 		}
 
 		_Key getKey(constPtr_base target) const

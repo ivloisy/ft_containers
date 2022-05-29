@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 //#include <vector>/////////////////
-#if 0 //CREATE A REAL STL EXAMPLE (1=STD 0=FT)
+#if 1 //CREATE A REAL STL EXAMPLE (1=STD 0=FT)
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -19,13 +19,17 @@
 int main()
 {
 
-	ft::pair<int, int> test1('S', 1);
-	ft::pair<int, int> test2('a', 2);
-	ft::pair<int, int> test3('l', 3);
-	ft::pair<int, int> test4('u', 4);
-	ft::pair<int, int> test5('t', 5);
-	ft::pair<int, int> test6('S', 42);
-	ft::map<int, int>	m1;
+	ft::pair<char, int> test1('S', 1);
+	ft::pair<char, int> test2('a', 2);
+	ft::pair<char, int> test3('l', 3);
+	ft::pair<char, int> test4('u', 4);
+	ft::pair<char, int> test5('t', 5);
+	// ft::pair<int, int> test6('S', 42);
+	ft::map<char, int>	m1;
+	std::cout << "m1.begin()->first = " << m1.begin()->first << std::endl;
+	std::cout << "m1.begin()->second = " << m1.begin()->second << std::endl;
+	std::cout << "m1.size() = " << m1.size() << std::endl;
+	std::cout << "m1.empty() = " << m1.empty() << std::endl;
 	m1.insert(test1);
 	m1.insert(test2);
 	m1.insert(test3);
@@ -33,7 +37,17 @@ int main()
 	m1.insert(test5);
 	// m1.printTree();
 
+	std::cout << "m1.size() = " << m1.size() << std::endl;
+	std::cout << "m1.empty() = " << m1.empty() << std::endl;
 	std::cout << "m1['S'] = " << m1['S'] << std::endl;
+	std::cout << "m1['K'] = " << m1['K'] << std::endl;
+	std::cout << "m1.size() = " << m1.size() << std::endl;
+	std::cout << "m1.begin()->first = " << m1.begin()->first << std::endl;
+	std::cout << "m1.begin()->second = " << m1.begin()->second << std::endl;
+	std::cout << "m1.end()->first = " << m1.end()->first << std::endl;
+	std::cout << "m1.end()->second = " << m1.end()->second << std::endl;
+	std::cout << "m1.find('u') = " << m1.find('u')->first << std::endl;
+	std::cout << "m1.find('k') = " << m1.find('k')->first << std::endl;
 
 	// ft::map<int, int>::iterator it = m1.begin();
 	// (void)it;

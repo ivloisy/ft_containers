@@ -80,11 +80,11 @@ namespace ft
 
 		/* ====== range constructor ======= */
 
-		// template <class InputIterator>
-		//   map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-		// {
-		//
-		// }
+		template <class InputIterator>
+		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _tree(comp, alloc)
+		{
+			this->insert(first, last);
+		}
 
 		/* ===== copy constructor ========= */
 
@@ -113,22 +113,22 @@ namespace ft
 		{
 			return iterator(this->_tree.minimum(this->_tree.getRoot()));
 		}
-		//
-		// const_iterator	begin() const
-		// {
-		// 	return const_iterator(this->_first);
-		// }
-		//
+
+		const_iterator	begin() const
+		{
+			return const_iterator(this->_tree.minimum(this->_tree.getRoot()));
+		}
+
 		iterator	end()
 		{
-			return iterator(this->_tree.maximum(this->_tree.getRoot()) + 1);
+			return iterator(this->_tree.end());
 		}
-		//
-		// const_iterator	end() const
-		// {
-		// 	return const_iterator(this->_first + this->_size);
-		// }
-		//
+
+		const_iterator	end() const
+		{
+			return const_iterator(this->_tree.end());
+		}
+
 		// reverse_iterator	rbegin()
 		// {
 		// 	return reverse_iterator(this->_first + (this->_size - 1));
@@ -151,20 +151,20 @@ namespace ft
 
 		/* =========================== Capacity ========================================= */
 
-		// bool	empty() const
-		// {
-		// 	return this->_size == false;
-		// }
-		//
-		// size_type	size() const
-		// {
-		// 	return this->_size;
-		// }
-		//
-		// size_type	max_size() const
-		// {
-		// 	return allocator_type().max_size();
-		// }
+		bool	empty() const
+		{
+			return !size() ;
+		}
+
+		size_type	size() const
+		{
+			return this->_tree.getSize();
+		}
+
+		size_type	max_size() const
+		{
+			return ((allocator_type().max_size() * sizeof(value_type)) / sizeof(ft::node_base<value_type>));
+		}
 
 
 		/* =========================== Element access =================================== */
@@ -223,11 +223,12 @@ namespace ft
 		//
 		// }
 		//
-		// template <class InputIterator>
-		//   void insert (InputIterator first, InputIterator last)
-		//   {
-		//
-		//   }
+		template <class InputIterator>
+		void insert (InputIterator first, InputIterator last)
+		{
+			while (first != last)
+				insert(*first++);
+		}
 
 		/* ============= Erase ============ */
 
@@ -276,14 +277,16 @@ namespace ft
 
 		iterator find (const key_type& k)
 		{
-			iterator it = begin();
-			while (it != end())
-			{
-				if (key_comp(this->_tree.getKey(*it), k))
-					break;
-				it++;
-			}
-			return it;
+			// iterator it = begin();
+			// while (it != end())
+			// {
+			// 	if (key_comp(this->_tree.getKey(*it), k))
+			// 		break;
+			// 	it++;
+			// }
+			// return it;
+			// return iterator(_tree.search(ft::make_pair(k, mapped_type())));
+			return iterator(this->_tree.searchTreeHelper(this->_tree.getRoot(), k));
 		}
 		//
 		// const_iterator find (const key_type& k) const
@@ -295,17 +298,28 @@ namespace ft
 		// {
 		//
 		// }
-		//
-		// iterator lower_bound (const key_type& k)
-		// {
-		//
-		// }
-		//
-		// const_iterator lower_bound (const key_type& k) const
-		// {
-		//
-		// }
-		//
+
+		iterator	lower_bound(const key_type & k)
+		{
+			iterator it;
+
+			for ( it = begin(); it != end(); ++it )
+				if ( !value_comp()(*it, ft::make_pair(k, mapped_type())))
+					break;
+			return it;
+		}
+
+		const_iterator lower_bound( const key_type & k ) const
+		{
+			const_iterator it;
+
+			for ( it = begin(); it != end(); ++it ) {
+				if ( !value_comp()(*it, ft::make_pair(k, mapped_type())) )
+					break;
+			}
+			return it;
+		}
+
 		// iterator upper_bound (const key_type& k)
 		// {
 		//
