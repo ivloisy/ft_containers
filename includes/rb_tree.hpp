@@ -49,8 +49,7 @@ namespace ft
 		rb_tree_iterator(node_base<_Tp>* x)
 		: current_node(x) { }
 
-		reference
-		operator*() const
+		reference	operator*() const
 		{
 			return static_cast<node_base<_Tp>*>(current_node)->_value;
 			// return *(current_node)->_value;
@@ -63,15 +62,13 @@ namespace ft
 		//           (current_node)->_value);
 		// }
 
-		rb_iterator&
-		operator++()
+		rb_iterator & operator++()
 		{
 			current_node = current_node.successor(current_node);
 			return *this;
 		}
 
-		rb_iterator
-		operator++(int)
+		rb_iterator operator++(int)
 		{
 			rb_iterator __tmp = *this;
 			current_node = current_node.successor(current_node);
@@ -396,7 +393,7 @@ namespace ft
 			node->_left = TNULL;
 			node->_right = TNULL;
 			node->_color = true;
-			
+
 			ptr_base y = TNULL;
 			ptr_base x = this->root;
 
