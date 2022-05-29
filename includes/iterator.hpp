@@ -313,7 +313,6 @@ namespace ft
 			}
 
 			ptr_node 			null( void ) {
-
 				ptr_node _tmp = current;
 				while ( _tmp->_right )
 					_tmp = _tmp->_right;
