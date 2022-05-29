@@ -350,13 +350,22 @@ namespace ft
 			}
 
 
-			ft::rb_tree_iterator<_Val, base> checkIfExist(ptr_base node, _Key key)
+			ft::rb_tree_iterator<_Val, base> checkIfExistP(ptr_base node, _Key key)
 			{
 				if (node == TNULL || key == node->_value.first)
 					return ft::rb_tree_iterator<_Val, base>(node);
 				if (key < node->_value.first)
-					return checkIfExist(node->_left, key);
-				return checkIfExist(node->_right, key);
+					return checkIfExistP(node->_left, key);
+				return checkIfExistP(node->_right, key);
+			}
+
+			ft::rb_tree_iterator<_Val, base> checkIfExistP(ptr_base node, _Key key) const
+			{
+				if (node == TNULL || key == node->_value.first)
+					return ft::rb_tree_iterator<_Val, base>(node);
+				if (key < node->_value.first)
+					return checkIfExistP(node->_left, key);
+				return checkIfExistP(node->_right, key);
 			}
 
 			ptr_base keyIsExist(ptr_base node, _Key key) const
@@ -413,7 +422,7 @@ namespace ft
 		{
 			ft::pair<rb_tree_iterator<_Val, base>, bool> it;
 			ft::pair<int, int> test;
-			if ((it.first = checkIfExist(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL))
+			if ((it.first = checkIfExistP(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL))
 			{
 				it.second = false;
 				return (it);
@@ -662,10 +671,10 @@ namespace ft
 			}
 		}
 
-		// ft::rb_tree_iterator<_Val, base> checkIfExistP(_Key k) const
-		// {
-		// 	return checkIfExist(*getRoot(), k);
-		// }
+		ft::rb_tree_iterator<_Val, base> checkIfExist(_Key k) const
+		{
+			return checkIfExistP(getRoot(), k);
+		}
 
 		void printTree()
 		{

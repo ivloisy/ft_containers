@@ -676,11 +676,11 @@ namespace ft
 			// {
 			// 	return this->_it;
 			// }
-
-			// // const_pointer	operator->() const
-			// // {
-			// // 	return (this->_ptr);
-			// // }
+			//
+			// const_pointer	operator->() const
+			// {
+			// 	return (this->_ptr);
+			// }
 
 			bool	operator<(ReverseIterator const & rhs) const
 			{
