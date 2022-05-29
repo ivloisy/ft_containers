@@ -174,6 +174,7 @@ namespace ft
 
 		mapped_type& operator[] (const key_type & k)
 		{
+			// std::cout << "laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
 			if (this->_tree.checkIfExist(k) == this->end())
 				this->_tree.insert(ft::make_pair(k, mapped_type()));
 			return (this->_tree.searchTreeHelper(k))->_value.second;
