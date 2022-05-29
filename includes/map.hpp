@@ -280,43 +280,32 @@ namespace ft
 
 		iterator lower_bound (const key_type& k)
 		{
-			return iterator(this->_tree.predecessor(this->_tree.searchTreeHelper(k)));
+			return iterator(this->_tree.lower_bound(k));
 		}
 
 		const_iterator lower_bound (const key_type& k) const
 		{
-			return const_iterator(this->_tree.constPredecessor(this->_tree.searchTreeHelper(k)));
+			return const_iterator(this->_tree.lower_bound(k));
 		}
 
 		iterator upper_bound (const key_type& k)
 		{
-			return iterator(this->_tree.predecessor(this->_tree.searchTreeHelper(k)));
+			return iterator(this->_tree.upper_bound(k));
 		}
 
 		const_iterator upper_bound (const key_type& k) const
 		{
-			return const_iterator(this->_tree.constPredecessor(this->_tree.searchTreeHelper(k)));
+			return const_iterator(this->_tree.upper_bound(k));
 		}
 
 		pair<const_iterator,const_iterator> equal_range (const key_type& k) const
 		{
-			(void)k;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// return this->_tree.searchTreeHelper(k)
-			ft::pair<const_iterator, const_iterator> ret(begin(), end());
-			return ret;
+			return ft::make_pair(lower_bound(k), upper_bound(k));
 		}
 
 		pair<iterator,iterator>             equal_range (const key_type& k)
 		{
-			(void)k;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			ft::pair<iterator, iterator> ret(begin(), end());
-			return ret;
+			return ft::make_pair(lower_bound(k), upper_bound(k));
 		}
 
 		/* =========================== Allocator ======================================== */
@@ -325,6 +314,7 @@ namespace ft
 		{
 			return this->_alloc;
 		}
+
 
 
 
