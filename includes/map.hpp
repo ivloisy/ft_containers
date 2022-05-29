@@ -29,8 +29,8 @@ namespace ft
 			typedef typename allocator_type::pointer							pointer;
 			typedef typename allocator_type::const_pointer						const_pointer;
 			// typedef typename ft::rb_tree<Key, value_type, _KeyOfValue, _Compare, _Alloc>::rb_tree_iterator<value_type>
-			typedef typename ft::rb_tree_iterator<value_type>								iterator;
-			typedef typename ft::rb_tree_iterator<const value_type>							const_iterator;
+			typedef typename ft::rb_tree_iterator<value_type, node_base<value_type> >								iterator;
+			typedef typename ft::rb_tree_iterator<const value_type, node_base<value_type> >							const_iterator;
 			// typedef ft::ReverseIterator<iterator>								reverse_iterator;
 			// typedef ft::ReverseIterator<const_iterator>							const_reverse_iterator;
 			typedef std::ptrdiff_t												difference_type;
@@ -109,20 +109,20 @@ namespace ft
 
 		/* =========================== Iterators ======================================== */
 
-		// iterator	begin()
-		// {
-		// 	return iterator(this->_first);
-		// }
+		iterator	begin()
+		{
+			return iterator(this->_tree.minimum(this->_tree.getRoot()));
+		}
 		//
 		// const_iterator	begin() const
 		// {
 		// 	return const_iterator(this->_first);
 		// }
 		//
-		// iterator	end()
-		// {
-		// 	return iterator(this->_first + this->_size);
-		// }
+		iterator	end()
+		{
+			return iterator(this->_tree.maximum(this->_tree.getRoot()) + 1);
+		}
 		//
 		// const_iterator	end() const
 		// {
@@ -169,10 +169,10 @@ namespace ft
 
 		/* =========================== Element access =================================== */
 
-		// mapped_type& operator[] (const key_type& k)
-		// {
-		//
-		// }
+		mapped_type& operator[] (const key_type & k)
+		{
+			return (*((this->insert(ft::make_pair(k, mapped_type()))).first)).second;
+		}
 
 
 		/* =========================== Modifiers ======================================== */
@@ -274,10 +274,17 @@ namespace ft
 
 		/* =========================== Operations ======================================= */
 
-		// iterator find (const key_type& k)
-		// {
-		//
-		// }
+		iterator find (const key_type& k)
+		{
+			iterator it = begin();
+			while (it != end())
+			{
+				if (key_comp(this->_tree.getKey(*it), k))
+					break;
+				it++;
+			}
+			return it;
+		}
 		//
 		// const_iterator find (const key_type& k) const
 		// {

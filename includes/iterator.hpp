@@ -222,6 +222,150 @@ namespace ft
 	//
 	// };
 
+	template<typename _Tp, typename node_base >
+	class rb_tree_iterator : public ft::iterator<ft::bidirectional_iterator_tag, _Tp>
+	{
+		public :
+
+			typedef _Tp															value_type;
+			typedef typename rb_tree_iterator<_Tp, node_base>::reference		reference;
+			typedef typename rb_tree_iterator<_Tp, node_base>::pointer			pointer;
+			typedef typename rb_tree_iterator<_Tp, node_base>::difference_type	difference_type;
+
+		protected:
+
+			node_base *					current_node;
+
+			node_base* null(void) const
+			{
+				node_base* _tmp = current_node;
+				while ( _tmp->_right )
+					_tmp = _tmp->_right;
+				return _tmp;
+			}
+
+			node_base* root(void) const
+			{
+				node_base* _tmp = current_node;
+				while ( _tmp->_parent )
+					_tmp = _tmp->_parent;
+				return _tmp;
+			}
+
+
+			node_base* successor(node_base* x) const
+			{
+				if (x->_right != null())
+					return minimum(x->_right);
+				node_base* y = x->_parent;
+				while (y != null() && x == y->_right)
+				{
+					x = y;
+					y = y->_parent;
+				}
+				return y;
+			}
+
+			node_base* predecessor(node_base* x) const
+			{
+				if (x->_left != null())
+					return maximum(x->_left);
+				node_base* y = x->_parent;
+				while (y != null() && x == y->_left)
+				{
+					x = y;
+					y = y->_parent;
+				}
+
+				return y;
+			}
+
+			node_base* minimum(node_base* node) const
+			{
+				while (node->_left != null())
+					node = node->_left;
+				return node;
+			}
+
+			node_base* maximum(node_base* node) const
+			{
+				while (node->_right != null())
+					node = node->_right;
+				return node;
+			}
+
+			node_base& test(node_base* node) const
+			{
+				// while (node->_right != null())
+				// 	node = node->_right;
+				return node;
+			}
+
+		public:
+
+			rb_tree_iterator(): current_node() { }
+
+			explicit rb_tree_iterator(node_base* x)	: current_node(x) { }
+
+			rb_tree_iterator( const rb_tree_iterator &other ) : current_node(other.current_node) {};
+
+			rb_tree_iterator &operator=( const rb_tree_iterator &other ) { current_node = other.current_node; return *this; };
+
+			~rb_tree_iterator( void ) {};
+
+			pointer base( void ) const { return &(current_node->_value); }
+
+			reference operator*( void ) const { return *base(); }
+			pointer operator->( void ) const { return &(operator*()); }
+
+			rb_tree_iterator &operator++( void ) {
+				if ( current_node == maximum(root())) {
+					current_node = null();
+					return *this;
+				}
+				if ( current_node == null() ) {
+					current_node = null();
+					return *this;
+				}
+				current_node = successor(current_node);
+				return *this;
+			}
+
+			rb_tree_iterator operator++( int ) { rb_tree_iterator __tmp(*this); operator++(); return __tmp; }
+
+			rb_tree_iterator &operator--( void ) {
+				if ( !current_node ) {
+					current_node = maximum(root());
+					return *this;
+				}
+				if ( current_node == null() ) {
+					current_node = maximum(root());
+					return *this;
+				}
+				current_node = predecessor(current_node);
+				return *this;
+			}
+			rb_tree_iterator operator--( int ) { rb_tree_iterator __tmp(*this); operator--(); return __tmp; }
+
+			operator rb_tree_iterator<const _Tp, node_base>( void ) const
+			{
+				return rb_tree_iterator<const _Tp, node_base>(current_node);
+			}
+
+			bool
+			operator==(const rb_tree_iterator& x) const
+			{
+				return current_node == x.current_node;
+			}
+
+			bool
+			operator!=(const rb_tree_iterator& x) const
+			{
+				return current_node != x.current_node;
+			}
+
+	};
+
 	template<class T>
 	class random_access_iterator : public iterator <random_access_iterator_tag, T>
 	{
@@ -230,8 +374,8 @@ namespace ft
 			typedef typename random_access_iterator<T>::value_type			value_type;
 			typedef typename random_access_iterator<T>::difference_type		difference_type;
 			typedef typename random_access_iterator<T>::pointer				pointer;
-			typedef typename random_access_iterator<T>::const_pointer			const_pointer;
-			typedef typename random_access_iterator<T>::reference				reference;
+			typedef typename random_access_iterator<T>::const_pointer		const_pointer;
+			typedef typename random_access_iterator<T>::reference			reference;
 			typedef typename random_access_iterator<T>::const_reference		const_reference;
 
 		private :

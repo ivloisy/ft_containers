@@ -19,18 +19,25 @@
 int main()
 {
 
-	ft::pair<int, int> test1('S', 42);
-	ft::pair<int, int> test2('a', 42);
-	ft::pair<int, int> test3('l', 42);
-	ft::pair<int, int> test4('u', 42);
-	ft::pair<int, int> test5('t', 42);
+	ft::pair<int, int> test1('S', 1);
+	ft::pair<int, int> test2('a', 2);
+	ft::pair<int, int> test3('l', 3);
+	ft::pair<int, int> test4('u', 4);
+	ft::pair<int, int> test5('t', 5);
+	ft::pair<int, int> test6('S', 42);
 	ft::map<int, int>	m1;
 	m1.insert(test1);
 	m1.insert(test2);
 	m1.insert(test3);
 	m1.insert(test4);
 	m1.insert(test5);
-	m1.printTree();
+	// m1.printTree();
+
+	std::cout << "m1['S'] = " << m1['S'] << std::endl;
+
+	// ft::map<int, int>::iterator it = m1.begin();
+	// (void)it;
+	// it.first = 42;
 // 	ft::vector<int>			test(3, 3);
 //
 // 	std::cout << "self assignation test\n";
