@@ -22,7 +22,7 @@ namespace ft
 			typedef ft::pair<const Key, T>							value_type;
 
 			typedef Compare														key_compare;
-			class																value_compare;
+			// class																value_compare;
 			typedef Alloc														allocator_type;
 			typedef typename allocator_type::reference							reference;
 			typedef typename allocator_type::const_reference					const_reference;
@@ -35,6 +35,24 @@ namespace ft
 			typedef std::ptrdiff_t												difference_type;
 			typedef size_t														size_type;
 
+
+			class value_compare : public std::binary_function<value_type, value_type, bool>
+			{
+				friend class map;
+
+				protected:
+					Compare comp;
+					value_compare (Compare c) : comp(c) {}
+
+				public:
+					typedef bool result_type;
+					typedef value_type first_argument_type;
+					typedef value_type second_argument_type;
+					bool operator() (const value_type& x, const value_type& y) const
+					{
+						return comp(x.first, y.first);
+					}
+			};
 
 		private:
 
@@ -72,10 +90,7 @@ namespace ft
 
 		map (const map& x)
 		{
-			(void)x;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			map(x.begin(), x.end());
 		}
 
 		/* ========= destructor =========== */
@@ -90,10 +105,9 @@ namespace ft
 
 		map& operator= (const map& x)
 		{
-			(void)x;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			this->clear();
+			this->insert(x.begin(), x.end());
+			return *this;
 		}
 
 		/* =========================== Iterators ======================================== */
@@ -160,10 +174,6 @@ namespace ft
 
 		mapped_type& operator[] (const key_type & k)
 		{
-			// iterator tmp;
-			//
-			// insert(ft::make_pair(k, mapped_type()));
-			// tmp = find(k);
 			return (this->_tree.searchTreeHelper(k))->_value.second;
 		}
 
@@ -183,26 +193,20 @@ namespace ft
 			(void) position;
 			ft::pair<iterator, bool> p = insert(val);
 			return p.first;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 		}
 
 		template <class InputIterator>
 		  void insert (InputIterator first, InputIterator last)
 		  {
 			  while(first != last)
-			  {
 				  insert(*first++);
-			  }
 		  }
 
 		/* ============= Erase ============ */
 
 		void erase (iterator position)
 		{
-			std::cout << "OOOOOOOOOOOOOOOOOO" << std::endl;
-			this->_tree.deleteNode(this->_tree.getKey(*position));
+			this->_tree.deleteNode(position->first);
 		}
 
 		size_type erase (const key_type& k)
@@ -212,13 +216,11 @@ namespace ft
 
 		void erase (iterator first, iterator last)
 		{
-			iterator it = first;
-			while (it != last)
+			while (first != last)
 			{
-				this->_tree.deleteNode(this->_tree.getKey(*it));
-				it++;
+				this->_tree.deleteNode(first->first);
+				first++;
 			}
-			this->_tree.deleteNode(this->_tree.getKey(*it));
 		}
 
 		/* ============= Swap ============= */
@@ -245,7 +247,7 @@ namespace ft
 
 		key_compare	key_comp( void ) const { return key_compare(); }
 
-		value_compare	value_compare( void ) const { return value_compare(key_comp()); }
+		value_compare	value_comp( void ) const { return value_compare(key_comp()); }
 
 		/* =========================== Operations ======================================= */
 
@@ -256,25 +258,13 @@ namespace ft
 
 		const_iterator find (const key_type& k) const
 		{
-			iterator it = begin();
-			while (it != end())
-			{
-				if (key_comp(this->_tree.getKey(*it), k))
-					break;
-				it++;
-			}
-			return it;
+			return this->_tree.checkIfExist(k);
 		}
 
 		size_type count (const key_type& k) const
 		{
-			iterator it = begin();
-			while (it != end())
-			{
-				if (key_comp(this->_tree.getKey(*it), k))
-					return 1;
-				it++;
-			}
+			if (find(k) != end())
+				return 1;
 			return 0;
 		}
 
