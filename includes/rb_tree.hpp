@@ -569,7 +569,11 @@ namespace ft
 		ptr_base minimum(ptr_base node) const
 		{
 			if (node == TNULL)
-				return minimum(getRoot());
+			{
+				node = getRoot();
+				if (node == TNULL)
+					return TNULL;
+			}
 			while (node->_left != TNULL)
 				node = node->_left;
 			return node;
@@ -578,7 +582,11 @@ namespace ft
 		ptr_base maximum(ptr_base node) const
 		{
 			if (node == TNULL)
-				return maximum(getRoot());
+			{
+				node = getRoot();
+				if (node == TNULL)
+					return TNULL;
+			}
 			while (node->_right != TNULL)
 				node = node->_right;
 			return node;
