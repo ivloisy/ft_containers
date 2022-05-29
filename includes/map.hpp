@@ -63,13 +63,9 @@ namespace ft
 		template <class InputIterator>
 		  map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
-			(void)first;
-			(void)last;
-			(void)comp;
-			(void)alloc;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+			map ret(comp, alloc);
+			insert(first, last);
 		}
 
 		/* ===== copy constructor ========= */
@@ -114,12 +110,12 @@ namespace ft
 
 		iterator	end()
 		{
-			return iterator(this->_tree.maximum(this->_tree.getRoot()) + 1);
+			return iterator(this->_tree.end());
 		}
 
 		const_iterator	end() const
 		{
-			return const_iterator(this->_tree.maximum(this->_tree.getRoot()) + 1);
+			return const_iterator(this->_tree.end());
 		}
 
 		reverse_iterator	rbegin()
@@ -164,11 +160,11 @@ namespace ft
 
 		mapped_type& operator[] (const key_type & k)
 		{
-			iterator tmp;
-
-			insert(ft::make_pair(k, mapped_type()));
-			tmp = find(k);
-			return *tmp.second;
+			// iterator tmp;
+			//
+			// insert(ft::make_pair(k, mapped_type()));
+			// tmp = find(k);
+			return (this->_tree.searchTreeHelper(k))->_value.second;
 		}
 
 
@@ -184,8 +180,9 @@ namespace ft
 
 		iterator insert (iterator position, const value_type& val)
 		{
-			(void)position;
-			(void)val;
+			(void) position;
+			ft::pair<iterator, bool> p = insert(val);
+			return p.first;
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -194,11 +191,11 @@ namespace ft
 		template <class InputIterator>
 		  void insert (InputIterator first, InputIterator last)
 		  {
-			  (void)first;
-			  (void)last;
-			  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			  // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			  while(first != last)
+			  {
+				  insert(*first++);
+			  }
+			  insert(*last);
 		  }
 
 		/* ============= Erase ============ */
@@ -248,20 +245,13 @@ namespace ft
 
 		key_compare	key_comp( void ) const { return key_compare(); }
 
-		value_compare	value_comp( void ) const { return value_compare(key_comp()); }
+		value_compare	value_compare( void ) const { return value_compare(key_comp()); }
 
 		/* =========================== Operations ======================================= */
 
 		iterator find (const key_type& k)
 		{
-			iterator it = begin();
-			while (it != end())
-			{
-				if (key_comp(this->_tree.getKey(*it), k))
-					break;
-				it++;
-			}
-			return it;
+			return iterator(this->_tree.searchTreeHelper(k));
 		}
 
 		const_iterator find (const key_type& k) const
@@ -290,52 +280,32 @@ namespace ft
 
 		iterator lower_bound (const key_type& k)
 		{
-			iterator it = begin();
-			while (it != end())
-			{
-				if (*it.key_comp(k))
-					break;
-				it++;
-			}
-			return iterator(this->_tree.predecessor(it));
+			return iterator(this->_tree.lower_bound(k));
 		}
 
 		const_iterator lower_bound (const key_type& k) const
 		{
-			return const_iterator(lower_bound(k));
+			return const_iterator(this->_tree.lower_bound(k));
 		}
 
 		iterator upper_bound (const key_type& k)
 		{
-			iterator it = begin();
-			while (it != end())
-			{
-				if (*it.key_comp(k))
-					break;
-				it++;
-			}
-			return iterator(this->_tree.predecessor(it));
+			return iterator(this->_tree.upper_bound(k));
 		}
 
 		const_iterator upper_bound (const key_type& k) const
 		{
-			return const_iterator(upper_bound(k));
+			return const_iterator(this->_tree.upper_bound(k));
 		}
 
 		pair<const_iterator,const_iterator> equal_range (const key_type& k) const
 		{
-			(void)k;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			return ft::make_pair(lower_bound(k), upper_bound(k));
 		}
 
 		pair<iterator,iterator>             equal_range (const key_type& k)
 		{
-			(void)k;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			return ft::make_pair(lower_bound(k), upper_bound(k));
 		}
 
 		/* =========================== Allocator ======================================== */
@@ -344,6 +314,7 @@ namespace ft
 		{
 			return this->_alloc;
 		}
+
 
 
 

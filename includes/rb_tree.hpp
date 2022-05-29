@@ -32,11 +32,12 @@ namespace ft
 				return _tmp;
 			}
 		public:
-			node_base(void): _value(value()) {}
-			node_base(const value& v): _value(v) {}
+			node_base(void): _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(value()) {}
+			node_base(const value& v): _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(v) {}
 			node_base(const node_base& src):
 			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
 
+			value & getPair() { return this->_value; }
 
 			// ptr_base successor(ptr_base x) const
 			// {
@@ -324,7 +325,7 @@ namespace ft
 			{
 				if (node == TNULL || key == node->_value.first)
 				{
-				return node;
+					return node;
 				}
 
 				if (key < node->_value.first)
@@ -333,6 +334,21 @@ namespace ft
 				}
 				return searchTreeHelper(node->_right, key);
 			}
+
+			ptr_base searchTreeHelper(ptr_base node, _Key key) const
+			{
+				if (node == TNULL || key == node->_value.first)
+				{
+					return node;
+				}
+
+				if (key < node->_value.first)
+				{
+					return searchTreeHelper(node->_left, key);
+				}
+				return searchTreeHelper(node->_right, key);
+			}
+
 
 			ft::rb_tree_iterator<_Val, base> checkIfExist(ptr_base node, _Key key)
 			{
@@ -343,18 +359,35 @@ namespace ft
 				return checkIfExist(node->_right, key);
 			}
 
+			ptr_base keyIsExist(ptr_base node, _Key key) const
+			{
+				if (node == TNULL || key == node->_value.first)
+					return node;
+				if (key < node->_value.first)
+					return keyIsExist(node->_left, key);
+				return keyIsExist(node->_right, key);
+			}
+
 		public:
 
 		/* =========================== Constructors/Destructors ========================= */
 
+		ptr_base searchTreeHelper(_Key key) const
+		{
+			ptr_base node = this->getRoot();
+			if (node == TNULL || key == node->_value.first)
+			{
+				return node;
+			}
+			if (key < node->_value.first)
+				return this->searchTreeHelper(node->_left, key);
+			return this->searchTreeHelper(node->_right, key);
+		}
+
 		rb_tree()
 		{
-			TNULL = this->_alloc.allocate(1);
-			this->_alloc.construct(TNULL, base());
-			TNULL->_color = false;
-			TNULL->_left = TNULL;
-			TNULL->_right = TNULL;
-			TNULL->_parent = TNULL;
+			TNULL = _alloc.allocate(1);
+			_alloc.construct(TNULL, base());
 			root = TNULL;
 			_size = 0;
 		}
@@ -363,12 +396,8 @@ namespace ft
 		{
 			(void)comp;
 			(void)a;
-			TNULL = this->_alloc.allocate(1);
-			this->_alloc.construct(TNULL, base());
-			TNULL->_color = false;
-			TNULL->_left = TNULL;
-			TNULL->_right = TNULL;
-			TNULL->_parent = TNULL;
+			TNULL = _alloc.allocate(1);
+			_alloc.construct(TNULL, base());
 			root = TNULL;
 			_size = 0;
 		}
@@ -441,6 +470,23 @@ namespace ft
 
 		ptr_base successor(ptr_base x)
 		{
+			if (x == TNULL)
+				return minimum(getRoot());
+			if (x->_right != TNULL)
+				return minimum(x->_right);
+			ptr_base y = x->_parent;
+			while (y != TNULL && x == y->_right)
+			{
+				x = y;
+				y = y->_parent;
+			}
+			return y;
+		}
+
+		ptr_base constSuccessor(ptr_base x) const
+		{
+			if (x == TNULL)
+				return minimum(getRoot());
 			if (x->_right != TNULL)
 				return minimum(x->_right);
 			ptr_base y = x->_parent;
@@ -454,6 +500,8 @@ namespace ft
 
 		ptr_base predecessor(ptr_base x)
 		{
+			if (x == TNULL)
+				return minimum(getRoot());
 			if (x->_left != TNULL)
 				return maximum(x->_left);
 			ptr_base y = x->_parent;
@@ -466,29 +514,62 @@ namespace ft
 			return y;
 		}
 
-		ptr_base minimum(ptr_base node)
+		ptr_base constPredecessor(ptr_base x) const
 		{
+			if (x == TNULL)
+				return minimum(getRoot());
+			if (x->_left != TNULL)
+				return maximum(x->_left);
+			ptr_base y = x->_parent;
+			while (y != TNULL && x == y->_left)
+			{
+				x = y;
+				y = y->_parent;
+			}
+
+			return y;
+		}
+
+		ptr_base lower_bound(_Key key) const
+		{
+			ptr_base ret = keyIsExist(getRoot(), key);
+			if (ret == TNULL)
+			{
+				if (key > maximum(getRoot())->_value.first)
+					return TNULL;
+				else
+					return minimum(getRoot());
+			}
+			return ret;
+		}
+
+		ptr_base upper_bound(_Key key) const
+		{
+			ptr_base ret = keyIsExist(getRoot(), key);
+			if (ret == TNULL)
+			{
+				if (key > maximum(getRoot())->_value.first)
+					return TNULL;
+				else
+					return minimum(getRoot());
+			}
+			ret = constSuccessor(ret);
+			return ret;
+		}
+
+		ptr_base minimum(ptr_base node) const
+		{
+			if (node == TNULL)
+				return minimum(getRoot());
 			while (node->_left != TNULL)
 				node = node->_left;
 			return node;
 		}
 
-		ptr_base maximum(ptr_base node)
+		ptr_base maximum(ptr_base node) const
 		{
-			while (node->_right != TNULL)
-				node = node->_right;
-			return node;
-		}
-
-		constPtr_base minimum(constPtr_base node)
-		{
-			while (node->_left != TNULL)
-				node = node->_left;
-			return node;
-		}
-
-		constPtr_base maximum(constPtr_base node)
-		{
+			if (node == TNULL)
+				return maximum(getRoot());
 			while (node->_right != TNULL)
 				node = node->_right;
 			return node;
@@ -533,6 +614,11 @@ namespace ft
 			return this->root;
 		}
 
+		ptr_base end() const
+		{
+			return this->TNULL;
+		}
+
 		// constPtr_base getConstRoot() const
 		// {
 		// 	return this->root;
@@ -575,6 +661,11 @@ namespace ft
 				printHelper(root->_right, indent, true);
 			}
 		}
+
+		// ft::rb_tree_iterator<_Val, base> checkIfExistP(_Key k) const
+		// {
+		// 	return checkIfExist(*getRoot(), k);
+		// }
 
 		void printTree()
 		{
