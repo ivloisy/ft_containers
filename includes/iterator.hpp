@@ -358,6 +358,26 @@ namespace ft
 				return tmp;
 			}
 
+			// /* =========================== Friends Access ================================ */
+			//
+			// template<typename I, typename U, typename N>
+			// friend bool operator==(rb_tree_iterator<I, N> const &lhs, rb_tree_iterator<U, N> const &rhs);
+			//
+			// template<typename I, typename U, typename N>
+			// friend bool operator!=(rb_tree_iterator<I, N> const &lhs, rb_tree_iterator<U, N> const &rhs);
+			//
+			// template<typename I, typename U, typename N>
+			// friend bool operator<=(rb_tree_iterator<I, N> const &lhs, rb_tree_iterator<U, N> const &rhs);
+			//
+			// template<typename I, typename U, typename N>
+			// friend bool operator>=(rb_tree_iterator<I, N> const &lhs, rb_tree_iterator<U, N> const &rhs);
+			//
+			// template<typename I, typename U, typename N>
+			// friend bool operator<(rb_tree_iterator<I, N> const &lhs, rb_tree_iterator<U, N> const &rhs);
+			//
+			// template<typename I, typename U, typename N>
+			// friend bool operator>(rb_tree_iterator<I, N> const &lhs, rb_tree_iterator<U, N> const &rhs);
+
 
 	}; /* class bidirectional_iterator */
 
@@ -646,9 +666,14 @@ namespace ft
 				return *this;
 			}
 
-			Iterator	operator->()
+			Iterator	operator->()// const
 			{
 				return this->_it - 1;
+			}
+
+			const Iterator	operator->() const
+			{
+				return --this->_it;// - 1;
 			}
 
 			reference	operator[](difference_type value)
@@ -720,6 +745,55 @@ namespace ft
 			friend bool operator>(ReverseIterator<I> const &lhs, ReverseIterator<U> const &rhs);
 
 	};
+
+	//
+	// template<typename I, typename U, class Node>
+	// bool operator==(rb_tree_iterator<I, Node> const &lhs, rb_tree_iterator<U, Node> const &rhs)
+	// {
+	// 	return (rhs._ptr == lhs._ptr);
+	// }
+	//
+	// template<typename I, typename U, class Node>
+	// bool operator!=(rb_tree_iterator<I, Node> const &lhs, rb_tree_iterator<U, Node> const &rhs)
+	// {
+	// 	return (lhs._ptr != rhs._ptr);
+	// }
+	//
+	// template<typename I, typename U, class Node>
+	// bool operator<=(rb_tree_iterator<I, Node> const &lhs, rb_tree_iterator<U, Node> const &rhs)
+	// {
+	// 	return (lhs._ptr <= rhs._ptr);
+	// }
+	//
+	// template<typename I, typename U, class Node>
+	// bool operator>=(rb_tree_iterator<I, Node> const &lhs, rb_tree_iterator<U, Node> const &rhs)
+	// {
+	// 	return (lhs._ptr >= rhs._ptr);
+	// }
+	//
+	// template<typename I, typename U, class Node>
+	// bool operator<(rb_tree_iterator<I, Node> const &lhs, rb_tree_iterator<U, Node> const &rhs)
+	// {
+	// 	return (lhs._ptr < rhs._ptr);
+	// }
+	//
+	// template<typename I, typename U, class Node>
+	// bool operator>(rb_tree_iterator<I, Node> const &lhs, rb_tree_iterator<U, Node> const &rhs)
+	// {
+	// 	return (lhs._ptr > rhs._ptr);
+	// }
+	//
+	// template<typename T, class Node>
+	// typename ft::rb_tree_iterator<T, Node> operator+(typename ft::rb_tree_iterator<T, Node>::difference_type lhs, typename ft::rb_tree_iterator<T, Node>&	rhs) {
+	// 	return (&(*rhs)+lhs);
+	// }
+	//
+	// template<typename T, class Node>
+	// typename ft::rb_tree_iterator<T, Node> operator-(typename ft::rb_tree_iterator<T, Node>::difference_type lhs, typename ft::rb_tree_iterator<T, Node>&	rhs) {
+	// 	return (&(*rhs)-lhs);
+	// }
+
+	////////////////////
 
 
 	template<typename I, typename U>
