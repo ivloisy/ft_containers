@@ -309,6 +309,45 @@ namespace ft
 
 
 	};
+
+	template <class Key, class T, class Alloc>
+	bool	operator==(const map<Key, T,Alloc> & lhs, const map<Key, T,Alloc> & rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return false;
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+	template <class Key, class T, class Alloc>
+	bool	operator!=(const map<Key, T,Alloc> & lhs, const map<Key, T,Alloc> & rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <class Key, class T, class Alloc>
+	bool	operator<(const map<Key, T,Alloc> & lhs, const map<Key, T,Alloc> & rhs)
+	{
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	template <class Key, class T, class Alloc>
+	bool	operator<=(const map<Key, T,Alloc> & lhs, const map<Key, T,Alloc> & rhs)
+	{
+		return (lhs < rhs || lhs == rhs);
+	}
+
+	template <class Key, class T, class Alloc>
+	bool	operator>(const map<Key, T,Alloc> & lhs, const map<Key, T,Alloc> & rhs)
+	{
+		return (!(lhs < rhs || lhs == rhs));
+	}
+
+	template <class Key, class T, class Alloc>
+	bool	operator>=(const map<Key, T,Alloc> & lhs, const map<Key, T,Alloc> & rhs)
+	{
+		return (lhs > rhs || lhs == rhs);
+	}
+
 } // namespace ft
 
 
