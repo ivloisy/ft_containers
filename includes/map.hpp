@@ -112,42 +112,42 @@ namespace ft
 
 		iterator	begin()
 		{
-			return iterator(this->_tree.minimum(this->_tree.getRoot()));
+			return iterator(this->_tree.minimum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_iterator	begin() const
 		{
-			return const_iterator(this->_tree.minimum(this->_tree.getRoot()));
+			return const_iterator(this->_tree.minimum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		iterator	end()
 		{
-			return iterator(this->_tree.end());
+			return iterator(this->_tree.end(), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_iterator	end() const
 		{
-			return const_iterator(this->_tree.end());
+			return const_iterator(this->_tree.end(), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		reverse_iterator	rbegin()
 		{
-			return reverse_iterator(this->_tree.maximum(this->_tree.getRoot()));
+			return reverse_iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_reverse_iterator	rbegin() const
 		{
-			return const_reverse_iterator(this->_tree.maximum(this->_tree.getRoot()));
+			return const_reverse_iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		reverse_iterator	rend()
 		{
-			return reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1);
+			return reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1, this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_reverse_iterator	rend() const
 		{
-			return const_reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1);
+			return const_reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1, this->_tree.getRoot(), this->_tree.end());
 		}
 
 		/* =========================== Capacity ========================================= */

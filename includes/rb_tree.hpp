@@ -299,7 +299,7 @@ namespace ft
 			ft::rb_tree_iterator<_Val, base> checkIfExistP(ptr_base node, _Key key)
 			{
 				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<_Val, base>(node);
+					return ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 				if (_comp(key, node->_value.first))
 					return checkIfExistP(node->_left, key);
 				return checkIfExistP(node->_right, key);
@@ -308,7 +308,7 @@ namespace ft
 			ft::rb_tree_iterator<_Val, base> checkIfExistP(ptr_base node, _Key key) const
 			{
 				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<_Val, base>(node);
+					return ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 				if (_comp(key, node->_value.first))
 					return checkIfExistP(node->_left, key);
 				return checkIfExistP(node->_right, key);
@@ -407,7 +407,7 @@ namespace ft
 		insert(const _Val& v)
 		{
 			ft::pair<rb_tree_iterator<_Val, base>, bool> it;
-			if ((it.first = checkIfExistP(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL))
+			if ((it.first = checkIfExistP(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL, root, TNULL))
 			{
 				it.second = false;
 				return (it);
@@ -443,7 +443,7 @@ namespace ft
 			if (node->_parent == TNULL)
 			{
 				node->_color = 0;
-				it.first = ft::rb_tree_iterator<_Val, base>(node);
+				it.first = ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 				// it.first =  checkIfExist(node->_value.first);
 				it.second = true;
 				return (it);
@@ -452,15 +452,15 @@ namespace ft
 			if (node->_parent->_parent == TNULL)
 			{
 				// it.first =  checkIfExist(y->_value.first);
-				it.first = ft::rb_tree_iterator<_Val, base>(node);
+				it.first = ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 				it.second = true;
 				return (it);
 			}
 
-			insertFix(node);
+			// insertFix(node);
 
 			// it.first =  checkIfExist(y->_value.first);
-			it.first = ft::rb_tree_iterator<_Val, base>(node);
+			it.first = ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 			it.second = true;
 			return (it);
 		}
