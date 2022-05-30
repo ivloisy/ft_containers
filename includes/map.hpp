@@ -1,14 +1,13 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# pragma once
 # include <iostream>
 # include <functional>
+
 # include "iterator.hpp"
 # include "type_traits.hpp"
 # include "utility.hpp"
 # include "rb_tree.hpp"
-# include "algorithm.hpp"
 
 namespace ft
 {
@@ -23,6 +22,7 @@ namespace ft
 			typedef ft::pair<const Key, T>							value_type;
 
 			typedef Compare														key_compare;
+			// class																value_compare;
 			typedef Alloc														allocator_type;
 			typedef typename allocator_type::reference							reference;
 			typedef typename allocator_type::const_reference					const_reference;
@@ -34,6 +34,7 @@ namespace ft
 			typedef ft::ReverseIterator<const_iterator>							const_reverse_iterator;
 			typedef std::ptrdiff_t												difference_type;
 			typedef size_t														size_type;
+
 
 			class value_compare : public std::binary_function<value_type, value_type, bool>
 			{
@@ -66,7 +67,9 @@ namespace ft
 
 		/* ===== default constructor ====== */
 
-		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) : _tree(comp, alloc) {}
+		explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) : _tree(comp, alloc)
+		{
+		}
 
 		void printTree()
 		{
@@ -76,17 +79,18 @@ namespace ft
 		/* ====== range constructor ======= */
 
 		template <class InputIterator>
-		  map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _tree(comp, alloc)
+		  map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 		{
+
+			map ret(comp, alloc);
 			insert(first, last);
 		}
 
 		/* ===== copy constructor ========= */
 
-		map (const map& x) : _tree(x._key_cmp, x._alloc)
+		map (const map& x)
 		{
-			*this = x;
-			// map(x.begin(), x.end());
+			map(x.begin(), x.end());
 		}
 
 		/* ========= destructor =========== */
@@ -101,10 +105,8 @@ namespace ft
 
 		map& operator= (const map& x)
 		{
-			if ( this != &x ) {
-				clear();
-				_tree = x._tree;
-			}
+			this->clear();
+			this->insert(x.begin(), x.end());
 			return *this;
 		}
 
@@ -112,42 +114,42 @@ namespace ft
 
 		iterator	begin()
 		{
-			return iterator(this->_tree.minimum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
+			return iterator(this->_tree.minimum(this->_tree.getRoot()));
 		}
 
 		const_iterator	begin() const
 		{
-			return const_iterator(this->_tree.minimum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
+			return const_iterator(this->_tree.minimum(this->_tree.getRoot()));
 		}
 
 		iterator	end()
 		{
-			return iterator(this->_tree.end(), this->_tree.getRoot(), this->_tree.end());
+			return iterator(this->_tree.end());
 		}
 
 		const_iterator	end() const
 		{
-			return const_iterator(this->_tree.end(), this->_tree.getRoot(), this->_tree.end());
+			return const_iterator(this->_tree.end());
 		}
 
 		reverse_iterator	rbegin()
 		{
-			return reverse_iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
+			return reverse_iterator(this->_tree.maximum(this->_tree.getRoot()));
 		}
 
 		const_reverse_iterator	rbegin() const
 		{
-			return const_reverse_iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
+			return const_reverse_iterator(this->_tree.maximum(this->_tree.getRoot()));
 		}
 
 		reverse_iterator	rend()
 		{
-			return reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1, this->_tree.getRoot(), this->_tree.end());
+			return reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1);
 		}
 
 		const_reverse_iterator	rend() const
 		{
-			return const_reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1, this->_tree.getRoot(), this->_tree.end());
+			return const_reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1);
 		}
 
 		/* =========================== Capacity ========================================= */
@@ -172,6 +174,7 @@ namespace ft
 
 		mapped_type& operator[] (const key_type & k)
 		{
+			// std::cout << "laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
 			if (this->_tree.checkIfExist(k) == this->end())
 				this->_tree.insert(ft::make_pair(k, mapped_type()));
 			return (this->_tree.searchTreeHelper(k))->_value.second;
@@ -181,11 +184,6 @@ namespace ft
 		/* =========================== Modifiers ======================================== */
 
 		/* ============ Insert ============ */
-
-		void test()
-		{
-			_key_cmp(12, 23);
-		}
 
 		pair<iterator,bool> insert (const value_type& val)
 		{

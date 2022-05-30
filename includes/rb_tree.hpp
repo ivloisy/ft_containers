@@ -34,15 +34,70 @@ namespace ft
 		public:
 			node_base(void): _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(value()) {}
 			node_base(const value& v): _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(v) {}
-			node_base(const value& v, ptr_base parent): _color(0), _parent(parent), _left(NULL), _right(NULL), _value(v) {}
 			node_base(const node_base& src):
 			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
 
 			value & getPair() { return this->_value; }
 
+			// ptr_base successor(ptr_base x) const
+			// {
+			// 	if (x->_right != null())
+			// 		return minimum(x->_right);
+			// 	ptr_base y = x->_parent;
+			// 	while (y != null() && x == y->_right)
+			// 	{
+			// 		x = y;
+			// 		y = y->_parent;
+			// 	}
+			// 	return y;
+			// }
+			//
+			// ptr_base predecessor(ptr_base x) const
+			// {
+			// 	if (x->_left != null())
+			// 		return maximum(x->_left);
+			// 	ptr_base y = x->_parent;
+			// 	while (y != null() && x == y->_left)
+			// 	{
+			// 		x = y;
+			// 		y = y->_parent;
+			// 	}
+			//
+			// 	return y;
+			// }
+			//
+			// ptr_base minimum(ptr_base node) const
+			// {
+			// 	while (node->_left != null())
+			// 		node = node->_left;
+			// 	return node;
+			// }
+			//
+			// ptr_base maximum(ptr_base node) const
+			// {
+			// 	while (node->_right != null())
+			// 		node = node->_right;
+			// 	return node;
+			// }
+			//
+			// const_ptr_base minimum(const_ptr_base node) const
+			// {
+			// 	while (node->_left != null())
+			// 		node = node->_left;
+			// 	return node;
+			// }
+			//
+			// const_ptr_base maximum(const_ptr_base node) const
+			// {
+			// 	while (node->_right != null())
+			// 		node = node->_right;
+			// 	return node;
+			// }
+
+
 	};
 
-	template<typename _Key, typename _Val, typename _KeyOfValue, typename _Compare = std::less<_Key>, typename _Alloc = std::allocator<node_base<_Val> > >
+	template<typename _Key, typename _Val, typename _KeyOfValue, typename _Compare, typename _Alloc = std::allocator<node_base<_Val> > >
 	class rb_tree
 	{
 
@@ -58,14 +113,12 @@ namespace ft
 			typedef const value_type&											const_reference;
 			typedef size_t														size_type;
 			typedef std::ptrdiff_t													difference_type;
-			typedef _Compare													compare_type;
 			typedef _Alloc														allocator_type;
 
 		private:
 			ptr_base root;
 			ptr_base TNULL;
 			allocator_type _alloc;
-			compare_type _comp;
 			size_type	_size;
 
 			void rbTransplant(ptr_base u, ptr_base v)
@@ -299,8 +352,8 @@ namespace ft
 			ft::rb_tree_iterator<_Val, base> checkIfExistP(ptr_base node, _Key key)
 			{
 				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
-				if (_comp(key, node->_value.first))
+					return ft::rb_tree_iterator<_Val, base>(node);
+				if (key < node->_value.first)
 					return checkIfExistP(node->_left, key);
 				return checkIfExistP(node->_right, key);
 			}
@@ -308,8 +361,8 @@ namespace ft
 			ft::rb_tree_iterator<_Val, base> checkIfExistP(ptr_base node, _Key key) const
 			{
 				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
-				if (_comp(key, node->_value.first))
+					return ft::rb_tree_iterator<_Val, base>(node);
+				if (key < node->_value.first)
 					return checkIfExistP(node->_left, key);
 				return checkIfExistP(node->_right, key);
 			}
@@ -318,7 +371,7 @@ namespace ft
 			{
 				if (node == TNULL || key == node->_value.first)
 					return node;
-				if (_comp(key, node->_value.first))
+				if (key < node->_value.first)
 					return keyIsExist(node->_left, key);
 				return keyIsExist(node->_right, key);
 			}
@@ -334,7 +387,7 @@ namespace ft
 			{
 				return node;
 			}
-			if (_comp(key, node->_value.first))
+			if (key < node->_value.first)
 				return this->searchTreeHelper(node->_left, key);
 			return this->searchTreeHelper(node->_right, key);
 		}
@@ -347,7 +400,7 @@ namespace ft
 			_size = 0;
 		}
 
-		rb_tree(const _Compare& comp, const allocator_type& a = allocator_type()): _comp(comp)
+		rb_tree(const _Compare& comp, const allocator_type& a = allocator_type())
 		{
 			(void)comp;
 			(void)a;
@@ -356,46 +409,6 @@ namespace ft
 			root = TNULL;
 			_size = 0;
 		}
-
-		void clear()
-		{
-			ptr_base node = root;
-			while (node != NULL)
-			{
-				deleteNode(node->_value.first);
-				node = root;
-			}
-		}
-
-		void copy( base *& node, base * prev, base * other_node, base * other_null )
-		{
-			if (other_node == other_null) {
-				node = TNULL;
-			}
-			else {
-				base * new_node = _alloc.allocate(1);
-				if ( !prev )
-					_alloc.construct(new_node, base(other_node->_value));
-				else
-					_alloc.construct(new_node, base(other_node->_value, prev));
-				new_node->_right = TNULL;
-				new_node->_left = TNULL;
-				TNULL->_parent = new_node;
-				node = new_node;
-				copy(node->_left, node, other_node->_left, other_null);
-				copy(node->_right, node, other_node->_right, other_null);
-			}
-		}
-
-
-		rb_tree& operator=( const rb_tree & other ) {
-			if ( this != &other ) {
-				if ( root !=  TNULL )
-					clear();
-				copy(root, TNULL, other.root, other.TNULL);
-			}
-			return *this;
-		};
 
 		~rb_tree()
 		{
@@ -407,8 +420,10 @@ namespace ft
 		insert(const _Val& v)
 		{
 			ft::pair<rb_tree_iterator<_Val, base>, bool> it;
-			if ((it.first = checkIfExistP(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL, root, TNULL))
+			// std::cout << "OHOHOHOHOHOH" << std::endl;
+			if ((it.first = checkIfExistP(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL))
 			{
+				// std::cout << "111111111111111111" << std::endl;
 				it.second = false;
 				return (it);
 			}
@@ -426,7 +441,7 @@ namespace ft
 			while (x != TNULL)
 			{
 				y = x;
-				if (_comp(node->_value.first, x->_value.first))
+				if (node->_value < x->_value)
 					x = x->_left;
 				else
 					x = x->_right;
@@ -435,32 +450,33 @@ namespace ft
 			node->_parent = y;
 			if (y == TNULL)
 				root = node;
-			else if (_comp(node->_value.first, y->_value.first))
+			else if (node->_value < y->_value)
 				y->_left = node;
 			else
 				y->_right = node;
 
 			if (node->_parent == TNULL)
 			{
+				// std::cout << "OHOHOHO" << std::endl;
+				// std::cout << "22222222222222222" << std::endl;
 				node->_color = 0;
-				it.first = ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
-				// it.first =  checkIfExist(node->_value.first);
+				it.first =  checkIfExist(node->_value.first);
 				it.second = true;
 				return (it);
 			}
 
 			if (node->_parent->_parent == TNULL)
 			{
-				// it.first =  checkIfExist(y->_value.first);
-				it.first = ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
+				it.first =  checkIfExist(y->_value.first);
+				it.first = ft::rb_tree_iterator<_Val, base>(node);
 				it.second = true;
 				return (it);
 			}
 
-			// insertFix(node);
+			insertFix(node);
 
 			// it.first =  checkIfExist(y->_value.first);
-			it.first = ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
+			it.first = ft::rb_tree_iterator<_Val, base>(node);
 			it.second = true;
 			return (it);
 		}
@@ -621,7 +637,7 @@ namespace ft
 
 		ptr_base end() const
 		{
-			return this->TNULL;
+			return maximum(root);
 		}
 
 		// constPtr_base getConstRoot() const
