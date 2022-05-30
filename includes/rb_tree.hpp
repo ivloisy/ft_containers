@@ -148,7 +148,6 @@ namespace ft
 
 				if (z == TNULL)
 				{
-					std::cout << "Key not found in the tree" << std::endl;
 					return 0;
 				}
 				this->_size--;
@@ -421,9 +420,10 @@ namespace ft
 		insert(const _Val& v)
 		{
 			ft::pair<rb_tree_iterator<_Val, base>, bool> it;
-			ft::pair<int, int> test;
+			// std::cout << "OHOHOHOHOHOH" << std::endl;
 			if ((it.first = checkIfExistP(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL))
 			{
+				// std::cout << "111111111111111111" << std::endl;
 				it.second = false;
 				return (it);
 			}
@@ -457,21 +457,25 @@ namespace ft
 
 			if (node->_parent == TNULL)
 			{
+				// std::cout << "OHOHOHO" << std::endl;
+				// std::cout << "22222222222222222" << std::endl;
 				node->_color = 0;
-				it.first = rb_tree_iterator<_Val, base>(y);
+				it.first =  checkIfExist(node->_value.first);
 				it.second = true;
 				return (it);
 			}
 
 			if (node->_parent->_parent == TNULL)
 			{
-				it.first = ft::rb_tree_iterator<_Val, base>(y);
+				it.first =  checkIfExist(y->_value.first);
+				it.first = ft::rb_tree_iterator<_Val, base>(node);
 				it.second = true;
 				return (it);
 			}
 
 			insertFix(node);
 
+			// it.first =  checkIfExist(y->_value.first);
 			it.first = ft::rb_tree_iterator<_Val, base>(node);
 			it.second = true;
 			return (it);

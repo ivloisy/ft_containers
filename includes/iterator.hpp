@@ -328,7 +328,7 @@ namespace ft
 
 			ptr_node 			max( ptr_node node ) {
 
-				while ( node != null() && node->_right != null() )
+				while ( node != null() && node->_right != null())
 					node = node->_right;
 				return (node);
 			}
