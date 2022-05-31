@@ -3,6 +3,9 @@
 
 # include <iostream>
 # include <functional>
+# include <iomanip>
+# include <sstream>
+# include <algorithm>
 
 # include "iterator.hpp"
 # include "type_traits.hpp"
@@ -220,21 +223,24 @@ namespace ft
 
 		void erase (iterator first, iterator last)
 		{
-			while (first != last)
-			{
-				this->_tree.deleteNode(first->first);
-				first++;
-			}
+			if (first == begin() && last == end())
+				clear();
+			else
+				while (first != last)
+				{
+					erase(first++);
+				}
 		}
 
 		/* ============= Swap ============= */
 
 		void swap (map& x)
 		{
-			(void)x;
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-			// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			// (void)x;
+			_tree.swap(x._tree);
+			std::swap(_key_cmp, x._key_cmp);
+			std::swap(_alloc, x._alloc);
+			std::swap(_size, x._size);
 		}
 
 		/* ============= Clear ============ */

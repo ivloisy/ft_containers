@@ -640,6 +640,14 @@ namespace ft
 			return target->_value.first;
 		}
 
+		void swap(const rb_tree& x) {
+			std::swap(root, x.root);
+			std::swap(TNULL, x.TNULL);
+			std::swap(_alloc, x._alloc);
+			std::swap(_comp, x._comp);
+			std::swap(_size, x._size);
+		}
+
 		void printHelper(ptr_base root, std::string indent, bool last)
 		{
 			if (root != TNULL)
