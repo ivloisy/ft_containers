@@ -673,7 +673,7 @@ namespace ft
 
 			const Iterator	operator->() const
 			{
-				return --this->_it;// - 1;
+				return this->_it - 1;
 			}
 
 			reference	operator[](difference_type value)
