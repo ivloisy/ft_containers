@@ -4,6 +4,14 @@
 
 namespace ft
 {
+	template<typename T>
+	void swippy(T src, T dst)
+	{
+		T tmp = src;
+		src = dst;
+		dst = tmp;
+	}
+
 	template <class T1, class T2>
 	struct pair
 	{

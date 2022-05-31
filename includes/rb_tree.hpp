@@ -609,16 +609,27 @@ namespace ft
 			return this->root;
 		}
 
+		void setRoot(ptr_base newRoot) const
+		{
+			this->root->_parent = newRoot->_parent;
+			this->root->_left = newRoot->_left;
+			this->root->_right = newRoot->_right;
+		}
+
 		ptr_base end() const
 		{
 			return TNULL;
-			// return maximum(root);
 		}
 
-		// constPtr_base getConstRoot() const
-		// {
-		// 	return this->root;
-		// }
+		void swap(rb_tree& x)
+		{
+			std::swap(root, x.root);
+			std::swap(TNULL, x.TNULL);
+			std::swap(_alloc, x._alloc);
+			std::swap(_comp, x._comp);
+			std::swap(_size, x._size);
+
+		}
 
 		size_type getSize() const
 		{
@@ -633,14 +644,6 @@ namespace ft
 		_Key getKey(constPtr_base target) const
 		{
 			return target->_value.first;
-		}
-
-		void swap(const rb_tree& x) {
-			std::swap(root, x.root);
-			std::swap(TNULL, x.TNULL);
-			std::swap(_alloc, x._alloc);
-			std::swap(_comp, x._comp);
-			std::swap(_size, x._size);
 		}
 
 		void printHelper(ptr_base root, std::string indent, bool last)

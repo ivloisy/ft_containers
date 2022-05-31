@@ -85,6 +85,7 @@ namespace ft
 		  map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _tree(comp, alloc)
 		{
 
+			// map ret(comp, alloc);
 			insert(first, last);
 		}
 
@@ -92,6 +93,7 @@ namespace ft
 
 		map (const map& x) : _tree(x._key_cmp, x._alloc)
 		{
+			// map(x.begin(), x.end());
 			insert(x.begin(), x.end());
 		}
 
@@ -136,22 +138,22 @@ namespace ft
 
 		reverse_iterator	rbegin()
 		{
-			return reverse_iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
+			return reverse_iterator(iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end()));
 		}
 
 		const_reverse_iterator	rbegin() const
 		{
-			return const_reverse_iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
+			return const_reverse_iterator(iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end()));
 		}
 
 		reverse_iterator	rend()
 		{
-			return reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1, this->_tree.getRoot(), this->_tree.end());
+			return reverse_iterator(iterator(this->_tree.minimum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end()));
 		}
 
 		const_reverse_iterator	rend() const
 		{
-			return const_reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1, this->_tree.getRoot(), this->_tree.end());
+			return const_reverse_iterator(iterator(this->_tree.minimum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end()));
 		}
 
 		/* =========================== Capacity ========================================= */
@@ -176,7 +178,6 @@ namespace ft
 
 		mapped_type& operator[] (const key_type & k)
 		{
-			// std::cout << "laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
 			if (this->_tree.checkIfExist(k) == this->end())
 				this->_tree.insert(ft::make_pair(k, mapped_type()));
 			return (this->_tree.searchTreeHelper(k))->_value.second;
@@ -234,9 +235,10 @@ namespace ft
 
 		void swap (map& x)
 		{
-			map tmp(x);
-			x = *this;
-			*this = tmp;
+			_tree.swap(x._tree);
+			std::swap(_key_cmp, x._key_cmp);
+			std::swap(_alloc, x._alloc);
+			std::swap(_size, x._size);
 		}
 
 		/* ============= Clear ============ */
@@ -311,7 +313,35 @@ namespace ft
 			return this->_alloc;
 		}
 
-
+	// private:
+	// 	void				_cpy_content(map &x)
+	// 	{
+	// 		key_compare _compTmp;
+	// 		allocator_type _allocTmp;
+	// 		size_type _sizeTmp;
+	// 		rb_tree<Key, value_type, Key, Compare> _treeTmp;
+	//
+	// 		_compTmp = _key_cmp;
+	// 		_node_allocTmp = _alloc_node;
+	// 		_rootTmp = _data;
+	// 		_allocTmp = _alloc;
+	// 		_sizeTmp = _size;
+	// 		_TNULLtmp = TNULL;
+	//
+	// 		_key_cmp = x._key_cmp;
+	// 		_alloc_node = x._alloc_node;
+	// 		_data= x._data;
+	// 		_alloc = x._alloc;
+	// 		_size = x._size;
+	// 		TNULL = x.TNULL;
+	//
+	// 		x._key_cmp = _compTmp;
+	// 		x._alloc_node = _node_allocTmp;
+	// 		x._data = _rootTmp;
+	// 		x._alloc = _allocTmp;
+	// 		x._size = _sizeTmp;
+	// 		x.TNULL = _TNULLtmp;
+	// }
 
 
 	};
