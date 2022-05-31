@@ -339,20 +339,15 @@ namespace ft
 			return this->searchTreeHelper(node->_right, key);
 		}
 
-		rb_tree()
-		{
-			TNULL = _alloc.allocate(1);
-			_alloc.construct(TNULL, base());
-			root = TNULL;
-			_size = 0;
-		}
-
 		rb_tree(const _Compare& comp, const allocator_type& a = allocator_type()): _comp(comp)
 		{
 			(void)comp;
 			(void)a;
 			TNULL = _alloc.allocate(1);
 			_alloc.construct(TNULL, base());
+			TNULL->_parent = TNULL;
+			TNULL->_left = TNULL;
+			// TNULL->_right = TNULL;
 			root = TNULL;
 			_size = 0;
 		}
