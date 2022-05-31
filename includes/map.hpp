@@ -138,12 +138,14 @@ namespace ft
 
 		reverse_iterator	rbegin()
 		{
-			return reverse_iterator(iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end()));
+			return reverse_iterator(end());
+			// return reverse_iterator(iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end()));
 		}
 
 		const_reverse_iterator	rbegin() const
 		{
-			return const_reverse_iterator(iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end()));
+			return const_reverse_iterator(end());
+			// return const_reverse_iterator(iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end()));
 		}
 
 		reverse_iterator	rend()

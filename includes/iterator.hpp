@@ -261,7 +261,6 @@ namespace ft
 
 			/* =========================== Input ======================================== */
 
-			//	const vs non const ??? ////////////
 			bool	operator==(random_access_iterator const & rhs) const
 			{
 				return this->_ptr == rhs._ptr;
@@ -420,8 +419,6 @@ namespace ft
 	            ReverseIterator(iterator_type ptr): _ptr(ptr) {}
 	            template <typename U>
 	                ReverseIterator(ReverseIterator<U> const &ref) : _ptr(ref.base()) {}
-	            //template <typename U>
-	            //    ReverseIterator(Iterator<U> const &ref) : _ptr(ref.base()) {}
 	            ~ReverseIterator(void) {}
 
 	            //============================ operator =============================//
@@ -437,15 +434,7 @@ namespace ft
 					--tmp;
 					return &*tmp;
 				}
-				//ReverseIterator operator=(const ReverseIterator& a){_ptr = a._ptr; return (*this);}
-	            //ReverseIterator &operator=(ReverseIterator<T> const &ref) {
-	            //    this->_ptr = ref.base();
-	            //    return (*this);
-	            //}
-	            //ReverseIterator &operator=(pointer ptr) {
-	            //    this->_ptr = ptr;
-	            //    return (*this);
-	            //}
+
 	            ReverseIterator &operator++() {
 	                --(this->_ptr);
 	                return *this;
@@ -502,10 +491,8 @@ namespace ft
 				reference operator[](difference_type n) const {
 					return *(this->_ptr - n - 1);
 				}
-				// operator	ReverseIterator<T const>(void) const {
-				// 	return (ReverseIterator<T const>(this->_ptr));
-				// }
-	    };;
+
+	    };
 
 		template <typename Iter1, typename Iter2>
 		bool	operator==(
