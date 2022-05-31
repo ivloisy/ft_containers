@@ -85,6 +85,7 @@ namespace ft
 	**	random_access_iterator
 	*/
 
+
 	template< class T, class Node >
 	class rb_tree_iterator : public iterator <bidirectional_iterator_tag, T> {
 
@@ -124,7 +125,6 @@ namespace ft
 			pointer operator->( void ) const { return &(operator*()); }
 
 			rb_tree_iterator &operator++( void ) {
-				// std::cout << "000000000000" << std::endl;
 				if ( current == max(_root)) {
 					current = _TNULL;
 					return *this;
@@ -168,21 +168,6 @@ namespace ft
 					}
 
 		private:
-
-			// ptr_node 			root( void ) {
-			//
-			// 	ptr_node _tmp = current;
-			// 	while ( _tmp && _tmp->_parent != null())
-			// 		_tmp = _tmp->_parent;
-			// 	return _tmp;
-			// }
-			//
-			// ptr_node 			null( void ) {
-			// 	ptr_node _tmp = current;
-			// 	while ( _tmp->_right )
-			// 		_tmp = _tmp->_right;
-			// 	return _tmp;
-			// }
 
 			ptr_node 			min( ptr_node node ) {
 
@@ -428,7 +413,7 @@ namespace ft
 
 		public :
 
-			ReverseIterator() : _it() {}
+			ReverseIterator() : _it(NULL) {}
 
 			explicit ReverseIterator (Iterator it): _it(it) {}
 
@@ -513,7 +498,7 @@ namespace ft
 
 			Iterator	operator->()
 			{
-				return this->_it;
+				return this->_it - 1;
 			}
 
 			reference	operator[](difference_type value)

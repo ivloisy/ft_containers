@@ -85,7 +85,6 @@ namespace ft
 		  map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _tree(comp, alloc)
 		{
 
-			// map ret(comp, alloc);
 			insert(first, last);
 		}
 
@@ -93,7 +92,6 @@ namespace ft
 
 		map (const map& x) : _tree(x._key_cmp, x._alloc)
 		{
-			// map(x.begin(), x.end());
 			insert(x.begin(), x.end());
 		}
 
@@ -236,11 +234,9 @@ namespace ft
 
 		void swap (map& x)
 		{
-			// (void)x;
-			_tree.swap(x._tree);
-			std::swap(_key_cmp, x._key_cmp);
-			std::swap(_alloc, x._alloc);
-			std::swap(_size, x._size);
+			map tmp(x);
+			x = *this;
+			*this = tmp;
 		}
 
 		/* ============= Clear ============ */
