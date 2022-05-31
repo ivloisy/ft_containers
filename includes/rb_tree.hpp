@@ -4,6 +4,9 @@
 
 # include <iostream>
 # include "iterator.hpp"
+# include <iomanip>
+# include <sstream>
+# include <algorithm>
 # include "type_traits.hpp"
 # include "utility.hpp"
 
@@ -23,14 +26,7 @@ namespace ft
 			ptr_base	_left;
 			ptr_base	_right;
 			value		_value;
-		// private:
-		// 	ptr_base* null(ptr_base x) const
-		// 	{
-		// 		node_base* _tmp = x;
-		// 		while ( _tmp->_right )
-		// 		_tmp = _tmp->_right;
-		// 		return _tmp;
-		// 	}
+
 		public:
 			node_base(void): _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(value()) {}
 			node_base(const value& v): _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(v) {}
@@ -38,7 +34,6 @@ namespace ft
 			node_base(const node_base& src):
 			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
 
-			// value & getPair() { return this->_value; }
 
 	};
 
