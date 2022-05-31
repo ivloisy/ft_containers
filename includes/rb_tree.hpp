@@ -274,7 +274,7 @@ namespace ft
 					return node;
 				}
 
-				if (key < node->_value.first)
+				if (_comp(key, node->_value.first))
 				{
 					return searchTreeHelper(node->_left, key);
 				}
@@ -288,7 +288,7 @@ namespace ft
 					return node;
 				}
 
-				if (key < node->_value.first)
+				if (_comp(key, node->_value.first))
 				{
 					return searchTreeHelper(node->_left, key);
 				}

@@ -79,18 +79,19 @@ namespace ft
 		/* ====== range constructor ======= */
 
 		template <class InputIterator>
-		  map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+		  map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _tree(comp, alloc)
 		{
 
-			map ret(comp, alloc);
+			// map ret(comp, alloc);
 			insert(first, last);
 		}
 
 		/* ===== copy constructor ========= */
 
-		map (const map& x)
+		map (const map& x) : _tree(x._key_cmp, x._alloc)
 		{
-			map(x.begin(), x.end());
+			// map(x.begin(), x.end());
+			insert(x.begin(), x.end());
 		}
 
 		/* ========= destructor =========== */

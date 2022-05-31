@@ -16,26 +16,62 @@
 //	#include <vector.hpp>
 #endif
 
+
+template <typename T>
+std::string	printPair(const T &iterator, bool nl = true, std::ostream &o = std::cout)
+{
+	o << "key: " << iterator->first << " | value: " << iterator->second;
+	if (nl)
+		o << std::endl;
+	return ("");
+}
+
+template <typename T_MAP>
+void	printSize(T_MAP const &mp, bool print_content = 1)
+{
+	std::cout << "size: " << mp.size() << std::endl;
+	std::cout << "max_size: " << mp.max_size() << std::endl;
+	if (print_content)
+	{
+		typename T_MAP::const_iterator it = mp.begin(), ite = mp.end();
+		// std::cout << "it = " << it->first << std::endl;
+		// std::cout << "ite = " << ite->first << std::endl;
+		std::cout << std::endl << "Content is:" << std::endl;
+		for (; it != ite; ++it)
+			std::cout << "- " << printPair(it, false) << std::endl;
+	}
+	std::cout << "###############################################" << std::endl;
+}
+
+
 int main()
 {
 
-	ft::pair<int, int> test1('S', 42);
-	ft::pair<int, int> test2('a', 42);
-	ft::pair<int, int> test3('l', 42);
-	ft::pair<int, int> test4('u', 42);
-	ft::pair<int, int> test5('t', 42);
+	ft::pair<int, int> test1('S', 1);
+	ft::pair<int, int> test2('a', 2);
+	ft::pair<int, int> test3('l', 3);
+	ft::pair<int, int> test4('u', 4);
+	ft::pair<int, int> test5('t', 5);
 	ft::map<int, int>	m1;
-	std::cout << "m1.size() = " << m1.size() << std::endl;
-	std::cout << "m1.empty() = " << m1.empty() << std::endl;
+	// std::cout << "m1.size() = " << m1.size() << std::endl;
+	// std::cout << "m1.empty() = " << m1.empty() << std::endl;
 	m1.insert(test1);
 	m1.insert(test2);
 	m1.insert(test3);
 	m1.insert(test4);
 	m1.insert(test5);
 	// m1.printTree();
-	std::cout << "m1.size() = " << m1.size() << std::endl;
-	std::cout << "m1.empty() = " << m1.empty() << std::endl;
-	std::cout << "m1.max_size() = " << m1.max_size() << std::endl;
+	// printSize(m1);
+
+	ft::map<int, int>	m2(m1);
+	// m1.clear();
+	m1.insert(ft::make_pair('k', 7));
+	printSize(m1);
+	printSize(m2);
+
+	// std::cout << "m1.size() = " << m1.size() << std::endl;
+	// std::cout << "m1.empty() = " << m1.empty() << std::endl;
+	// std::cout << "m1.max_size() = " << m1.max_size() << std::endl;
 
 	// ft::pair<ft::rb_tree_iterator<ft::pair<int, int>, ft::node_base<ft::pair<int, int> > >, bool> it(m1.begin(), false);
 	// std::cout << *it.first;
