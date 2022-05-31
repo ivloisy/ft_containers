@@ -115,42 +115,42 @@ namespace ft
 
 		iterator	begin()
 		{
-			return iterator(this->_tree.minimum(this->_tree.getRoot()));
+			return iterator(this->_tree.minimum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_iterator	begin() const
 		{
-			return const_iterator(this->_tree.minimum(this->_tree.getRoot()));
+			return const_iterator(this->_tree.minimum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		iterator	end()
 		{
-			return iterator(this->_tree.end());
+			return iterator(this->_tree.end(), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_iterator	end() const
 		{
-			return const_iterator(this->_tree.end());
+			return const_iterator(this->_tree.end(), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		reverse_iterator	rbegin()
 		{
-			return reverse_iterator(this->_tree.maximum(this->_tree.getRoot()));
+			return reverse_iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_reverse_iterator	rbegin() const
 		{
-			return const_reverse_iterator(this->_tree.maximum(this->_tree.getRoot()));
+			return const_reverse_iterator(this->_tree.maximum(this->_tree.getRoot()), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		reverse_iterator	rend()
 		{
-			return reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1);
+			return reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1, this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_reverse_iterator	rend() const
 		{
-			return const_reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1);
+			return const_reverse_iterator(this->_tree.minimum(this->_tree.getRoot()) - 1, this->_tree.getRoot(), this->_tree.end());
 		}
 
 		/* =========================== Capacity ========================================= */
@@ -257,7 +257,7 @@ namespace ft
 
 		iterator find (const key_type& k)
 		{
-			return iterator(this->_tree.searchTreeHelper(k));
+			return iterator(this->_tree.searchTreeHelper(k), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_iterator find (const key_type& k) const
@@ -274,22 +274,22 @@ namespace ft
 
 		iterator lower_bound (const key_type& k)
 		{
-			return iterator(this->_tree.lower_bound(k));
+			return iterator(this->_tree.lower_bound(k), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_iterator lower_bound (const key_type& k) const
 		{
-			return const_iterator(this->_tree.lower_bound(k));
+			return const_iterator(this->_tree.lower_bound(k), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		iterator upper_bound (const key_type& k)
 		{
-			return iterator(this->_tree.upper_bound(k));
+			return iterator(this->_tree.upper_bound(k), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		const_iterator upper_bound (const key_type& k) const
 		{
-			return const_iterator(this->_tree.upper_bound(k));
+			return const_iterator(this->_tree.upper_bound(k), this->_tree.getRoot(), this->_tree.end());
 		}
 
 		pair<const_iterator,const_iterator> equal_range (const key_type& k) const

@@ -23,14 +23,14 @@ namespace ft
 			ptr_base	_left;
 			ptr_base	_right;
 			value		_value;
-		private:
-			ptr_base* null(ptr_base x) const
-			{
-				node_base* _tmp = x;
-				while ( _tmp->_right )
-				_tmp = _tmp->_right;
-				return _tmp;
-			}
+		// private:
+		// 	ptr_base* null(ptr_base x) const
+		// 	{
+		// 		node_base* _tmp = x;
+		// 		while ( _tmp->_right )
+		// 		_tmp = _tmp->_right;
+		// 		return _tmp;
+		// 	}
 		public:
 			node_base(void): _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(value()) {}
 			node_base(const value& v): _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(v) {}
@@ -38,7 +38,7 @@ namespace ft
 			node_base(const node_base& src):
 			_color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
 
-			value & getPair() { return this->_value; }
+			// value & getPair() { return this->_value; }
 
 	};
 
@@ -299,7 +299,7 @@ namespace ft
 			ft::rb_tree_iterator<_Val, base> checkIfExistP(ptr_base node, _Key key)
 			{
 				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<_Val, base>(node);
+					return ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 				if (_comp(key, node->_value.first))
 					return checkIfExistP(node->_left, key);
 				return checkIfExistP(node->_right, key);
@@ -308,7 +308,7 @@ namespace ft
 			ft::rb_tree_iterator<_Val, base> checkIfExistP(ptr_base node, _Key key) const
 			{
 				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<_Val, base>(node);
+					return ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 				if (_comp(key, node->_value.first))
 					return checkIfExistP(node->_left, key);
 				return checkIfExistP(node->_right, key);
@@ -402,7 +402,7 @@ namespace ft
 		insert(const _Val& v)
 		{
 			ft::pair<rb_tree_iterator<_Val, base>, bool> it;
-			if ((it.first = checkIfExistP(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL))
+			if ((it.first = checkIfExistP(this->root, v.first)) != ft::rb_tree_iterator<_Val, base>(TNULL, root, TNULL))
 			{
 				it.second = false;
 				return (it);
@@ -438,7 +438,7 @@ namespace ft
 			if (node->_parent == TNULL)
 			{
 				node->_color = 0;
-				it.first = ft::rb_tree_iterator<_Val, base>(node);
+				it.first = ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 				// it.first =  checkIfExist(node->_value.first);
 				it.second = true;
 				return (it);
@@ -447,7 +447,7 @@ namespace ft
 			if (node->_parent->_parent == TNULL)
 			{
 				// it.first =  checkIfExist(y->_value.first);
-				it.first = ft::rb_tree_iterator<_Val, base>(node);
+				it.first = ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 				it.second = true;
 				return (it);
 			}
@@ -455,7 +455,7 @@ namespace ft
 			insertFix(node);
 
 			// it.first =  checkIfExist(y->_value.first);
-			it.first = ft::rb_tree_iterator<_Val, base>(node);
+			it.first = ft::rb_tree_iterator<_Val, base>(node, root, TNULL);
 			it.second = true;
 			return (it);
 		}

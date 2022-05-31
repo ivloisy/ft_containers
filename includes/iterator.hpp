@@ -244,14 +244,22 @@ namespace ft
 		protected:
 
 			ptr_node	current;
+			ptr_node	_root;
+			ptr_node	_TNULL;
 
 
 		public:
 
 			rb_tree_iterator( void ) : current() {};
-			explicit rb_tree_iterator( ptr_node x ) : current( x ) {};
-			rb_tree_iterator( const rb_tree_iterator &other ) : current(other.current) {};
-			rb_tree_iterator &operator=( const rb_tree_iterator &other ) { current = other.current; return *this; };
+			explicit rb_tree_iterator( ptr_node x, ptr_node root, ptr_node null ) : current(x), _root(root), _TNULL(null) {};
+			rb_tree_iterator( const rb_tree_iterator &other ) : current(other.current), _root(other._root), _TNULL(other._TNULL) {};
+			rb_tree_iterator &operator=( const rb_tree_iterator &other )
+			{
+				current = other.current;
+				_root = other._root;
+				_TNULL = other._TNULL;
+				return *this;
+			};
 			~rb_tree_iterator( void ) {};
 
 			pointer base( void ) const { return &(current->_value); }
@@ -260,35 +268,35 @@ namespace ft
 			pointer operator->( void ) const { return &(operator*()); }
 
 			rb_tree_iterator &operator++( void ) {
-				if ( current == max(root())) {
-					current = null();
+				if ( current == max(_root)) {
+					current = _TNULL;
 					return *this;
 				}
-				if ( current == null() ) {
-					current = null();
+				if ( current == _TNULL ) {
+					current = _TNULL;
 					return *this;
 				}
 				current = successor(current);
 				return *this;
 			}
 
-			rb_tree_iterator operator++( int ) { rb_tree_iterator __tmp(*this); operator++(); return __tmp; }
+			rb_tree_iterator operator++( int ) { rb_tree_iterator __tmp(this->current, this->_root, this->_TNULL); operator++(); return __tmp; }
 
 			rb_tree_iterator &operator--( void ) {
 				if ( !current ) {
-					current = max(root());
+					current = max(_root);
 					return *this;
 				}
-				if ( current == null() ) {
-					current = max(root());
+				if ( current == _TNULL ) {
+					current = max(_root);
 					return *this;
 				}
 				current = predecessor(current);
 				return *this;
 			}
-			rb_tree_iterator operator--( int ) { rb_tree_iterator __tmp(*this); operator--(); return __tmp; }
+			rb_tree_iterator operator--( int ) { rb_tree_iterator __tmp(this->current, this->_root, this->_TNULL); operator--(); return __tmp; }
 
-			operator rb_tree_iterator<const T, Node>( void ) const { return rb_tree_iterator<const T, Node>(current); }
+			operator rb_tree_iterator<const T, Node>( void ) const { return rb_tree_iterator<const T, Node>(current, _root, _TNULL); }
 
 					bool
 					operator==(const rb_tree_iterator& x) const
@@ -304,38 +312,38 @@ namespace ft
 
 		private:
 
-			ptr_node 			root( void ) {
-
-				ptr_node _tmp = current;
-				while ( _tmp && _tmp->_parent != null())
-					_tmp = _tmp->_parent;
-				return _tmp;
-			}
-
-			ptr_node 			null( void ) {
-				ptr_node _tmp = current;
-				while ( _tmp->_right )
-					_tmp = _tmp->_right;
-				return _tmp;
-			}
+			// ptr_node 			root( void ) {
+			//
+			// 	ptr_node _tmp = current;
+			// 	while ( _tmp && _tmp->_parent != null())
+			// 		_tmp = _tmp->_parent;
+			// 	return _tmp;
+			// }
+			//
+			// ptr_node 			null( void ) {
+			// 	ptr_node _tmp = current;
+			// 	while ( _tmp->_right )
+			// 		_tmp = _tmp->_right;
+			// 	return _tmp;
+			// }
 
 			ptr_node 			min( ptr_node node ) {
 
-				while ( node != null() && node->_left != null() )
+				while ( node != _TNULL && node->_left != _TNULL )
 					node = node->_left;
 				return node;
 			}
 
 			ptr_node 			max( ptr_node node ) {
 
-				while ( node != null() && node->_right != null())
+				while ( node != _TNULL && node->_right != _TNULL)
 					node = node->_right;
 				return (node);
 			}
 
 			ptr_node 			successor( ptr_node node ) {
 
-				if ( node != null() && node->_right != null() )
+				if ( node != _TNULL && node->_right != _TNULL )
 					return min(node->_right);
 				ptr_node tmp = node->_parent;
 				while ( tmp && node == tmp->_right) {
@@ -347,7 +355,7 @@ namespace ft
 
 			ptr_node 			predecessor( ptr_node node ) {
 
-				if ( node != null() && node->_left != null() )
+				if ( node != _TNULL && node->_left != _TNULL )
 					return (max(node->_left));
 				ptr_node tmp = node->_parent;
 				while ( tmp && node == tmp->_left )
