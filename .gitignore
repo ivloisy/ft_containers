@@ -1,0 +1,5 @@
+test
+*.d
+*.o
+includes/42TESTERS-CONTAINERS/*
+includes/containers_test/*

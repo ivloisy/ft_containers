@@ -368,8 +368,7 @@ namespace ft
 			this->_alloc.deallocate(this->_null, 1);
 		}
 
-		ft::pair<rb_tree_iterator<T, base>, bool>
-		insert(const T & v)
+		ft::pair<rb_tree_iterator<T, base>, bool> insert(const T & v)
 		{
 			ft::pair<rb_tree_iterator<T, base>, bool> it;
 			if ((it.first = checkIfExistP(this->_root, v.first)) != ft::rb_tree_iterator<T, base>(this->_null, this->_root, this->_null))

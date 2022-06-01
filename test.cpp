@@ -8,12 +8,12 @@
 	#include <vector>
 	namespace ft = std;
 #else
-	#include "includes/vector.hpp"
-	#include "includes/stack.hpp"
-	#include "includes/map.hpp"
-//	#include <map.hpp>
-//	#include <stack.hpp>
-//	#include <vector.hpp>
+	// #include "includes/vector.hpp"
+	// #include "includes/stack.hpp"
+	// #include "includes/map.hpp"
+	#include <map.hpp>
+	#include <stack.hpp>
+	#include <vector.hpp>
 #endif
 
 
