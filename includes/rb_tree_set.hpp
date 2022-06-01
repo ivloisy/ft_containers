@@ -252,12 +252,12 @@ namespace ft
 
 		ptr_base searchTreeHelper(ptr_base node, key_type key) const
 		{
-			if (node == this->_null || key == node->_value.first)
+			if (node == this->_null || key == node->_value)
 			{
 				return node;
 			}
 
-			if (_comp(key, node->_value.first))
+			if (_comp(key, node->_value))
 			{
 				return searchTreeHelper(node->_left, key);
 			}
@@ -276,9 +276,9 @@ namespace ft
 
 		ft::rb_tree_iterator<T, base> checkIfExistP(ptr_base node, key_type key) const
 		{
-			if (node == this->_null || key == node->_value.first)
+			if (node == this->_null || key == node->_value)
 				return ft::rb_tree_iterator<T, base>(node, this->_root, this->_null);
-			if (_comp(key, node->_value.first))
+			if (_comp(key, node->_value))
 				return checkIfExistP(node->_left, key);
 			return checkIfExistP(node->_right, key);
 		}

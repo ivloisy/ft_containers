@@ -27,7 +27,7 @@ namespace ft
 		typedef typename allocator_type::const_reference								const_reference;
 		typedef typename allocator_type::pointer										pointer;
 		typedef typename allocator_type::const_pointer									const_pointer;
-		typedef typename ft::rb_tree_iterator<value_type, ft::node<value_type> >		iterator;
+		typedef typename ft::rb_tree_iterator<const value_type, ft::node<value_type> >	iterator;
 		typedef typename ft::rb_tree_iterator<const value_type, ft::node<value_type> >	const_iterator;
 		typedef ft::ReverseIterator<iterator>											reverse_iterator;
 		typedef ft::ReverseIterator<const_iterator>										const_reverse_iterator;
@@ -143,7 +143,8 @@ namespace ft
 		value_type &	operator[] (const key_type & k)
 		{
 			if (this->_tree.checkIfExist(k) == this->end())
-				this->_tree.insert(ft::make_pair(k, value_type()));
+			// this->_tree.insert(ft::make_pair(k, value_type()));
+				this->_tree.insert(k);
 			return (this->_tree.searchTreeHelper(k))->_value.second;
 		}
 
@@ -175,7 +176,8 @@ namespace ft
 
 		void	erase(iterator position)
 		{
-			this->_tree.deleteNode(position);
+			this->_tree.deleteNode(position.current->_value);
+			// std::cout << &position << std::endl;
 		}
 
 		size_type	erase(const key_type & k)

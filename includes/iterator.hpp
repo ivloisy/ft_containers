@@ -98,7 +98,7 @@ namespace ft
 			typedef Node *														ptr_node;
 			typedef Node &														ref_node;
 
-		protected:
+		// protected:
 
 			ptr_node	current;
 			ptr_node	_root;
@@ -116,6 +116,14 @@ namespace ft
 				_root = other._root;
 				_TNULL = other._TNULL;
 				return *this;
+			};
+			const rb_tree_iterator & operator=( const rb_tree_iterator &other ) const// : current(other.current), _root(other._root), _TNULL(other._TNULL)
+			{
+				// current = other.current;
+				// _root = other._root;
+				// _TNULL = other._TNULL;
+				// return *this;
+				return *(this->operator=(other));
 			};
 			~rb_tree_iterator( void ) {};
 
