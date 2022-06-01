@@ -368,7 +368,7 @@ namespace ft
 		}
 
 		ft::pair<rb_tree_iterator<T, base>, bool>
-		insert(const T& v)
+		insert(const T & v)
 		{
 			ft::pair<rb_tree_iterator<T, base>, bool> it;
 			if ((it.first = checkIfExistP(this->root, v.first)) != ft::rb_tree_iterator<T, base>(TNULL, root, TNULL))
