@@ -9,310 +9,294 @@
 # include "iterator.hpp"
 # include "type_traits.hpp"
 # include "utility.hpp"
+# include "node.hpp"
 
 namespace ft
 {
-	template <typename T>
-	struct	node
-	{
-		typedef node *	pointer;
-
-		bool	_color;
-		pointer	_parent;
-		pointer	_left;
-		pointer	_right;
-		T		_value;
-
-		node(void) : _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(T()) {}
-		node(const T & v) : _color(0), _parent(NULL), _left(NULL), _right(NULL), _value(v) {}
-		node(const T & v, pointer parent) : _color(0), _parent(parent), _left(NULL), _right(NULL), _value(v) {}
-		node(const node & src) : _color(src._color), _parent(src._parent), _left(src._left), _right(src._right), _value(src._value) {}
-	};
-
-	template<typename _Key, typename T, typename _KeyOfValue, typename Compare = std::less<_Key>, typename Alloc = std::allocator<node<T> > >
+	template<typename Key, typename T/*, typename key_typeOfValue*/, typename Compare = std::less<Key>, typename Alloc = std::allocator<node<T> > >
 	class rb_tree
 	{
-		protected:
-			typedef ft::node<T>												base;
-			typedef ft::node<T> *											ptr_base;
-			typedef const ft::node<T> *										constPtr_base;
-			typedef _Key														key_type;
-			typedef T														value_type;
-			typedef value_type*													pointer;
-			typedef const value_type*											const_pointer;
-			typedef value_type&													reference;
-			typedef const value_type&											const_reference;
-			typedef size_t														size_type;
-			typedef std::ptrdiff_t													difference_type;
-			typedef Compare													compare_type;
-			typedef Alloc														allocator_type;
+	protected:
+		typedef ft::node<T>				base;
+		typedef ft::node<T> *			ptr_base;
+		typedef const ft::node<T> *		const_ptr_base;
+		typedef Key						key_type;
+		typedef T						value_type;
+		typedef value_type *			pointer;
+		typedef const value_type *		const_pointer;
+		typedef value_type &			reference;
+		typedef const value_type &		const_reference;
+		typedef size_t					size_type;
+		typedef std::ptrdiff_t			difference_type;
+		typedef Compare					compare_type;
+		typedef Alloc					allocator_type;
 
-		private:
-			ptr_base		root;
-			ptr_base		TNULL;
-			allocator_type	_alloc;
-			compare_type	_comp;
-			size_type		_size;
+	private:
+		ptr_base		root;
+		ptr_base		TNULL;
+		allocator_type	_alloc;
+		compare_type	_comp;
+		size_type		_size;
 
-			void rbTransplant(ptr_base u, ptr_base v)
+		void rbTransplant(ptr_base u, ptr_base v)
+		{
+			if (u->_parent == TNULL)
+				root = v;
+			else if (u == u->_parent->_left)
+				u->_parent->_left = v;
+			else
+				u->_parent->_right = v;
+			v->_parent = u->_parent;
+		}
+
+		int deleteNodeHelper(ptr_base node, key_type key)
+		{
+			ptr_base z = TNULL;
+			ptr_base x, y;
+
+			while (node != TNULL)
 			{
-				if (u->_parent == TNULL)
-					root = v;
-				else if (u == u->_parent->_left)
-					u->_parent->_left = v;
+				if (node->_value.first == key)
+					z = node;
+				if (node->_value.first <= key)
+					node = node->_right;
 				else
-					u->_parent->_right = v;
-				v->_parent = u->_parent;
+					node = node->_left;
 			}
 
-			int deleteNodeHelper(ptr_base node, _Key key)
+			if (z == TNULL)
+				return 0;
+			this->_size--;
+			y = z;
+			int y_original_color = y->_color;
+			if (z->_left == TNULL)
 			{
-				ptr_base z = TNULL;
-				ptr_base x, y;
-
-				while (node != TNULL)
+				x = z->_right;
+				rbTransplant(z, z->_right);
+			}
+			else if (z->_right == TNULL)
+			{
+				x = z->_left;
+				rbTransplant(z, z->_left);
+			}
+			else
+			{
+				y = minimum(z->_right);
+				y_original_color = y->_color;
+				x = y->_right;
+				if (y->_parent == z)
+					x->_parent = y;
+				else
 				{
-					if (node->_value.first == key)
-						z = node;
-					if (node->_value.first <= key)
-						node = node->_right;
+					rbTransplant(y, y->_right);
+					y->_right = z->_right;
+					y->_right->_parent = y;
+				}
+
+				rbTransplant(z, y);
+				y->_left = z->_left;
+				y->_left->_parent = y;
+				y->_color = z->_color;
+			}
+			delete z;
+			if (y_original_color == 0) {
+			  deleteFix(x);
+			}
+			return 1;
+		}
+
+		void insertFix(ptr_base k)
+		{
+			ptr_base u;
+			while (k->_parent->_color == 1)
+			{
+				if (k->_parent == k->_parent->_parent->_right)
+				{
+					u = k->_parent->_parent->_left;
+					if (u->_color == 1)
+					{
+						u->_color = 0;
+						k->_parent->_color = 0;
+						k->_parent->_parent->_color = 1;
+						k = k->_parent->_parent;
+					}
 					else
-						node = node->_left;
-				}
-
-				if (z == TNULL)
-					return 0;
-				this->_size--;
-				y = z;
-				int y_original_color = y->_color;
-				if (z->_left == TNULL)
-				{
-					x = z->_right;
-					rbTransplant(z, z->_right);
-				}
-				else if (z->_right == TNULL)
-				{
-					x = z->_left;
-					rbTransplant(z, z->_left);
+					{
+						if (k == k->_parent->_left)
+						{
+							k = k->_parent;
+							rightRotate(k);
+						}
+						k->_parent->_color = 0;
+						k->_parent->_parent->_color = 1;
+						leftRotate(k->_parent->_parent);
+					}
 				}
 				else
 				{
-					y = minimum(z->_right);
-					y_original_color = y->_color;
-					x = y->_right;
-					if (y->_parent == z)
-						x->_parent = y;
-					else
-					{
-						rbTransplant(y, y->_right);
-						y->_right = z->_right;
-						y->_right->_parent = y;
-					}
+					u = k->_parent->_parent->_right;
 
-					rbTransplant(z, y);
-					y->_left = z->_left;
-					y->_left->_parent = y;
-					y->_color = z->_color;
-				}
-				delete z;
-				if (y_original_color == 0) {
-				  deleteFix(x);
-				}
-				return 1;
-			}
-
-			void insertFix(ptr_base k)
-			{
-				ptr_base u;
-				while (k->_parent->_color == 1)
-				{
-					if (k->_parent == k->_parent->_parent->_right)
+					if (u->_color == 1)
 					{
-						u = k->_parent->_parent->_left;
-						if (u->_color == 1)
-						{
-							u->_color = 0;
-							k->_parent->_color = 0;
-							k->_parent->_parent->_color = 1;
-							k = k->_parent->_parent;
-						}
-						else
-						{
-							if (k == k->_parent->_left)
-							{
-								k = k->_parent;
-								rightRotate(k);
-							}
-							k->_parent->_color = 0;
-							k->_parent->_parent->_color = 1;
-							leftRotate(k->_parent->_parent);
-						}
+						u->_color = 0;
+						k->_parent->_color = 0;
+						k->_parent->_parent->_color = 1;
+						k = k->_parent->_parent;
 					}
 					else
 					{
-						u = k->_parent->_parent->_right;
-
-						if (u->_color == 1)
+						if (k == k->_parent->_right)
 						{
-							u->_color = 0;
-							k->_parent->_color = 0;
-							k->_parent->_parent->_color = 1;
-							k = k->_parent->_parent;
+							k = k->_parent;
+							leftRotate(k);
 						}
-						else
-						{
-							if (k == k->_parent->_right)
-							{
-								k = k->_parent;
-								leftRotate(k);
-							}
-							k->_parent->_color = 0;
-							k->_parent->_parent->_color = 1;
-							rightRotate(k->_parent->_parent);
-						}
+						k->_parent->_color = 0;
+						k->_parent->_parent->_color = 1;
+						rightRotate(k->_parent->_parent);
 					}
-					if (k == root)
-						break;
 				}
-				root->_color = 0;
+				if (k == root)
+					break;
 			}
+			this->root->_color = 0;
+		}
 
-			void deleteFix(ptr_base x)
+		void deleteFix(ptr_base x)
+		{
+			ptr_base s;
+			while (x != this->root && x->_color == 0)
 			{
-				ptr_base s;
-				while (x != root && x->_color == 0)
+				if (x == x->_parent->_left)
 				{
-					if (x == x->_parent->_left)
+					s = x->_parent->_right;
+					if (s->_color == 1)
 					{
+						s->_color = 0;
+						x->_parent->_color = 1;
+						leftRotate(x->_parent);
 						s = x->_parent->_right;
-						if (s->_color == 1)
+					}
+
+					if (s->_left->_color == 0 && s->_right->_color == 0)
+					{
+						s->_color = 1;
+						x = x->_parent;
+					}
+					else
+					{
+						if (s->_right->_color == 0)
 						{
-							s->_color = 0;
-							x->_parent->_color = 1;
-							leftRotate(x->_parent);
+							s->_left->_color = 0;
+							s->_color = 1;
+							rightRotate(s);
 							s = x->_parent->_right;
 						}
 
-						if (s->_left->_color == 0 && s->_right->_color == 0)
-						{
-							s->_color = 1;
-							x = x->_parent;
-						}
-						else
-						{
-							if (s->_right->_color == 0)
-							{
-								s->_left->_color = 0;
-								s->_color = 1;
-								rightRotate(s);
-								s = x->_parent->_right;
-							}
+						s->_color = x->_parent->_color;
+						x->_parent->_color = 0;
+						s->_right->_color = 0;
+						leftRotate(x->_parent);
+						x = this->root;
+					}
+				}
+				else
+				{
+					s = x->_parent->_left;
+					if (s->_color == 1)
+					{
+						s->_color = 0;
+						x->_parent->_color = 1;
+						rightRotate(x->_parent);
+						s = x->_parent->_left;
+					}
 
-							s->_color = x->_parent->_color;
-							x->_parent->_color = 0;
-							s->_right->_color = 0;
-							leftRotate(x->_parent);
-							x = root;
-						}
+					if (s->_right->_color == 0 && s->_right->_color == 0)
+					{
+						s->_color = 1;
+						x = x->_parent;
 					}
 					else
 					{
-						s = x->_parent->_left;
-						if (s->_color == 1)
+						if (s->_left->_color == 0)
 						{
-							s->_color = 0;
-							x->_parent->_color = 1;
-							rightRotate(x->_parent);
+							s->_right->_color = 0;
+							s->_color = 1;
+							leftRotate(s);
 							s = x->_parent->_left;
 						}
 
-						if (s->_right->_color == 0 && s->_right->_color == 0)
-						{
-							s->_color = 1;
-							x = x->_parent;
-						}
-						else
-						{
-							if (s->_left->_color == 0)
-							{
-								s->_right->_color = 0;
-								s->_color = 1;
-								leftRotate(s);
-								s = x->_parent->_left;
-							}
-
-							s->_color = x->_parent->_color;
-							x->_parent->_color = 0;
-							s->_left->_color = 0;
-							rightRotate(x->_parent);
-							x = root;
-						}
+						s->_color = x->_parent->_color;
+						x->_parent->_color = 0;
+						s->_left->_color = 0;
+						rightRotate(x->_parent);
+						x = this->root;
 					}
 				}
-				x->_color = 0;
 			}
+			x->_color = 0;
+		}
 
-			ptr_base searchTreeHelper(ptr_base node, _Key key)
+		ptr_base searchTreeHelper(ptr_base node, key_type key)
+		{
+			if (node == TNULL || key == node->_value.first)
 			{
-				if (node == TNULL || key == node->_value.first)
-				{
-					return node;
-				}
-
-				if (_comp(key, node->_value.first))
-				{
-					return searchTreeHelper(node->_left, key);
-				}
-				return searchTreeHelper(node->_right, key);
+				return node;
 			}
 
-			ptr_base searchTreeHelper(ptr_base node, _Key key) const
+			if (_comp(key, node->_value.first))
 			{
-				if (node == TNULL || key == node->_value.first)
-				{
-					return node;
-				}
-
-				if (_comp(key, node->_value.first))
-				{
-					return searchTreeHelper(node->_left, key);
-				}
-				return searchTreeHelper(node->_right, key);
+				return searchTreeHelper(node->_left, key);
 			}
+			return searchTreeHelper(node->_right, key);
+		}
 
-
-			ft::rb_tree_iterator<T, base> checkIfExistP(ptr_base node, _Key key)
+		ptr_base searchTreeHelper(ptr_base node, key_type key) const
+		{
+			if (node == TNULL || key == node->_value.first)
 			{
-				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<T, base>(node, root, TNULL);
-				if (_comp(key, node->_value.first))
-					return checkIfExistP(node->_left, key);
-				return checkIfExistP(node->_right, key);
+				return node;
 			}
 
-			ft::rb_tree_iterator<T, base> checkIfExistP(ptr_base node, _Key key) const
+			if (_comp(key, node->_value.first))
 			{
-				if (node == TNULL || key == node->_value.first)
-					return ft::rb_tree_iterator<T, base>(node, root, TNULL);
-				if (_comp(key, node->_value.first))
-					return checkIfExistP(node->_left, key);
-				return checkIfExistP(node->_right, key);
+				return searchTreeHelper(node->_left, key);
 			}
+			return searchTreeHelper(node->_right, key);
+		}
 
-			ptr_base keyIsExist(ptr_base node, _Key key) const
-			{
-				if (node == TNULL || key == node->_value.first)
-					return node;
-				if (_comp(key, node->_value.first))
-					return keyIsExist(node->_left, key);
-				return keyIsExist(node->_right, key);
-			}
 
-		public:
+		ft::rb_tree_iterator<T, base> checkIfExistP(ptr_base node, key_type key)
+		{
+			if (node == TNULL || key == node->_value.first)
+				return ft::rb_tree_iterator<T, base>(node, root, TNULL);
+			if (_comp(key, node->_value.first))
+				return checkIfExistP(node->_left, key);
+			return checkIfExistP(node->_right, key);
+		}
+
+		ft::rb_tree_iterator<T, base> checkIfExistP(ptr_base node, key_type key) const
+		{
+			if (node == TNULL || key == node->_value.first)
+				return ft::rb_tree_iterator<T, base>(node, root, TNULL);
+			if (_comp(key, node->_value.first))
+				return checkIfExistP(node->_left, key);
+			return checkIfExistP(node->_right, key);
+		}
+
+		ptr_base keyIsExist(ptr_base node, key_type key) const
+		{
+			if (node == TNULL || key == node->_value.first)
+				return node;
+			if (_comp(key, node->_value.first))
+				return keyIsExist(node->_left, key);
+			return keyIsExist(node->_right, key);
+		}
+
+	public:
 
 		/* =========================== Constructors/Destructors ========================= */
 
-		ptr_base searchTreeHelper(_Key key) const
+		ptr_base searchTreeHelper(key_type key) const
 		{
 			ptr_base node = this->getRoot();
 			if (node == TNULL || key == node->_value.first)
@@ -507,7 +491,7 @@ namespace ft
 			return y;
 		}
 
-		ptr_base lower_bound(_Key key) const
+		ptr_base lower_bound(key_type key) const
 		{
 			ptr_base ret = keyIsExist(getRoot(), key);
 			if (ret == TNULL)
@@ -520,7 +504,7 @@ namespace ft
 			return ret;
 		}
 
-		ptr_base upper_bound(_Key key) const
+		ptr_base upper_bound(key_type key) const
 		{
 			ptr_base ret = keyIsExist(getRoot(), key);
 			if (ret == TNULL)
@@ -626,14 +610,14 @@ namespace ft
 			return this->_size;
 		}
 
-		size_type deleteNode(_Key data)
+		size_type deleteNode(key_type k)
 		{
-			return deleteNodeHelper(this->root, data);
+			return deleteNodeHelper(this->root, k);
 		}
 
-		_Key getKey(constPtr_base target) const
+		key_type getKey(const_ptr_base nd) const
 		{
-			return target->_value.first;
+			return nd->_value.first;
 		}
 
 		void printHelper(ptr_base root, std::string indent, bool last)
@@ -659,7 +643,7 @@ namespace ft
 			}
 		}
 
-		ft::rb_tree_iterator<T, base> checkIfExist(_Key k) const
+		ft::rb_tree_iterator<T, base> checkIfExist(key_type k) const
 		{
 			return checkIfExistP(getRoot(), k);
 		}

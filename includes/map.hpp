@@ -57,7 +57,7 @@ namespace ft
 		key_compare												_comp;
 		allocator_type											_alloc;
 		size_type												_size;
-		rb_tree<key_type, value_type, key_type, key_compare>	_tree;
+		rb_tree<key_type, value_type/*, key_type*/, key_compare>	_tree;
 
 	public:
 		/* ================== Constructors/Destructors ================== */
