@@ -10,7 +10,7 @@
 # include "iterator.hpp"
 # include "type_traits.hpp"
 # include "utility.hpp"
-# include "rb_tree.hpp"
+# include "rb_tree_set.hpp"
 
 namespace ft
 {
@@ -38,7 +38,7 @@ namespace ft
 		key_compare												_comp;
 		allocator_type											_alloc;
 		size_type												_size;
-		rb_tree<key_type, ft::pair<key_type, value_type>/*, key_type*/, key_compare>	_tree;
+		rb_tree_set<key_type, value_type/*, key_type*/, key_compare>	_tree;
 
 	public:
 		/* ================== Constructors/Destructors ================== */
@@ -175,7 +175,7 @@ namespace ft
 
 		void	erase(iterator position)
 		{
-			this->_tree.deleteNode(position->first);
+			this->_tree.deleteNode(position);
 		}
 
 		size_type	erase(const key_type & k)
