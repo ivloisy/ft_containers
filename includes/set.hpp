@@ -247,22 +247,62 @@ namespace ft
 
 		iterator	lower_bound(const key_type & k)
 		{
-			return iterator(this->_tree.lower_bound(k), this->_tree.getRoot(), this->_tree.end());
+			// return iterator(this->_tree.lower_bound(k), this->_tree.getRoot(), this->_tree.end());
+			iterator first = this->begin();
+			iterator last = this->end();
+
+			while (first != last)
+			{
+				if (!this->_comp(*first, k))
+					break;
+				first++;
+			}
+			return first;
 		}
 
 		const_iterator	lower_bound(const key_type & k) const
 		{
-			return const_iterator(this->_tree.lower_bound(k), this->_tree.getRoot(), this->_tree.end());
+			// return const_iterator(this->_tree.lower_bound(k), this->_tree.getRoot(), this->_tree.end());
+			const_iterator first = this->begin();
+			const_iterator last = this->end();
+
+			while (first != last)
+			{
+				if (!this->_comp(*first, k))
+					break;
+				first++;
+			}
+			return first;
 		}
 
 		iterator	upper_bound(const key_type & k)
 		{
-			return iterator(this->_tree.upper_bound(k), this->_tree.getRoot(), this->_tree.end());
+			// return iterator(this->_tree.upper_bound(k), this->_tree.getRoot(), this->_tree.end());
+			iterator first = this->begin();
+			iterator last = this->end();
+
+			while (first != last)
+			{
+				if (this->_comp(k, *first))
+					break;
+				first++;
+			}
+			return first;
 		}
 
 		const_iterator	upper_bound(const key_type & k) const
 		{
-			return const_iterator(this->_tree.upper_bound(k), this->_tree.getRoot(), this->_tree.end());
+			// return const_iterator(this->_tree.upper_bound(k), this->_tree.getRoot(), this->_tree.end());
+			const_iterator first = this->begin();
+			const_iterator last = this->end();
+
+			while (first != last)
+			{
+				if (this->_comp(k, *first))
+					break;
+				first++;
+			}
+			return first;
 		}
 
 		pair<const_iterator,const_iterator>	equal_range(const key_type & k) const

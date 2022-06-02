@@ -502,6 +502,12 @@ namespace ft
 					return minimum(getRoot());
 			}
 			return ret;
+			// if (key < minimum(getRoot())->_value)
+			// 	return minimum(getRoot());
+			// else if (key > maximum(getRoot())->_value)
+			// 	return maximum(getRoot());
+			// else
+			// 	return constPredecessor(keyIsExist(getRoot(), key));
 		}
 
 		ptr_base upper_bound(key_type key) const
@@ -516,6 +522,12 @@ namespace ft
 			}
 			ret = constSuccessor(ret);
 			return ret;
+			// if (key < minimum(getRoot())->_value)
+			// 	return minimum(getRoot());
+			// else if (key > maximum(getRoot())->_value)
+			// 	return maximum(getRoot());
+			// else
+			// 	return constSuccessor(keyIsExist(getRoot(), key));
 		}
 
 		ptr_base minimum(ptr_base node) const
